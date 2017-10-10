@@ -10,7 +10,7 @@ urlpatterns = [
     ),
     url(
         r'^api/v1.0/events/$',
-        views.get_post_events,
+        views.EventList.as_view(),
         name='get_post_events'
     )
 ]

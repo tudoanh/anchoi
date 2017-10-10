@@ -1,13 +1,14 @@
 from django.utils.dateparse import parse_datetime
 
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.pagination import PageNumberPagination
 from .models import Event
 from .serializers import EventSerializer
-from .utils import extract_datetime
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
+import django_filters
+from rest_framework.filters import OrderingFilter
 
 import facebook_bot
 
@@ -43,33 +44,48 @@ class EventDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'POST'])
-def get_post_events(requests):
-    if requests.method == 'GET':
-        if requests.query_params.get('since'):
-            base_time = requests.query_params.get('since')
-            queryset = Event.objects.filter(
-                start_time__gte=extract_datetime(base_time)
-            )
-            paginator = PageNumberPagination()
-            events_since = paginator.paginate_queryset(queryset, requests)
-            serializer = EventSerializer(
-                events_since,
-                many=True,
-                context={'requests': requests}
-            )
-            return paginator.get_paginated_response(serializer.data)
-        queryset = Event.objects.all()
-        paginator = PageNumberPagination()
-        events = paginator.paginate_queryset(queryset, requests)
-        serializer = EventSerializer(
-            events,
-            many=True,
-            context={'requests': requests}
-        )
-        return paginator.get_paginated_response(serializer.data)
-    elif requests.method == 'POST':
-        rq_data = requests.data
+class EventFilter(filters.FilterSet):
+    name = django_filters.CharFilter(name="name", lookup_expr=['search'])
+    since = django_filters.DateFromToRangeFilter(
+        name="start_time",
+        label='Since',
+    )
+
+    order = django_filters.OrderingFilter(
+        fields=(
+            ("name", "name"),
+            ("start_time", "time"),
+        ),
+        field_labels={
+            'name': "Event name",
+            'start_time': "Event start time"
+        }
+    )
+
+    class Meta:
+        model = Event
+        fields = ['name', 'since']
+
+
+class EventList(generics.ListCreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = EventFilter
+
+    # def get_queryset(self):
+    #     queryset = Event.objects.all()
+    #     base_time = self.request.query_params.get('since')
+    #     latitude = self.request.query_params.get('latitude')
+    #     longitude = self.request.query_params.get('longitude')
+    #     if base_time:
+    #         queryset = queryset.filter(
+    #             start_time__gte=extract_datetime(base_time)
+    #         )
+    #     return queryset
+
+    def create(self, request, *args, **kwargs):
+        rq_data = request.data
         fb_id = rq_data.get('fb_id')
         if fb_id:
             fb_event = facebook_bot.get_event_info(fb_id)[fb_id]
