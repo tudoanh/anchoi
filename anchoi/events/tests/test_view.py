@@ -55,6 +55,34 @@ class GetAllEventsTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
+class GetEventByNameTest(TestCase):
+    def setUp(self):
+        Event.objects.create(
+            name='21 West End Halloween Party',
+            data=events_data['event1'],
+            fb_id='363481930775199',
+        )
+        Event.objects.create(
+            name='Sunday Brunch at Cafe 21',
+            data=events_data['event2'],
+            fb_id='1292167920892181'
+        )
+        Event.objects.create(
+            name='Sugar Factory UWS Family Mixer.',
+            data=events_data['event7'],
+            fb_id='108842849758568'
+        )
+
+    def test_get_event_by_name(self):
+        response = client.get(
+            reverse('get_post_events'),
+            data={'name_0': '21', 'name_1': 'search'},
+            content_type='application/json'
+        )
+        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
 class GetEventsByDateTimeTest(TestCase):
     def setUp(self):
         Event.objects.create(
@@ -76,7 +104,7 @@ class GetEventsByDateTimeTest(TestCase):
     def test_get_valid_date_time(self):
         response = client.get(
             reverse('get_post_events'),
-            data={'since': '2017-10-09'},
+            data={'since_0': '2017-10-09'},
             content_type='application/json'
         )
         self.assertEqual(len(response.data['results']), 2)

@@ -73,17 +73,6 @@ class EventList(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend,)
     filter_class = EventFilter
 
-    # def get_queryset(self):
-    #     queryset = Event.objects.all()
-    #     base_time = self.request.query_params.get('since')
-    #     latitude = self.request.query_params.get('latitude')
-    #     longitude = self.request.query_params.get('longitude')
-    #     if base_time:
-    #         queryset = queryset.filter(
-    #             start_time__gte=extract_datetime(base_time)
-    #         )
-    #     return queryset
-
     def create(self, request, *args, **kwargs):
         rq_data = request.data
         fb_id = rq_data.get('fb_id')
