@@ -181,6 +181,29 @@ event_data_7 = {'attending_count': 1,
  'start_time': '2017-07-27T17:00:00-0400',
  'type': 'public'}
 
+event_data_8 = {'attending_count': 8,
+ 'cover': {'id': '1695864723808951',
+  'source': 'https://scontent.xx.fbcdn.net/v/t31.0-8/q87/s720x720/22256831_1695864723808951_7382014705297134335_o.jpg?oh=fd24e7b7ef518859dde05fa971c1723e&oe=5A779852'},
+ 'declined_count': 0,
+ 'description': 'QUEEN OF THE NIGHT tuần này có gì hot ? \n\nThứ 4 tuần này khi đến Canalis, các bạn nữ của chúng ta sẽ được tặng 1 ngay combo bao gồm: 01 LongDrink (Hen/Bel/Gel) + 01 Fruit + FunkyBalloons + SoftDrinks (bao nhiêu nữ tặng bấy nhiêu softdrink). \U0001f924\n\nBên cạnh đó chúng ta sẽ còn có 1 #gameshow cực vui dành cho phái đẹp, với trị giá giải thưởng lên đến 20,000,000 đồng!\n\nHãy #book bàn ngay để chúng ta có đêm vui chơi giữa tuần thật vui các bạn nhé! \n--------\nCanalis Club "Nơi thể hiện đẳng cấp của bạn"\n☀ Canalis Club Instagram: @canalisclub.vn\n☀ Cộng đồng Canalis Club: https://www.facebook.com/groups/701750793310658\n☀ Kênh Youtube Canalis Club: http://bit.ly/2fsYM0',
+ 'end_time': '2017-10-12T02:00:00+0700',
+ 'id': '159544821300635',
+ 'maybe_count': 32,
+ 'name': 'Queen Of The Night',
+ 'noreply_count': 0,
+ 'picture': {'data': {'is_silhouette': False,
+   'url': 'https://scontent.xx.fbcdn.net/v/t1.0-0/q90/c86.0.200.200/p200x200/22365511_1695864723808951_7382014705297134335_n.jpg?oh=5a3c6015edeee127fd8d5dbb1d0f86c4&oe=5A434E2D'}},
+ 'place': {'id': '165665806828858',
+  'location': {'city': 'Ho Chi Minh City',
+   'country': 'Vietnam',
+   'latitude': 10.78332,
+   'longitude': 106.69752,
+   'street': '147 Hai Bà Trưng P.6 Q.3',
+   'zip': '700000'},
+  'name': 'Canalis Club'},
+ 'start_time': '2017-10-11T20:00:00+0700',
+ 'type': 'public'}
+
 
 events_data = dict(
     event1=event_data_1,
@@ -191,4 +214,5 @@ events_data = dict(
     event5=event_data_5,
     event6=event_data_6,
     event7=event_data_7,
+    event8=event_data_8
 )

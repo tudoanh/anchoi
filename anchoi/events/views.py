@@ -8,7 +8,6 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 import django_filters
-from rest_framework.filters import OrderingFilter
 
 import facebook_bot
 

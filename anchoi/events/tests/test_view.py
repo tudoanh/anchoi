@@ -55,6 +55,54 @@ class GetAllEventsTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
+class GetEventByGeoLocation(TestCase):
+    def setUp(self):
+        Event.objects.create(
+            name='21 West End Halloween Party',
+            data=events_data['event1'],
+            fb_id='363481930775199',
+        )
+        Event.objects.create(
+            name='Sunday Brunch at Cafe 21',
+            data=events_data['event2'],
+            fb_id='1292167920892181'
+        )
+        # Pass location but not pass the time filter
+        Event.objects.create(
+            name='Sugar Factory UWS Family Mixer.',
+            data=events_data['event7'],
+            fb_id='108842849758568',
+        )
+        # Not pass location filter
+        Event.objects.create(
+            name='Queen Of The Night',
+            data=events_data['event8'],
+            fb_id='159544821300635',
+        )
+
+    def test_near_locations_filter(self):
+        response = client.get(
+            reverse('get_post_events'),
+            data={'lat': '40.763871', 'lon': '-73.979904'},
+            content_type='application/json'
+        )
+        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_near_locations_with_time_filter(self):
+        response = client.get(
+            reverse('get_post_events'),
+            data={
+                'lat': '40.763871',
+                'lon': '-73.979904',
+                'since_0': '2017-10-09'
+            },
+            content_type='application/json'
+        )
+        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
 class GetEventsByDateTimeTest(TestCase):
     def setUp(self):
         Event.objects.create(
@@ -76,7 +124,7 @@ class GetEventsByDateTimeTest(TestCase):
     def test_get_valid_date_time(self):
         response = client.get(
             reverse('get_post_events'),
-            data={'since': '2017-10-09'},
+            data={'since_0': '2017-10-09'},
             content_type='application/json'
         )
         self.assertEqual(len(response.data['results']), 2)
