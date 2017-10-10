@@ -1,0 +1,4 @@
+djangorestframework
+django-filter
+django-crispy-forms
+python-facebook-bot
