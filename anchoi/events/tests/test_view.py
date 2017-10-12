@@ -1,13 +1,18 @@
 import json
 from rest_framework import status
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.urls import reverse
 from ..models import Event
 from ..serializers import EventSerializer
 from .mockdata import events_data
+from rest_framework.test import APIClient
+from django.contrib.auth.models import User
 
 
-client = Client()
+guest = APIClient()
+client = APIClient()
+user = User.objects.get_or_create(username='demo', password='demo')[0]
+client.force_authenticate(user=user)
 
 
 class GetAllEventsTest(TestCase):
@@ -81,6 +86,10 @@ class GetEventByNameTest(TestCase):
         )
         self.assertEqual(len(response.data['results']), 2)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class GetEventsByCategory(TestCase):  # TODO
+    pass
 
 
 class GetEventsByDateTimeTest(TestCase):
@@ -184,6 +193,28 @@ class CreateNewEventTest(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_event_is_exist(self):
+        client.post(
+            reverse('get_post_events'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        response = client.post(
+            reverse('get_post_events'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.data, {'msg': 'Event is existed.'})
+        self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
+
+    def test_guest_can_not_create_event(self):
+        response = guest.post(
+            reverse('get_post_events'),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
 
 class UpdateSingleEventTest(TestCase):
     def setUp(self):
@@ -252,6 +283,14 @@ class UpdateSingleEventTest(TestCase):
         self.assertEqual(response.data, {'msg': 'Nothing changed'})
         self.assertEqual(response.status_code, status.HTTP_304_NOT_MODIFIED)
 
+    def test_guest_can_not_change_event(self):
+        response = guest.put(
+            reverse('get_delete_put_event', kwargs={'pk': self.event1.pk}),
+            data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
 
 class DeleteSingleEventTest(TestCase):
     def setUp(self):
@@ -272,3 +311,9 @@ class DeleteSingleEventTest(TestCase):
             reverse('get_delete_put_event', kwargs={'pk': 30})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_guest_can_not_delete_event(self):
+        response = guest.delete(
+            reverse('get_delete_put_event', kwargs={'pk': self.event1.pk})
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

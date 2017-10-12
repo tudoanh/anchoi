@@ -8,12 +8,14 @@ from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 import django_filters
-from rest_framework.filters import OrderingFilter
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.db.utils import IntegrityError
 
 import facebook_bot
 
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
@@ -68,6 +70,7 @@ class EventFilter(filters.FilterSet):
 
 
 class EventList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     filter_backends = (DjangoFilterBackend,)
@@ -76,15 +79,49 @@ class EventList(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         rq_data = request.data
         fb_id = rq_data.get('fb_id')
-        if fb_id:
-            fb_event = facebook_bot.get_event_info(fb_id)[fb_id]
-            if fb_event:
+        try:
+            if fb_id:
+                fb_event = facebook_bot.get_event_info(fb_id)[fb_id]
+                if fb_event:
+                    place = fb_event.get('place')
+                    location = place.get('location')
+                    event = {
+                        'name': fb_event['name'],
+                        'data': fb_event,
+                        'fb_id': fb_id,
+                        'start_time': parse_datetime(
+                            fb_event.get('start_time')
+                        ),
+                        'latitude': (
+                            location.get('latitude') if place else ""
+                        ),
+                        'longitude': (
+                            location.get('longitude') if place else ""
+                        ),
+                    }
+                    serializer = EventSerializer(data=event)
+                    if serializer.is_valid():
+                        serializer.save()
+                        return Response(
+                            serializer.data,
+                            status=status.HTTP_201_CREATED
+                        )
+                    return Response(
+                        serializer.errors,
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
+                return Response(
+                    data={'msg': 'Invalid facebook event ID'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            elif rq_data.get('data'):
+                fb_event = rq_data.get('data')
                 place = fb_event.get('place')
                 location = place.get('location')
                 event = {
                     'name': fb_event['name'],
                     'data': fb_event,
-                    'fb_id': fb_id,
+                    'fb_id': fb_event['id'],
                     'start_time': parse_datetime(fb_event.get('start_time')),
                     'latitude': (
                         location.get('latitude') if place else ""
@@ -104,38 +141,12 @@ class EventList(generics.ListCreateAPIView):
                     serializer.errors,
                     status=status.HTTP_400_BAD_REQUEST
                 )
-            return Response(
-                data={'msg': 'Invalid facebook event ID'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        elif rq_data.get('data'):
-            fb_event = rq_data.get('data')
-            place = fb_event.get('place')
-            location = place.get('location')
-            event = {
-                'name': fb_event['name'],
-                'data': fb_event,
-                'fb_id': fb_event['id'],
-                'start_time': parse_datetime(fb_event.get('start_time')),
-                'latitude': (
-                    location.get('latitude') if place else ""
-                ),
-                'longitude': (
-                    location.get('longitude') if place else ""
-                ),
-            }
-            serializer = EventSerializer(data=event)
-            if serializer.is_valid():
-                serializer.save()
+            else:
                 return Response(
-                    serializer.data,
-                    status=status.HTTP_201_CREATED
+                    status=status.HTTP_400_BAD_REQUEST
                 )
+        except IntegrityError:
             return Response(
-                serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        else:
-            return Response(
-                status=status.HTTP_400_BAD_REQUEST
+                {'msg': 'Event is existed.'},
+                status=status.HTTP_409_CONFLICT
             )
