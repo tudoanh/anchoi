@@ -163,6 +163,12 @@ class CreateNewEventTest(TestCase):
             'fb_id': '363481930775199'
         }
 
+        self.no_location_payload = {
+            'name': '',
+            'data': events_data['event8'],
+            'fb_id': ''
+        }
+
         self.invalid_payload = {
             'name': '',
             'data': '',
@@ -173,6 +179,14 @@ class CreateNewEventTest(TestCase):
         response = client.post(
             reverse('get_post_events'),
             data=json.dumps(self.valid_payload),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_no_location_event(self):
+        response = client.post(
+            reverse('get_post_events'),
+            data=json.dumps(self.no_location_payload),
             content_type='application/json'
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

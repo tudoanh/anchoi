@@ -18,13 +18,14 @@ class Event(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.pk:
-            place = self.data.get('place')
-            location = place.get('location')
             self.start_time = parse_datetime(self.data.get('start_time'))
-            self.latitude = (
-                float(location.get('latitude')) if place else None
-            )
-            self.longitude = (
-                float(location.get('longitude')) if place else None
-            )
+            try:
+                place = self.data.get('place')
+                location = place.get('location')
+                self.latitude = float(location.get('latitude'))
+                self.longitude = float(location.get('longitude'))
+            except AttributeError:
+                self.latitude = None
+                self.longitude = None
+
         super(Event, self).save(*args, **kwargs)

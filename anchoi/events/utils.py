@@ -11,20 +11,29 @@ def extract_datetime(date_str):
 
 
 def extract_event_data(fb_event):
-    place = fb_event.get('place')
-    location = place.get('location')
-    event = {
-        'name': fb_event['name'],
-        'data': fb_event,
-        'fb_id': fb_event['id'],
-        'start_time': parse_datetime(
-            fb_event.get('start_time')
-        ),
-        'latitude': (
-            location.get('latitude') if place and location else None
-        ),
-        'longitude': (
-            location.get('longitude') if place and location else None
-        ),
-    }
-    return event
+    try:
+        place = fb_event.get('place')
+        location = place.get('location')
+        event = {
+            'name': fb_event['name'],
+            'data': fb_event,
+            'fb_id': fb_event['id'],
+            'start_time': parse_datetime(
+                fb_event.get('start_time')
+            ),
+            'latitude': location.get('latitude'),
+            'longitude': location.get('longitude'),
+        }
+        return event
+    except AttributeError:
+        event = {
+            'name': fb_event['name'],
+            'data': fb_event,
+            'fb_id': fb_event['id'],
+            'start_time': parse_datetime(
+                fb_event.get('start_time')
+            ),
+            'latitude': None,
+            'longitude': None,
+        }
+        return event

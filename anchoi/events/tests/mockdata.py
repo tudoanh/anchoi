@@ -181,6 +181,23 @@ event_data_7 = {'attending_count': 1,
  'start_time': '2017-07-27T17:00:00-0400',
  'type': 'public'}
 
+event_data_8 = {'attending_count': 24,
+ 'cover': {'id': '1694219823962989',
+  'source': 'https://scontent.xx.fbcdn.net/v/t31.0-0/p480x480/22382406_1694219823962989_3994389974900152270_o.jpg?oh=727b5bad48aeec3df944bcd8ff4a6a7c&oe=5A7E5AC5'},
+ 'declined_count': 0,
+ 'description': 'THI THỬ TOEIC MIỄN PHÍ TRỞ LẠI!!\nLần này Ad bẫy được 03 em LARVA làm quà cho các bạn đây!\n---------------------------------------\n👉 Đăng ký ngay vì nó MIỄN PHÍ cho sinh viên: http://bit.ly/ThiThu1510',
+ 'end_time': '2017-10-15T11:00:00+0700',
+ 'id': '1745669158785787',
+ 'maybe_count': 76,
+ 'name': 'Thi Thử Toeic Miễn Phí _ Quà tặng: Gấu Bông Larva Khổng Lồ',
+ 'noreply_count': 7,
+ 'picture': {'data': {'is_silhouette': False,
+   'url': 'https://scontent.xx.fbcdn.net/v/t1.0-0/c50.0.200.200/p200x200/22308694_1694219823962989_3994389974900152270_n.jpg?oh=7b56f0d8b867ad90b2cd899c9706bb3f&oe=5A790BAE'}},
+ 'place': {'name': '133/1A Chương Dương, P.Linh Chiểu, Quận Thủ Đức, TP.HCM'},
+ 'start_time': '2017-10-15T08:00:00+0700',
+ 'ticket_uri': 'http://bit.ly/ThiThu1510',
+ 'type': 'public'}
+
 
 events_data = dict(
     event1=event_data_1,
@@ -191,4 +208,5 @@ events_data = dict(
     event5=event_data_5,
     event6=event_data_6,
     event7=event_data_7,
+    event8=event_data_8
 )

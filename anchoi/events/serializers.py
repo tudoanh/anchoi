@@ -7,8 +7,8 @@ class EventSerializer(serializers.ModelSerializer):
     data = serializers.JSONField()
     fb_id = serializers.CharField()
     start_time = serializers.DateTimeField()
-    latitude = serializers.FloatField()
-    longitude = serializers.FloatField()
+    latitude = serializers.FloatField(allow_null=True)
+    longitude = serializers.FloatField(allow_null=True)
 
     class Meta:
         model = Event
