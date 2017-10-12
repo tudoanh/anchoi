@@ -1,9 +1,8 @@
-from django.utils.dateparse import parse_datetime
-
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Event
 from .serializers import EventSerializer
+from . utils import extract_event_data
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
@@ -83,22 +82,7 @@ class EventList(generics.ListCreateAPIView):
             if fb_id:
                 fb_event = facebook_bot.get_event_info(fb_id)[fb_id]
                 if fb_event:
-                    place = fb_event.get('place')
-                    location = place.get('location')
-                    event = {
-                        'name': fb_event['name'],
-                        'data': fb_event,
-                        'fb_id': fb_id,
-                        'start_time': parse_datetime(
-                            fb_event.get('start_time')
-                        ),
-                        'latitude': (
-                            location.get('latitude') if place else ""
-                        ),
-                        'longitude': (
-                            location.get('longitude') if place else ""
-                        ),
-                    }
+                    event = extract_event_data(fb_event)
                     serializer = EventSerializer(data=event)
                     if serializer.is_valid():
                         serializer.save()
@@ -116,20 +100,7 @@ class EventList(generics.ListCreateAPIView):
                 )
             elif rq_data.get('data'):
                 fb_event = rq_data.get('data')
-                place = fb_event.get('place')
-                location = place.get('location')
-                event = {
-                    'name': fb_event['name'],
-                    'data': fb_event,
-                    'fb_id': fb_event['id'],
-                    'start_time': parse_datetime(fb_event.get('start_time')),
-                    'latitude': (
-                        location.get('latitude') if place else ""
-                    ),
-                    'longitude': (
-                        location.get('longitude') if place else ""
-                    ),
-                }
+                event = extract_event_data(fb_event)
                 serializer = EventSerializer(data=event)
                 if serializer.is_valid():
                     serializer.save()
