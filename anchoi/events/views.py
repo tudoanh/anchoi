@@ -1,14 +1,19 @@
+import operator
+from functools import reduce
+
+from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Event
 from .serializers import EventSerializer
-from . utils import extract_event_data
+from . utils import extract_event_data, categories
 from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 import django_filters
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.db.utils import IntegrityError
+from django.db.models.expressions import RawSQL, OrderBy
 
 import facebook_bot
 
@@ -45,27 +50,62 @@ class EventDetail(generics.RetrieveUpdateDestroyAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CustomOrderingFilter(django_filters.OrderingFilter):
+    def __init__(self, *args, **kwargs):
+        super(CustomOrderingFilter, self).__init__(*args, **kwargs)
+        self.extra['choices'] += [
+            ('attending_count', 'Attending'),
+        ]
+
+    def filter(self, qs, value):
+        if any(v in ['attending_count', ] for v in value):
+            return qs.order_by(OrderBy(RawSQL(
+                "cast(data->>%s as integer)",
+                ('attending_count',)),
+                descending=True)
+            )
+
+        return super(CustomOrderingFilter, self).filter(qs, value)
+
+
 class EventFilter(filters.FilterSet):
     name = django_filters.CharFilter(name="name", lookup_expr=['search'])
+    category = django_filters.CharFilter(
+        label='Category',
+        name="name",
+        method='filter_by_category'
+    )
+    city = django_filters.CharFilter(
+        name='data__place__location__city',
+        label='City'
+    )
     since = django_filters.DateFromToRangeFilter(
         name="start_time",
         label='Since',
     )
 
-    order = django_filters.OrderingFilter(
+    order = CustomOrderingFilter(
         fields=(
             ("name", "name"),
             ("start_time", "time"),
         ),
         field_labels={
             'name': "Event name",
-            'start_time': "Event start time"
+            'start_time': "Event start time",
         }
     )
 
+    def filter_by_category(self, queryset, name, value):
+        query = reduce(
+            operator.or_,
+            (Q(name__icontains=keyword)
+                for keyword in categories.get(value, []))
+        )
+        return queryset.filter(query)
+
     class Meta:
         model = Event
-        fields = ['name', 'since']
+        fields = ['name', 'since', 'city', 'category']
 
 
 class EventList(generics.ListCreateAPIView):
