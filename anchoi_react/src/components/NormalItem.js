@@ -5,19 +5,16 @@ import Truncate from 'react-truncate'
 
 export const NormalItem = ({ src, href, title, eventId }) => (
   <div>
-    <div className='image is-16by9'>
-      <img alt=''
-        src={src}
-      />
-    </div>
+    <figure className='image is-16by9'>
+      <img style={{borderRadius: '8px'}} alt='' src={src} onLoad={() => {window.dispatchEvent(new Event('resize'));}} />
+    </figure>
     <div className="content">
       <Link to={`/${eventId}`}>
-      <h1 style={{paddingTop: '10px'}} className='is-size-5'>
-          <Truncate lines={2}>
-            {title}
-          </Truncate>
-
-      </h1>
+        <h1 style={{paddingTop: '10px'}} className='is-size-5'>
+            <Truncate lines={2}>
+              {title}
+            </Truncate>
+        </h1>
       </Link>
     </div>
   </div>

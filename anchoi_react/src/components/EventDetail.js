@@ -64,7 +64,7 @@ export class EventDetail extends Component {
     const data = ( result && result.data ) || {}
     const latitude = (result && result.latitude) || ''
     const longitude = (result && result.longitude) || ''
-    let mapUrl = `https://maps.googleapis.com/maps/api/staticmap?zoom=17&maptype=roadmap&markers=icon:https://i.img alt=''ur.com/MKelSUu.png|${latitude},${longitude}&size=600x600&key=${GOOGLE_API_KEY}`
+    let mapUrl = `https://maps.googleapis.com/maps/api/staticmap?zoom=17&maptype=roadmap&markers=icon:https://i.imgur.com/MKelSUu.png|${latitude},${longitude}&size=600x600&key=${GOOGLE_API_KEY}`
     const place = (result && result.data && result.data.place) || {}
     const location = (place && place.location) || {}
     console.log(location)
@@ -243,10 +243,10 @@ export class EventDetail extends Component {
                     </div>
                   </div>
                 </div>
-                <div style={{paddingTop: '20px'}} className="container">
+                {/*<div style={{paddingTop: '20px'}} className="container">
                   <h1 className="title is-3">Các sự kiện thú vị khác</h1>
                   <RelatedEvents />
-                </div>
+                </div>*/}
               </div>
             )
             : null

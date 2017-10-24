@@ -6,9 +6,7 @@ export const TallItem = ({title, src, eventId}) =>{
   return (
       <div>
         <div className='event-thumbnail'>
-          <img alt=''
-            src={src}
-          />
+          <img alt='' src={src} />
         </div>
         <div className="content">
             <h1 style={{paddingTop: '10px'}} className='is-size-5'>

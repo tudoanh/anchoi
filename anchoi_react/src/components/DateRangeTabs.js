@@ -9,12 +9,12 @@ export class DateRangeTabs extends Component {
 
   render () {
     const { match } = this.props
-    const tabsText = ['Hôm nay', 'Cuối tuần', 'Tuần này', 'Tháng này']
+    const tabsText = ['Tuần này', 'Tháng này', 'Hôm nay', 'Cuối tuần']
     const setDateFuncs = [
-      this.props.setDateRangeToday,
-      this.props.setDateRangeWeekend,
       this.props.setDateRangeThisWeek,
-      this.props.setDateRangeThisMonth
+      this.props.setDateRangeThisMonth,
+      this.props.setDateRangeToday,
+      this.props.setDateRangeWeekend,      
     ]
     return (
       <div className="tabs is-medium">

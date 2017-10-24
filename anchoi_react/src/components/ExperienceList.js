@@ -54,7 +54,7 @@ export class ExperienceList extends Component {
                         slidesToScroll={1}
                       >
                       { data.get('events').map((event, i) =>
-                            <div key={i} className="column">
+                            <div key={event.fb_id} className="column">
                               <NormalItem
                                 src={event.data.cover.source}
                                 title={event.name}
