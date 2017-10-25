@@ -47,7 +47,7 @@ export class HotList extends Component {
     const { data } = this.props
     return (
       <div>
-        <ListHeading seeAll={'/hanoi'}>Nổi bật</ListHeading>
+        <ListHeading category='all'>Nổi bật</ListHeading>
           <div className='columns' style={{height: '600px'}}>
             {(data.get('fetched') && data.get('hotEvents').length)
             ? <Carousel

@@ -9,7 +9,6 @@ import { Divider } from './Divider'
 import { Footer } from './Footer'
 
 
-const API_URL = 'http://128.199.215.162:8000/api/v1.0/events/'
 const GOOGLE_API_KEY = 'AIzaSyDPtbGItw64sLl0XmfegIW3FE48nyfLBq4'
 
 
@@ -17,13 +16,10 @@ export class EventDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      event: {},
       expanded: false,
       truncated: false
     }
 
-    this.fetchEventData.bind(this)
-    this.setEventData.bind(this)
     this.handleTruncate = this.handleTruncate.bind(this);
     this.toggleLines = this.toggleLines.bind(this);
   }
@@ -43,31 +39,21 @@ export class EventDetail extends Component {
     })
   }
 
-  fetchEventData(id) {
-    fetch(`${API_URL}${id}`)
-      .then(response => response.json())
-      .then(result => this.setEventData(result))
-      .catch(e =>e)
-  }
-
-  setEventData(result) {
-    this.setState({result})
-  }
 
   componentDidMount() {
-    this.fetchEventData(this.props.match.params.id)
+    this.props.fetch(this.props.match.params.id)
   }
 
 
   render () {
-    const { result, expanded, truncated} = this.state
-    const data = ( result && result.data ) || {}
-    const latitude = (result && result.latitude) || ''
-    const longitude = (result && result.longitude) || ''
+    const { expanded, truncated } = this.state
+    const result = this.props.data
+    const data = ( result && result.getIn(['data']).data ) || {}
+    const latitude = (result && result.getIn(['data']).latitude) || ''
+    const longitude = (result && result.getIn(['data']).longitude) || ''
     let mapUrl = `https://maps.googleapis.com/maps/api/staticmap?zoom=17&maptype=roadmap&markers=icon:https://i.imgur.com/MKelSUu.png|${latitude},${longitude}&size=600x600&key=${GOOGLE_API_KEY}`
-    const place = (result && result.data && result.data.place) || {}
+    const place = (result && result.getIn(['data']) && result.getIn(['data']).place) || {}
     const location = (place && place.location) || {}
-    console.log(location)
 
     return (
       <div>
@@ -251,7 +237,6 @@ export class EventDetail extends Component {
             )
             : null
         }
-        <Footer />
       </div>
     )
   }

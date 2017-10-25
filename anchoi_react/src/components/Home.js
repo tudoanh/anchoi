@@ -8,7 +8,6 @@ import { FilterForm } from './FilterForm'
 import { DateRangeTabs } from './DateRangeTabs'
 import { HotList } from './HotList'
 import { CategoryList } from './CategoryList'
-import { Footer } from './Footer'
 import MovieListContainer from '../containers/MovieListContainer'
 import MusicListContainer from '../containers/MusicListContainer'
 import ExperienceListContainer from '../containers/ExperienceListContainer'
@@ -45,7 +44,6 @@ export class Home extends Component {
             </SportListContainer>
           </div>
         </div>
-        <Footer />
       </div>
     )
   }

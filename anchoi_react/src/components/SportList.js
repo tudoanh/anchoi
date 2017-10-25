@@ -43,7 +43,7 @@ export class SportList extends Component {
       <div>
         { data.get('events').length
             ? <div>
-                <ListHeading>{this.props.children}</ListHeading>
+                <ListHeading category='sport'>{this.props.children}</ListHeading>
                 <div className='columns' style={{paddingBottom: '15px'}}>
                     {(data.get('fetched') && data.get('events').length)
                       ? <Carousel

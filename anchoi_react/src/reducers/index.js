@@ -8,6 +8,9 @@ import { fetchMusicEventsReducer } from './musicListReducers'
 import { fetchExperienceEventsReducer } from './experienceListReducers'
 import { fetchSportEventsReducer } from './sportListReducers'
 import { fetchEduEventsReducer } from './eduListReducers'
+import { eventsListAllReducer } from './eventsListAllReducers'
+import { eventDetailReducer } from './eventDetailReducers'
+
 
 const rootReducer = combineReducers({
   baseCity: setCityReducer,
@@ -18,7 +21,9 @@ const rootReducer = combineReducers({
   movieEvents: fetchMovieEventsReducer,
   sportEvents: fetchSportEventsReducer,
   eduEvents: fetchEduEventsReducer,
-  experienceEvents: fetchExperienceEventsReducer
+  experienceEvents: fetchExperienceEventsReducer,
+  eventsListAll: eventsListAllReducer,
+  eventDetail: eventDetailReducer
 })
 
 export default rootReducer

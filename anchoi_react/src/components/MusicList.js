@@ -43,7 +43,7 @@ export class MusicList extends Component {
       <div>
         { data.get('events').length
             ? <div>
-                <ListHeading>{this.props.children}</ListHeading>
+                <ListHeading category='music'>{this.props.children}</ListHeading>
                 <div className='columns' style={{paddingBottom: '15px'}}>
                     {data.get('fetched')
                       ? <Carousel

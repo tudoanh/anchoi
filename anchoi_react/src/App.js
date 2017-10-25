@@ -7,14 +7,18 @@ import {
 } from 'react-router-dom'
 
 import {NavBar} from './components/NavBar'
-import {EventDetail} from './components/EventDetail'
+import EventDetailContainer from './containers/EventDetailContainer'
+import { Footer } from './components/Footer'
+import EventsListAllContainer from './containers/EventsListAllContainer'
 
 
 const App = () =>
   <div>
     <NavBar />
     <Route exact path='/' component={HomeContainer} />
-    <Route path='/:id' component={EventDetail} />
+    <Route path='/:id' component={EventDetailContainer} />
+    <Route path='/:category' component={EventsListAllContainer} />
+    <Footer />
   </div>
 
 
