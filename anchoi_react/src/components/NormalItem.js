@@ -9,7 +9,7 @@ export const NormalItem = ({ src, href, title, eventId }) => (
       <img style={{borderRadius: '8px'}} alt='' src={src} onLoad={() => {window.dispatchEvent(new Event('resize'));}} />
     </figure>
     <div className="content">
-      <Link to={`/${eventId}`}>
+      <Link to={`/event/${eventId}`}>
         <h1 style={{paddingTop: '10px'}} className='is-size-5'>
             <Truncate lines={2}>
               {title}

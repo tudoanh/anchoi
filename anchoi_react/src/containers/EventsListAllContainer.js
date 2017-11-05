@@ -12,10 +12,15 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps
 })
 
+
 const mapDispatchToProps = (dispatch, ownProps) => (
   {
-    setEvents: (category, events) => actions.setEvents(category, events),
-    updateEvents: (category, events) => actions.updateEvents(category, events)
+    fetchEvents: (url, startTime, category, endTime) => (
+      dispatch(actions.fetchEventsStart()),
+      axios.get(`${url}&since_0=${startTime}&since_1=${category !== 'all'? '' : endTime}&order=attending_count&category=${category !== 'all'? category : ''}`)
+        .then(response => dispatch(actions.fetchEventsSuccess(response.data, category)))
+        .catch(e => dispatch(actions.fetchEventsError(e)))
+    )
   }
 )
 

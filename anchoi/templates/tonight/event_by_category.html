@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+  <ul>
+    {% for event in events %}
+    <li>
+      {{event.name}} - {{event.data.attending_count}}
+    </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -46,7 +46,17 @@ export class EventsListAll extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchEvents(
+      this.props.API_URL,
+      this.props.startTime,
+      this.props.match.params.category,
+      this.props.endTime
+    )
+  }
+
   render () {
+    console.log(this.props, this.state)
     let list = (this.state.events) || []
     const categories = {
       'movie': 'phim/điện ảnh ',

@@ -1,17 +1,19 @@
-export const SET_EVENTS = 'SET_EVENTS'
-export const setEvents = (category, events) => ({
-  type: SET_EVENTS,
-  payload: {
-    category,
-    events
-  }
+export const FETCH_EVENTS_START = 'FETCH_EVENTS_START'
+export const fetchEventsStart = () => ({
+  type: FETCH_EVENTS_START
 })
 
-export const UPDATE_EVENTS = 'UPDATE_EVENTS'
-export const updateEvents = (category, events) => ({
-  type: UPDATE_EVENTS,
+export const FETCH_EVENTS_ERROR = 'FETCH_EVENTS_ERROR'
+export const fetchEventsError = (err) => ({
+  type: FETCH_EVENTS_ERROR,
+  payload: err
+})
+
+export const FETCH_EVENTS_SUCCESS = 'FETCH_EVENTS_SUCCESS'
+export const fetchEventsSuccess = (data, category) => ({
+  type: FETCH_EVENTS_SUCCESS,
   payload: {
     category,
-    events
+    data
   }
 })

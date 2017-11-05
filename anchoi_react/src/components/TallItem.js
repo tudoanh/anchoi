@@ -10,7 +10,7 @@ export const TallItem = ({title, src, eventId}) =>{
         </div>
         <div className="content">
             <h1 style={{paddingTop: '10px'}} className='is-size-5'>
-              <Link to={`/${eventId}`}>{title}</Link>
+              <Link to={`/event/${eventId}`}>{title}</Link>
             </h1>
         </div>
       </div>

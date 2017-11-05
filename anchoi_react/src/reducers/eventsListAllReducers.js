@@ -2,15 +2,29 @@ import Immutable from 'immutable'
 import * as actions from '../actions/setEventsListAll'
 
 
-const initialState = Immutable.fromJS({})
+const initialState = Immutable.fromJS({
+  category: null,
+  events: [],
+  fetching: false,
+  fetched: false,
+  error: null
+})
 
 
 export const eventsListAllReducer = (state=initialState, action) => {
   switch (action.type) {
-    case actions.SET_EVENTS:
-      return state.set(action.payload.category, action.payload.events)
-    case actions.UPDATE_EVENTS:
-      return state.update(action.payload.category, l => l.push(action.payload.events))
+    case actions.FETCH_EVENTS_START:
+      return state.set('fetching', true)
+    case actions.FETCH_EVENTS_ERROR:
+      return state
+        .set('fetching', false)
+        .set('error': action.payload)
+    case actions.FETCH_EVENTS_SUCCESS:
+      return state
+        .set('fetching': false)
+        .set('fetched': true)
+        .set('category', action.payload.category)
+        .set('events', action.payload.data.results)
     default:
       return state
 }}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+  <ul>
+    {% for event in hot %}
+    <li>
+      {{event.name}} - {{event.data.attending_count}}
+    </li>
+    {% endfor %}
+    {% for event in movie %}
+    <li>
+      {{event.name}} - {{event.data.attending_count}}
+    </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -16,7 +16,7 @@ const App = () =>
   <div>
     <NavBar />
     <Route exact path='/' component={HomeContainer} />
-    <Route path='/:id' component={EventDetailContainer} />
+    <Route path='/event/:id' component={EventDetailContainer} />
     <Route path='/:category' component={EventsListAllContainer} />
     <Footer />
   </div>
