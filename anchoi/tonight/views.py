@@ -1,17 +1,45 @@
-from datetime import datetime
-
-from django.views.generic import ListView, DetailView
-from django.db.models.expressions import RawSQL, OrderBy
+from django.conf import settings
+from django.db.models.expressions import OrderBy, RawSQL
+from django.utils.dateparse import parse_datetime
+from django.views.generic import DetailView, ListView
 
 from events.models import Event
-from events.views import EventFilter
 from events.utils import categories
 
-from .utils import generate_date_range, date_rage, queryset_for, cities
+from .utils import cities, date_rage, queryset_for
+
+
+URL = (
+    'https://maps.googleapis.com/maps/api/staticmap?zoom=17&maptype=roadmap'
+    '&markers=icon:https://i.imgur.com/MKelSUu.png|'
+    '{0},{1}&size=600x600&key={2}'
+)
+
+API_KEY = settings.GOOGLE_API_KEY
 
 
 class EventDetailView(DetailView):
     model = Event
+    context_object_name = 'event'
+    template_name = 'tonight/event_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EventDetailView, self).get_context_data(**kwargs)
+        obj = self.get_object()
+        if obj.data.get('end_time'):
+            context['end_time'] = parse_datetime(obj.data.get('end_time'))
+
+        try:
+            place = obj.data['place']
+            context['place_name'] = place['name']
+            context['city'] = place['location']['city']
+            context['street'] = place['location']['street']
+        except KeyError:
+            pass
+
+        context['map'] = URL.format(obj.latitude, obj.longitude, API_KEY)
+
+        return context
 
 
 class HomeView(ListView):

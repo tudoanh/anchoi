@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load tz %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block body %}
+	<div>
+		<div style="padding-top: 50px;" class="columns">
+			<div class="column is-6 is-offset-1 is-10-mobile is-offset-1-mobile">
+				<h1 class="title is-2 is-size-4-mobile">{{event.name}}</h1>
+				<div style='padding-bottom: 10px;'>
+				    <hr class='divider'/>
+				</div>
+				<div class="columns">
+					<div class="column is-3">
+						<h3 class="title is-4">Thời gian bắt đầu</h3>
+					</div>
+					<div class="column">
+						{% if event.data.ticket_uri %}
+							<a href={{event.data.ticket_uri}} class="button is-primary">
+			                  <span class="icon">
+			                    <i class="fa fa-ticket" aria-hidden="true"></i>
+			                  </span>
+			                  <span>Mua vé</span>
+			                </a>
+						{% endif %}
+
+		                <div class="group" style="{% if event.data.ticket_uri %}padding-top: 10px;{% endif %}">
+		                	<span class="icon">
+	                        	<i class="fa fa-calendar-o" aria-hidden="true"></i>
+	                        </span>
+	                        <span class='is-size-5'>
+	                        	{{event.start_time|date:"l d-m-Y"}}
+	                        </span>
+		                </div>
+						<div class="group" style="padding-top: 10px;">
+		                	<span class="icon">
+	                        	<i class="fa fa-clock-o" aria-hidden="true"></i>
+	                        </span>
+	                        <span class='is-size-5'>
+	                        	{{event.start_time|time:"H:i"}}
+	                        </span>
+		                </div>
+					</div>
+				</div>
+
+				{% if event.data.description %}
+				<div style='padding-bottom: 10px;'>
+				    <hr class='divider'/>
+				</div>
+				<div class="columns">
+					<div class="column is-3">
+						<h3 class="title is-4">Chi tiết</h3>
+					</div>
+					<div class="column">
+						<div class="content">
+							{{event.data.description|linebreaks}}
+						</div>
+					</div>
+				</div>
+				
+				{% endif %}
+
+				{% if end_time %}
+				<div style='padding-bottom: 10px;'>
+				    <hr class='divider'/>
+				</div>
+				<div class="columns">
+					<div class="column is-3">
+						<h3 class="title is-4">Thời gian kết thúc</h3>
+					</div>
+					<div class="column">
+						<div class="group">
+		                	<span class="icon">
+	                        	<i class="fa fa-calendar-times-o" aria-hidden="true"></i>
+	                        </span>
+	                        <span class='is-size-5'>
+	                        	{{end_time|date:"l d-m-Y"}}
+	                        </span>
+		                </div>
+						<div class="group" style="padding-top: 10px;">
+		                	<span class="icon">
+	                        	<i class="fa fa-lock" aria-hidden="true"></i>
+	                        </span>
+	                        <span class='is-size-5'>
+	                        	{{end_time|time:"H:i"}}
+	                        </span>
+		                </div>
+					</div>
+				</div>
+				{% endif %}
+				
+				{% if place_name %}
+				<div style='padding-bottom: 10px;'>
+				    <hr class='divider'/>
+				</div>
+				<div class="columns">
+					<div class="column is-3">
+						<h3 class="title is-4">
+							Địa điểm
+						</h3>
+					</div>
+					<div class="column">
+						<div class="group">
+	                        <span class="icon">
+	                        	<i class="fa fa-map-marker" aria-hidden="true"></i>
+	                        </span>
+	                        <span class='is-size-5'>{{place_name}}</span>
+                        </div>
+                        <div class="group">
+		                	<span class="icon">
+	                        	<i class="fa fa-location-arrow" aria-hidden="true"></i>
+	                        </span>
+	                        <span class='is-size-5'>
+	                        	{{street}}
+	                        </span>
+		                </div>
+						<div class="group">
+		                	<span class="icon">
+	                        	<i class="fa fa-plane" aria-hidden="true"></i>
+	                        </span>
+	                        <span class='is-size-5'>
+	                        	{{city}}
+	                        </span>
+		                </div>
+		                <div style="padding-top: 10px;">
+                            <figure class='image is-square'>
+                            	<img alt='' src="{{map}}"/>
+                            </figure>
+                        </div>
+					</div>
+				</div>
+				{% endif %}
+
+
+			</div>
+			<div style="padding-left: 20px; padding-right: 20px;" class="column">
+				<figure class="image">
+					<img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+				</figure>
+				<div style="padding-top: 20px;" class="columns">
+					<div class="column is-6">
+						<div>
+							<span class="is-size-5">
+								Tham dự: {{event.data.attending_count}}+
+							</span>
+						</div>
+						<div style="padding-top: 10px;">
+							<span class="is-size-5">
+								Đang quan tâm: {{event.data.maybe_count}}+
+							</span>
+						</div>
+					</div>
+					<div class="column">
+						{% if event.data.ticket_uri %}
+							<a href="{{event.data.ticket_uri}}" class="button is-primary is-pulled-right is-large is-hidden-mobile">
+								<span class="icon">
+                                	<i class="fa fa-ticket" aria-hidden="true"></i>
+                             	</span>
+                             	<span>Mua vé</span>
+							</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock body %}
+{% block extra_js %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock extra_js %}

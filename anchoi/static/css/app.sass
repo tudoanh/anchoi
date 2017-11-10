@@ -1,0 +1,61 @@
+@import "./sass/utilities/initial-variables"
+
+$thumbnail-width: 100%
+$thumbnail-height: 500px
+$button-link-hover-background-color: white
+$footer-background-color: white
+
+
+h1, h2, h3, h4, h5, h6
+  font-family: Lato
+
+@media screen and (min-width: 480)
+  $thumbnail-width: 20px
+  $thumbnail-height: 300px
+
+.event-thumbnail
+  border-radius: 8px
+  pointer-events: none
+  position: relative
+  width: $thumbnail-width
+  height: $thumbnail-height
+  overflow: hidden
+  img
+    display: block
+    position: absolute
+    left: 50%
+    top: 50%
+    height: 100%
+    width: auto
+    -webkit-transform: translate(-50%, -50%)
+    -ms-transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%)
+
+img, embed, object, audio, video
+  max-width: none !important
+
+hr.divider
+  border-top: 1px solid #8c8b8b
+
+.columns
+  margin: 0
+
+.footer
+  border-top: 1px solid #dce0e0
+  margin-top: 30px
+
+.see-all
+  color: black !important
+
+h1 a
+  color: black !important
+  &:hover
+    color: #FF5A5F
+
+.image
+  pointer-events: none
+
+.image img
+  object-fit: cover
+
+@import "./bulma"

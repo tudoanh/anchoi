@@ -52,7 +52,7 @@
           </div>
           <div class="content">
               <h1 style='padding-top: 10px;' class='is-size-5'>
-                <a href="{{event.slug}}">{{event.name}}</a>
+                <a href="{% url 'event_detail_view' event.slug %}">{{event.name}}</a>
               </h1>
           </div>
         </div>
@@ -67,7 +67,7 @@
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
             </figure>
             <div class="content">
-              <a href="{{event.id}}">
+              <a href="{% url 'event_detail_view' event.slug %}">
                 <h1 style='padding-top: 10px;' class='is-size-5'>
                   {{event.name}}
                 </h1>
@@ -85,7 +85,7 @@
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
             </figure>
             <div class="content">
-              <a href="{{event.id}}">
+              <a href="{% url 'event_detail_view' event.slug %}">
                 <h1 style='padding-top: 10px;' class='is-size-5'>
                   {{event.name}}
                 </h1>
@@ -103,7 +103,7 @@
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
             </figure>
             <div class="content">
-              <a href="{{event.id}}">
+              <a href="{% url 'event_detail_view' event.slug %}">
                 <h1 style='padding-top: 10px;' class='is-size-5'>
                   {{event.name}}
                 </h1>
@@ -121,7 +121,7 @@
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
             </figure>
             <div class="content">
-              <a href="{{event.id}}">
+              <a href="{% url 'event_detail_view' event.slug %}">
                 <h1 style='padding-top: 10px;' class='is-size-5'>
                   {{event.name}}
                 </h1>
@@ -139,7 +139,7 @@
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
             </figure>
             <div class="content">
-              <a href="{{event.id}}">
+              <a href="{% url 'event_detail_view' event.slug %}">
                 <h1 style='padding-top: 10px;' class='is-size-5'>
                   {{event.name}}
                 </h1>
@@ -154,5 +154,5 @@
 {% endblock %}
 
 {% block extra_js %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
 {% endblock extra_js %}
