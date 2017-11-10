@@ -1,21 +1,25 @@
 import operator
 from functools import reduce
 
+
 from django.db.models import Q
+from django.db.utils import IntegrityError
+from django.db.models.expressions import RawSQL, OrderBy
+from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as filters
+
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+import django_filters
+import facebook_bot
+
 from .models import Event
 from .serializers import EventSerializer
 from . utils import extract_event_data, categories
-from rest_framework import generics
-from django_filters.rest_framework import DjangoFilterBackend
-from django_filters import rest_framework as filters
-import django_filters
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.db.utils import IntegrityError
-from django.db.models.expressions import RawSQL, OrderBy
 
-import facebook_bot
 
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):

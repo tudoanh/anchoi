@@ -7,3 +7,5 @@ python-facebook-bot
 unidecode
 redis
 rq
+django-rq
+rq-scheduler

@@ -72,9 +72,13 @@ date_rage = {
 
 
 def queryset_for(category):
-    query = reduce(
-        operator.or_,
-        (Q(name__icontains=keyword)
-            for keyword in categories.get(category, []))
-    )
+    try:
+        query = reduce(
+            operator.or_,
+            (Q(name__icontains=keyword)
+                for keyword in categories.get(category, []))
+        )
+    except TypeError:
+        query = Q(name__icontains='')
+
     return query

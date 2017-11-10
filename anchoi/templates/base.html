@@ -1,11 +1,37 @@
-<!DOCTYPE html>
-<html>
+{% load static %}
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Anchoi.today</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" href="{% static '/css/app.css' %}">
+    <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+    {% block extra_css %}{% endblock %}
+    <title>
+	    {% block title %}
+	    	ANCHOI.TODAY | Find amazing events and try unique experiences with awesome people in your area.
+	    {% endblock title %}
+    </title>
   </head>
   <body>
-    {% block body %}
-    {% endblock %}
+  	<div>
+  	{% include 'navbar.html' %}
+  	  <div class="container">
+  	  	{% block body %}
+  	  	{% endblock %}
+  	  </div>
+  	</div>
+  	<footer class="footer">
+		<div class="container">
+		  <div class="content has-text-centered">
+		    <h1 class='title'>
+		      Mabe by <a href="https://github.com/tudoanh">me</a> with <i style='color: #FF5A5F;' class="fa fa-heart" aria-hidden="true"></i>
+		    </h1>
+		  </div>
+		</div>
+	</footer>
+  	{% block extra_js %}
+  	{% endblock %}
   </body>
 </html>

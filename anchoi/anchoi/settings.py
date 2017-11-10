@@ -37,6 +37,16 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
+
+# Django RQ
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+    }
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,7 +61,9 @@ INSTALLED_APPS = [
     'events',
     'django_filters',
     'crispy_forms',
-    'tonight'
+    'tonight',
+    'crawl',
+    'django_rq',
 ]
 
 MIDDLEWARE = [
@@ -136,4 +148,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_URL = '/static/'

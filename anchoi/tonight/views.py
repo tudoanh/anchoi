@@ -5,6 +5,7 @@ from django.db.models.expressions import RawSQL, OrderBy
 
 from events.models import Event
 from events.views import EventFilter
+from events.utils import categories
 
 from .utils import generate_date_range, date_rage, queryset_for, cities
 
@@ -62,7 +63,11 @@ class EventByTimeView(ListView):
             )
             .filter(
                 start_time__range=date_rage.get(
-                    self.kwargs.get('time', 'today')
+                    (
+                        'today'
+                        if self.kwargs.get('time') not in date_rage
+                        else self.kwargs.get('time')
+                    )
                 )
             )
             .order_by(OrderBy(RawSQL(
@@ -86,16 +91,26 @@ class EventByCategoryView(ListView):
             .objects
             .filter(
                 data__place__location__city=cities.get(
-                    self.kwargs.get('city', 'hanoi')
+                    self.kwargs.get('city'), 'hanoi'
                 )
             )
             .filter(
                 start_time__range=date_rage.get(
-                    self.kwargs.get('time', 'today')
+                    (
+                        'today'
+                        if self.kwargs.get('time') not in date_rage
+                        else self.kwargs.get('time')
+                    )
                 )
             )
             .filter(
-                queryset_for(self.kwargs.get('category', ''))
+                queryset_for(
+                    (
+                        ''
+                        if self.kwargs.get('category') not in categories
+                        else self.kwargs.get('category')
+                    )
+                )
             )
             .order_by(OrderBy(RawSQL(
                 "cast(data->>%s as integer)",

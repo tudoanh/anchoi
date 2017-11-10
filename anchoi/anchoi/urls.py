@@ -23,5 +23,6 @@ urlpatterns = [
     url(
         r'api-auth/',
         include('rest_framework.urls', namespace='rest_framework')
-    )
+    ),
+    url(r'^django-rq/', include('django_rq.urls')),
 ]

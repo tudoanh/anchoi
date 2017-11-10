@@ -9,6 +9,11 @@ urlpatterns = [
         name='home_view'
     ),
     url(
+        r'^(?P<pk>[0-9]+)/$',
+        views.EventDetailView.as_view(),
+        name='event_detail_view'
+    )
+    url(
         r'^(?P<city>[\w-]+)/$',
         views.HomeView.as_view(),
         name='home_view'

@@ -1,15 +1,158 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block body %}
-  <ul>
-    {% for event in hot %}
-    <li>
-      {{event.name}} - {{event.data.attending_count}}
-    </li>
-    {% endfor %}
-    {% for event in movie %}
-    <li>
-      {{event.name}} - {{event.data.attending_count}}
-    </li>
-    {% endfor %}
-  </ul>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-1" style='color: #FF5A5F;'>
+          Ăn & chơi
+        </h1>
+        <h2 class="subtitle is-3">
+          Find amazing events and try unique experiences <br/>
+          with awesome people in your area.
+        </h2>
+      </div>
+    </div>
+  </section>
+  <div style='padding-left: 20px; padding-right: 20px;'>
+    <div style='padding-bottom: 30px;'>
+      <div class="field is-horizontal">
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="input is-large" type="text" placeholder="Tên hoặc từ khóa" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-large is-primary">
+                Tìm kiếm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tabs is-medium">
+      <ul>
+        <li class='is-active'><a href="">Tuần này</a></li>
+        <li><a href="">Tháng này</a></li>
+        <li><a href="">Hôm nay</a></li>
+        <li><a href="">Cuối tuần</a></li>
+      </ul>
+    </div>
+    <div>
+      {% include "tonight/heading.html" with list_title='Nổi bật' %}
+      <div class="columns">
+      {% for event in hot|slice:":4" %}
+        <div class='column is-3'>
+          <div class='event-thumbnail'>
+            <img alt='' src="{{event.data.cover.source}}" />
+          </div>
+          <div class="content">
+              <h1 style='padding-top: 10px;' class='is-size-5'>
+                <a href="{{event.id}}">{{event.name}}</a>
+              </h1>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+      
+      {% include "tonight/heading.html" with list_title='Phim' %}
+      <div class="columns">
+        {% for event in movie|slice:":3" %}       
+          <div class='column is-4'>
+            <figure class='image is-16by9'>
+              <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+            </figure>
+            <div class="content">
+              <a href="{{event.id}}">
+                <h1 style='padding-top: 10px;' class='is-size-5'>
+                  {{event.name}}
+                </h1>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% include "tonight/heading.html" with list_title='Âm nhạc' %}
+      <div class="columns">
+        {% for event in music|slice:":3" %}       
+          <div class='column is-4'>
+            <figure class='image is-16by9'>
+              <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+            </figure>
+            <div class="content">
+              <a href="{{event.id}}">
+                <h1 style='padding-top: 10px;' class='is-size-5'>
+                  {{event.name}}
+                </h1>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% include "tonight/heading.html" with list_title='Trải nghiệm' %}
+      <div class="columns">
+        {% for event in experience|slice:":3" %}       
+          <div class='column is-4'>
+            <figure class='image is-16by9'>
+              <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+            </figure>
+            <div class="content">
+              <a href="{{event.id}}">
+                <h1 style='padding-top: 10px;' class='is-size-5'>
+                  {{event.name}}
+                </h1>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% include "tonight/heading.html" with list_title='Giáo dục' %}
+      <div class="columns">
+        {% for event in education|slice:":3" %}       
+          <div class='column is-4'>
+            <figure class='image is-16by9'>
+              <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+            </figure>
+            <div class="content">
+              <a href="{{event.id}}">
+                <h1 style='padding-top: 10px;' class='is-size-5'>
+                  {{event.name}}
+                </h1>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% include "tonight/heading.html" with list_title='Thể thao' %}
+      <div class="columns">
+        {% for event in sport|slice:":3" %}       
+          <div class='column is-4'>
+            <figure class='image is-16by9'>
+              <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+            </figure>
+            <div class="content">
+              <a href="{{event.id}}">
+                <h1 style='padding-top: 10px;' class='is-size-5'>
+                  {{event.name}}
+                </h1>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+  </div>
+
 {% endblock %}
+
+{% block extra_js %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{% endblock extra_js %}

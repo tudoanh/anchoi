@@ -1,0 +1,28 @@
+{% load static %}
+<nav class='navbar' aria-label="main navigation">
+    <div class='navbar-brand'>
+      <a href='/' class='navbar-item'>
+        <img alt='' src={% static "img/anchoi_logo_2.png" %} />
+      </a>
+    </div>
+    <div class='navbar-menu'>
+      <div class='navbar-end'>
+        <div class='navbar-item has-dropdown is-hoverable'>
+          <a class='navbar-link'>Thành phố</a>
+          <div class="navbar-dropdown">
+            <a href='/hanoi' class='navbar-item'>Hà Nội</a>
+            <a href='/saigon' class='navbar-item'>Sài Gòn</a>
+          </div>
+        </div>
+        <a href='/help' class='navbar-item is-active'>
+          Hỗ trợ
+        </a>
+        <a href='/signup' class='navbar-item is-active'>
+          Đăng ký
+        </a>
+        <a href='/login' class='navbar-item is-active'>
+          Đăng nhập
+        </a>
+      </div>
+    </div>
+  </nav>
