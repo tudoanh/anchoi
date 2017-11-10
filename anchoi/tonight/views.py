@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models.expressions import RawSQL, OrderBy
 
 from events.models import Event
@@ -8,6 +8,10 @@ from events.views import EventFilter
 from events.utils import categories
 
 from .utils import generate_date_range, date_rage, queryset_for, cities
+
+
+class EventDetailView(DetailView):
+    model = Event
 
 
 class HomeView(ListView):
