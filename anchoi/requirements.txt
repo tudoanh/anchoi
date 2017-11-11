@@ -9,3 +9,4 @@ redis
 rq
 django-rq
 rq-scheduler
+django-hosts

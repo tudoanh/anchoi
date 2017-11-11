@@ -1,0 +1,66 @@
+{% extends "text/base.html" %}
+{% block body %}
+<section class="container">
+<div class="row">
+  <div class="column"><a href="{% url 'event_by_time_view' active_city 'week' %}" {% if active_time == 'week' or not active_time %}class='is-active'{% endif %}>Tuần này</a></div>
+  <div class="column"><a href="{% url 'event_by_time_view' active_city 'month' %}" {% if active_time == 'month' %}class='is-active'{% endif %}>Tháng này</a></div>
+  <div class="column"><a href="{% url 'event_by_time_view' active_city 'today' %}" {% if active_time == 'today' %}class='is-active'{% endif %}>Hôm nay</a></div>
+  <div class="column"><a href="{% url 'event_by_time_view' active_city 'weekend' %}" {% if active_time == 'weekend' %}class='is-active'{% endif %}>Cuối tuần</a></div>
+</div>
+</section>
+
+<section class="container">
+    <h3>Hot events</h3>
+    <ul>
+        {% for event in hot %}
+            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'event_by_category_view' active_city active_time 'hot' %}"><strong>More ...</strong></a>
+</section>
+<section class="container">
+    <h3>Movie events</h3>
+    <ul>
+        {% for event in movie %}
+            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'event_by_category_view' active_city active_time 'movie' %}"><strong>More ...</strong></a>
+</section>
+<section class="container">
+    <h3>Music events</h3>
+    <ul>
+        {% for event in music %}
+            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'event_by_category_view' active_city active_time 'music' %}"><strong>More ...</strong></a>
+</section>
+<section class="container">
+    <h3>Experience events</h3>
+    <ul>
+        {% for event in experience %}
+            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'event_by_category_view' active_city active_time 'experience' %}"><strong>More ...</strong></a>
+</section>
+<section class="container">
+    <h3>Education events</h3>
+    <ul>
+        {% for event in education %}
+            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'event_by_category_view' active_city active_time 'education' %}"><strong>More ...</strong></a>
+</section>
+<section class="container">
+    <h3>Sport events</h3>
+    <ul>
+        {% for event in sport %}
+            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'event_by_category_view' active_city active_time 'sport' %}"><strong>More ...</strong></a>
+</section>
+{% endblock body %}

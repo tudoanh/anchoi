@@ -1,0 +1,24 @@
+{% extends "text/base.html" %}
+{% block body %}
+    <section class="container">
+        <h3>{{event.name}}</h3>
+        <blockquote>
+        {% if event.data.ticket_uri %}<a href={{event.data.ticket_uri}}>Mua vé</a>{% endif %}
+        <p>From <strong>{{event.start_time|time:"H:i"}} — {{event.start_time|date:"d/mY"}}</strong> {% if end_time %}
+        to <strong>{{end_time|time:"H:i"}} — {{end_time|date:"d/m/Y"}} </strong>{% endif %}</p>
+         </blockquote>
+        {% if event.data.description %}
+        <p>
+            {{event.data.description|linebreaks}}
+        </p>
+        {% endif %}
+
+        {% if place_name %}
+        <blockquote>
+           {{street}} - {{city}}
+           <br>
+           <a href="{{map}}">Google map</a>
+        </blockquote>
+        {% endif %}
+    </section>
+{% endblock body %}

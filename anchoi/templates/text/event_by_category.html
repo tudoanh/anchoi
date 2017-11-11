@@ -1,0 +1,17 @@
+{% extends "text/base.html" %}
+{% block body %}
+    <section class="container">
+    <h3>
+        {% if active_category %}
+            Các sự kiện liên quan đến {{active_category}}
+        {% else %}
+            Các sự kiện nổi bật
+        {% endif %}
+    </h3>
+    <ul>
+        {% for event in events %}
+            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+        {% endfor %}
+    </ul>
+    </section>
+{% endblock body %}

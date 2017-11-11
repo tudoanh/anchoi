@@ -1,0 +1,39 @@
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static '/css/milligram.css' %}">
+    <style>
+        .container {
+            padding-top: 1.2rem;
+            padding-bottom: 1.2rem;
+        }
+        .is-active {
+            font-weight: bold;
+        }
+    </style>
+    {% block extra_css %}{% endblock extra_css %}
+    <title>
+        {% block title %}
+            Text only Anchoi.today | Find amazing events and try unique experiences with awesome people in your area.
+        {% endblock title %} | ANCHOI.TODAY
+    </title>
+  </head>
+  <body>
+  <main class="wrapper">
+    <section class="container">
+    <div class="column"><a href='/'><strong>TEXT.ANCHOI.TODAY</strong></a></div>
+    {% block navbar %}
+        {% include 'text/navbar.html' %}
+    {% endblock navbar %}
+    </section>
+    
+    {% block body %}
+    {% endblock %}
+
+    {% block extra_js %}
+    {% endblock %}
+    </main>
+  </body>
+</html>
