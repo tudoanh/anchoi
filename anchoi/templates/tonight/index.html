@@ -36,10 +36,10 @@
     </div>
     <div class="tabs is-medium">
       <ul>
-        <li class='is-active'><a href="">Tuần này</a></li>
-        <li><a href="">Tháng này</a></li>
-        <li><a href="">Hôm nay</a></li>
-        <li><a href="">Cuối tuần</a></li>
+        <li {% if active_item == 'week' %}class='is-active'{% endif %}><a href="week/">Tuần này</a></li>
+        <li {% if active_item == 'month' %}class='is-active'{% endif %}><a href="month/">Tháng này</a></li>
+        <li {% if active_item == 'today' %}class='is-active'{% endif %}><a href="today/">Hôm nay</a></li>
+        <li {% if active_item == 'weekend' %}class='is-active'{% endif %}><a href="weekend/">Cuối tuần</a></li>
       </ul>
     </div>
     <div>
@@ -59,6 +59,7 @@
       {% endfor %}
       </div>
       
+      {% if movie %}
       {% include "tonight/heading.html" with list_title='Phim' %}
       <div class="columns">
         {% for event in movie|slice:":3" %}       
@@ -76,7 +77,9 @@
           </div>
         {% endfor %}
       </div>
-
+      {% endif %}
+    
+    {% if music %}
     {% include "tonight/heading.html" with list_title='Âm nhạc' %}
       <div class="columns">
         {% for event in music|slice:":3" %}       
@@ -94,7 +97,9 @@
           </div>
         {% endfor %}
       </div>
-
+    {% endif %}
+    
+    {% if experience %}
     {% include "tonight/heading.html" with list_title='Trải nghiệm' %}
       <div class="columns">
         {% for event in experience|slice:":3" %}       
@@ -112,7 +117,9 @@
           </div>
         {% endfor %}
       </div>
-
+    {% endif %}
+    
+    {% if education %}
     {% include "tonight/heading.html" with list_title='Giáo dục' %}
       <div class="columns">
         {% for event in education|slice:":3" %}       
@@ -130,7 +137,9 @@
           </div>
         {% endfor %}
       </div>
-
+    {% endif %}
+    
+    {% if sport %}
     {% include "tonight/heading.html" with list_title='Thể thao' %}
       <div class="columns">
         {% for event in sport|slice:":3" %}       
@@ -148,6 +157,7 @@
           </div>
         {% endfor %}
       </div>
+      {% endif %}
 
   </div>
 

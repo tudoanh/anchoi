@@ -53,11 +53,11 @@ class HomeView(ListView):
             .objects
             .filter(
                 data__place__location__city=cities.get(
-                    self.kwargs.get('city'), ''
+                    self.kwargs.get('city'), 'hanoi'
                 )
             )
             .filter(
-                start_time__range=date_rage.get('month')
+                start_time__range=date_rage.get('week')
             )
             .order_by(OrderBy(RawSQL(
                 "cast(data->>%s as integer)",
@@ -82,7 +82,7 @@ class HomeView(ListView):
 class EventByTimeView(ListView):
     model = Event
     context_object_name = 'events'
-    template_name = 'tonight/event_by_time.html'
+    template_name = 'tonight/index.html'
 
     def get_queryset(self):
         self.qs = (
@@ -110,6 +110,17 @@ class EventByTimeView(ListView):
         )
 
         return self.qs
+
+    def get_context_data(self, **kwargs):
+        context = super(EventByTimeView, self).get_context_data(**kwargs)
+        context['hot'] = self.qs[:6]
+        context['movie'] = self.qs.filter(queryset_for('movie'))[:6]
+        context['music'] = self.qs.filter(queryset_for('music'))[:6]
+        context['sport'] = self.qs.filter(queryset_for('sport'))[:6]
+        context['education'] = self.qs.filter(queryset_for('education'))[:6]
+        context['experience'] = self.qs.filter(queryset_for('experience'))[:6]
+        context['active_item'] = self.kwargs.get('time', 'week')
+        return context
 
 
 class EventByCategoryView(ListView):

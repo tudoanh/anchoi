@@ -1,31 +1,38 @@
 from django.conf.urls import url
-from . import views
+from django.views.generic.base import RedirectView
+
+from .views import (
+    EventByCategoryView,
+    EventByTimeView,
+    EventDetailView,
+    HomeView,
+)
 
 
 urlpatterns = [
     url(
         r'^$',
-        views.HomeView.as_view(),
+        RedirectView.as_view(url='/hanoi/'),
         name='home_view'
     ),
     url(
         r'^event/(?P<slug>[-\w]+)/$',
-        views.EventDetailView.as_view(),
+        EventDetailView.as_view(),
         name='event_detail_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/$',
-        views.HomeView.as_view(),
+        HomeView.as_view(),
         name='home_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/$',
-        views.EventByTimeView.as_view(),
+        EventByTimeView.as_view(),
         name='event_by_time_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/(?P<category>[\w-]+)/$',
-        views.EventByCategoryView.as_view(),
+        EventByCategoryView.as_view(),
         name='event_by_category_view'
     ),
 ]
