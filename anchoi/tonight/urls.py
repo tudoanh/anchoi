@@ -6,14 +6,19 @@ from .views import (
     EventByTimeView,
     EventDetailView,
     HomeView,
+    SearchView,
 )
 
 
 urlpatterns = [
     url(
         r'^$',
-        RedirectView.as_view(url='/hanoi/'),
-        name='home_view'
+        RedirectView.as_view(url='/hanoi/')
+    ),
+    url(
+        r'^search/$',
+        SearchView.as_view(),
+        name='search_view'
     ),
     url(
         r'^event/(?P<slug>[-\w]+)/$',

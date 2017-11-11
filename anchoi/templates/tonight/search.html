@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+	<section class="hero">
+	    <div class="hero-body">
+	      <div class="container">
+	        <h1 class="title is-1" style='color: #FF5A5F;'>
+	          Ăn & chơi
+	        </h1>
+	        <h2 class="subtitle is-3">
+	          Find amazing events and try unique experiences <br/>
+	          with awesome people in your area.
+	        </h2>
+	      </div>
+	    </div>
+	</section>
+	<div style='padding-left: 20px; padding-right: 20px;'>
+		<div style='padding-bottom: 30px;'>
+			<form action='{% url "search_view" %}' method='GET' accept-charset="utf-8">
+		        <div class="field is-horizontal">
+		          <div class="field-body">
+		            <div class="field">
+		              <div class="control">
+		                <input class="input is-large" type="text" name="q" placeholder="Tên hoặc từ khóa" />
+		              </div>
+		            </div>
+		            <div class="field">
+		              <div class="control">
+		                <button class="button is-large is-primary" action='' type="submit">
+		                  Tìm kiếm
+		                </button>
+		              </div>
+		            </div>
+		          </div>
+		        </div>
+		    </form>
+		</div>
+  		<div style='padding-bottom: 30px;'>
+	  		<h1 class="title">
+	  			Kết quả tìm kiếm cho "{{query}}"
+	  		</h1>
+	  		<div class="columns is-multiline infinite-container">
+  			{% for event in results %}
+  				<div class="column is-3 infinite-item">
+  					<div>
+			            <figure class='image is-16by9'>
+			              <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+			            </figure>
+			            <div class="content">
+			              <a href="{% url 'event_detail_view' event.slug %}">
+			                <h1 style='padding-top: 10px;' class='is-size-5'>
+			                  {{event.name}}
+			                </h1>
+			              </a>
+			            </div>
+			        </div>
+  				</div>
+  			{% endfor %}
+  			</div>
+  			
+  			<div class="columns">
+	  			<div class="column is-2-desktop is-offset-5-desktop is-8-mobile is-offset-2-mobile">
+					{% if page_obj.has_next %}
+						<a class="button is-loading is-primary is-focused infinite-more-link" href="?page={{ page_obj.next_page_number }}">Xem thêm</a>
+					{% endif %}
+	  			</div>
+	  		</div>
+  		</div>
+  	</div>
+{% endblock body %}
+{% block extra_js %}
+  <script src='{% static "js/jquery-3.2.1.min.js" %}'></script>
+  <script src='{% static "js/jquery.waypoints.min.js" %}'></script>
+  <script src='{% static "js/infinite.min.js" %}'></script>
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+{% endblock extra_js %}

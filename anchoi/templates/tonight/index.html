@@ -46,24 +46,30 @@
     </div>
   </section>
   <div style='padding-left: 20px; padding-right: 20px;'>
+
+    {# Search section #}
     <div style='padding-bottom: 30px;'>
-      <div class="field is-horizontal">
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="input is-large" type="text" placeholder="Tên hoặc từ khóa" />
+      <form action='{% url "search_view" %}' method='GET' accept-charset="utf-8">
+        <div class="field is-horizontal">
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="input is-large" type="text" name="q" placeholder="Tên hoặc từ khóa" />
+              </div>
             </div>
-          </div>
-          <div class="field">
-            <div class="control">
-              <button class="button is-large is-primary">
-                Tìm kiếm
-              </button>
+            <div class="field">
+              <div class="control">
+                <button class="button is-large is-primary" action='' type="submit">
+                  Tìm kiếm
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
+
+    {# Time filter tabs section #}
     <div class="tabs is-medium">
       <ul>
         <li {% if active_time == 'week' or not active_time %}class='is-active'{% endif %}><a href="{% url 'event_by_time_view' active_city 'week' %}">Tuần này</a></li>
@@ -193,7 +199,7 @@
     <div class="columns is-mobile">
       <div class="column is-10-desktop">
         <h1 class="title is-size-4-mobile">
-          Âm nhạc
+          Trải nghiệm
         </h1>
       </div>
       <div class="column">

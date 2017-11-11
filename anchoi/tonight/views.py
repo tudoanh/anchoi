@@ -1,4 +1,9 @@
 from django.conf import settings
+from django.contrib.postgres.search import (
+    SearchQuery,
+    SearchRank,
+    SearchVector
+)
 from django.db.models.expressions import OrderBy, RawSQL
 from django.utils.dateparse import parse_datetime
 from django.views.generic import DetailView, ListView
@@ -39,6 +44,37 @@ class EventDetailView(DetailView):
 
         context['map'] = URL.format(obj.latitude, obj.longitude, API_KEY)
 
+        return context
+
+
+class SearchView(ListView):
+    model = Event
+    context_object_name = 'results'
+    template_name = 'tonight/search.html'
+    paginate_by = 12
+
+    def get_queryset(self):
+        result = super(SearchView, self).get_queryset()
+
+        query = self.request.GET.get('q')
+        if query:
+            vector = (
+                SearchVector('name', weight='A')
+            )
+            query = SearchQuery(query)
+            result = (
+                Event
+                .objects
+                .annotate(rank=SearchRank(vector, query))
+                .filter(rank__gte=0.3)
+                .order_by('rank')
+            )
+
+        return result
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchView, self).get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q')
         return context
 
 
@@ -170,6 +206,18 @@ class EventByCategoryView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EventByCategoryView, self).get_context_data(**kwargs)
+        category_title = {
+            'movie': 'phim/điện ảnh',
+            'music': 'âm nhạc',
+            'experience': 'trải nghiệm',
+            'education': 'giáo dục',
+            'sport': 'thể thao'
+        }
         context['active_city'] = self.kwargs.get('city')
         context['active_time'] = self.kwargs.get('time')
+        context['active_category'] = category_title.get(
+            self.kwargs.get('category'),
+            ''
+        )
+
         return context

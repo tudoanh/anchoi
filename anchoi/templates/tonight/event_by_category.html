@@ -46,6 +46,13 @@
   </section>
   <div style='padding-left: 20px; padding-right: 20px;'>
   	<div style='padding-bottom: 30px;'>
+  		<h1 class="title">
+  		{% if active_category %}
+  			Các sự kiện liên quan đến {{active_category}}
+  		{% else %}
+  			Các sự kiện nổi bật
+  		{% endif %}
+  		</h1>
   		<div class="columns is-multiline infinite-container">
   			{% for event in events %}
   				<div class="column is-3 infinite-item">
