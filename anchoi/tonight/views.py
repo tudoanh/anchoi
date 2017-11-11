@@ -130,6 +130,7 @@ class EventByCategoryView(ListView):
     model = Event
     context_object_name = 'events'
     template_name = 'tonight/event_by_category.html'
+    paginate_by = 12
 
     def get_queryset(self):
         self.qs = (
@@ -166,3 +167,9 @@ class EventByCategoryView(ListView):
         )
 
         return self.qs
+
+    def get_context_data(self, **kwargs):
+        context = super(EventByCategoryView, self).get_context_data(**kwargs)
+        context['active_city'] = self.kwargs.get('city')
+        context['active_time'] = self.kwargs.get('time')
+        return context

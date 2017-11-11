@@ -1,10 +1,97 @@
 {% extends "base.html" %}
+{% load static %}
+{% block navbar %}
+  <nav class='navbar' aria-label="main navigation">
+  <div class='navbar-brand'>
+    <a href='/' class='navbar-item'>
+      <img alt='' src={% static "img/anchoi_logo_2.png" %} />
+    </a>
+  </div>
+  <div class='navbar-menu'>
+    <div class='navbar-end'>
+      <div class='navbar-item has-dropdown is-hoverable'>
+        <a class='navbar-link'>Thành phố</a>
+        <div class="navbar-dropdown">
+          <a href='/hanoi' class='navbar-item {% if active_city == 'hanoi' %}is-active{% endif %}'>Hà Nội</a>
+          <a href='/saigon' class='navbar-item {% if active_city == 'saigon' %}is-active{% endif %}'>Sài Gòn</a>
+        </div>
+      </div>
+      <a href='/help' class='navbar-item is-active'>
+        Hỗ trợ
+      </a>
+      <a href='/signup' class='navbar-item is-active'>
+        Đăng ký
+      </a>
+      <a href='/login' class='navbar-item is-active'>
+        Đăng nhập
+      </a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+
 {% block body %}
-  <ul>
-    {% for event in events %}
-    <li>
-      {{event.name}} - {{event.data.attending_count}}
-    </li>
-    {% endfor %}
-  </ul>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-1" style='color: #FF5A5F;'>
+          Ăn & chơi
+        </h1>
+        <h2 class="subtitle is-3">
+          Find amazing events and try unique experiences <br/>
+          with awesome people in your area.
+        </h2>
+      </div>
+    </div>
+  </section>
+  <div style='padding-left: 20px; padding-right: 20px;'>
+  	<div style='padding-bottom: 30px;'>
+  		<div class="columns is-multiline infinite-container">
+  			{% for event in events %}
+  				<div class="column is-3 infinite-item">
+  					<div>
+			            <figure class='image is-16by9'>
+			              <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+			            </figure>
+			            <div class="content">
+			              <a href="{% url 'event_detail_view' event.slug %}">
+			                <h1 style='padding-top: 10px;' class='is-size-5'>
+			                  {{event.name}}
+			                </h1>
+			              </a>
+			            </div>
+			        </div>
+  				</div>
+  			{% endfor %}
+  		</div>
+  		<div class="columns">
+  			<div class="column is-2-desktop is-offset-5-desktop is-8-mobile is-offset-2-mobile">
+  				<div class="loading" style="display: none;">
+				    Loading...
+				</div>
+
+				{% if page_obj.has_next %}
+					<a class=" button is-focused infinite-more-link" href="?page={{ page_obj.next_page_number }}">Xem thêm</a>
+				{% endif %}
+  			</div>
+  		</div>
+  	</div>
+  </div>
 {% endblock %}
+
+{% block extra_js %}
+  <script src='{% static "js/jquery-3.2.1.min.js" %}'></script>
+  <script src='{% static "js/jquery.waypoints.min.js" %}'></script>
+  <script src='{% static "js/infinite.min.js" %}'></script>
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+{% endblock extra_js %}
