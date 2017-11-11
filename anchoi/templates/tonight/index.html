@@ -1,6 +1,36 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block navbar %}
+  <nav class='navbar' aria-label="main navigation">
+  <div class='navbar-brand'>
+    <a href='/' class='navbar-item'>
+      <img alt='' src={% static "img/anchoi_logo_2.png" %} />
+    </a>
+  </div>
+  <div class='navbar-menu'>
+    <div class='navbar-end'>
+      <div class='navbar-item has-dropdown is-hoverable'>
+        <a class='navbar-link'>Thành phố</a>
+        <div class="navbar-dropdown">
+          <a href='/hanoi' class='navbar-item {% if active_city == 'hanoi' %}is-active{% endif %}'>Hà Nội</a>
+          <a href='/saigon' class='navbar-item {% if active_city == 'saigon' %}is-active{% endif %}'>Sài Gòn</a>
+        </div>
+      </div>
+      <a href='/help' class='navbar-item is-active'>
+        Hỗ trợ
+      </a>
+      <a href='/signup' class='navbar-item is-active'>
+        Đăng ký
+      </a>
+      <a href='/login' class='navbar-item is-active'>
+        Đăng nhập
+      </a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+
 {% block body %}
   <section class="hero">
     <div class="hero-body">
@@ -36,14 +66,35 @@
     </div>
     <div class="tabs is-medium">
       <ul>
-        <li {% if active_item == 'week' %}class='is-active'{% endif %}><a href="week/">Tuần này</a></li>
-        <li {% if active_item == 'month' %}class='is-active'{% endif %}><a href="month/">Tháng này</a></li>
-        <li {% if active_item == 'today' %}class='is-active'{% endif %}><a href="today/">Hôm nay</a></li>
-        <li {% if active_item == 'weekend' %}class='is-active'{% endif %}><a href="weekend/">Cuối tuần</a></li>
+        <li {% if active_time == 'week' or not active_time %}class='is-active'{% endif %}><a href="{% url 'event_by_time_view' active_city 'week' %}">Tuần này</a></li>
+        <li {% if active_time == 'month' %}class='is-active'{% endif %}><a href="{% url 'event_by_time_view' active_city 'month' %}">Tháng này</a></li>
+        <li {% if active_time == 'today' %}class='is-active'{% endif %}><a href="{% url 'event_by_time_view' active_city 'today' %}">Hôm nay</a></li>
+        <li {% if active_time == 'weekend' %}class='is-active'{% endif %}><a href="{% url 'event_by_time_view' active_city 'weekend' %}">Cuối tuần</a></li>
       </ul>
     </div>
     <div>
-      {% include "tonight/heading.html" with list_title='Nổi bật' %}
+    <div>
+
+      {# Hot heading section #}
+      <div class="columns is-mobile">
+        <div class="column is-10-desktop">
+          <h1 class="title is-size-4-mobile">
+            Nổi bật
+          </h1>
+        </div>
+        <div class="column">
+          <div class="group is-pulled-right">
+            <div class="icon">
+              <i class="fa fa-list-alt" aria-hidden="true"></i>
+            </div>
+            <a href="{% url 'event_by_category_view' active_city active_time 'hot' %}" class="see-all">
+              <span>Xem thêm</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {# Hot list section #}
       <div class="columns">
       {% for event in hot|slice:":4" %}
         <div class='column is-3'>
@@ -60,7 +111,26 @@
       </div>
       
       {% if movie %}
-      {% include "tonight/heading.html" with list_title='Phim' %}
+      {# Movie heading section #}
+      <div class="columns is-mobile">
+        <div class="column is-10-desktop">
+          <h1 class="title is-size-4-mobile">
+            Phim
+          </h1>
+        </div>
+        <div class="column">
+          <div class="group is-pulled-right">
+            <div class="icon">
+              <i class="fa fa-list-alt" aria-hidden="true"></i>
+            </div>
+            <a href="{% url 'event_by_category_view' active_city active_time 'movie' %}" class="see-all">
+              <span>Xem thêm</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      {# Movie list section #}
       <div class="columns">
         {% for event in movie|slice:":3" %}       
           <div class='column is-4'>
@@ -80,7 +150,26 @@
       {% endif %}
     
     {% if music %}
-    {% include "tonight/heading.html" with list_title='Âm nhạc' %}
+    {# Music heading section #}
+    <div class="columns is-mobile">
+      <div class="column is-10-desktop">
+        <h1 class="title is-size-4-mobile">
+          Âm nhạc
+        </h1>
+      </div>
+      <div class="column">
+        <div class="group is-pulled-right">
+          <div class="icon">
+            <i class="fa fa-list-alt" aria-hidden="true"></i>
+          </div>
+          <a href="{% url 'event_by_category_view' active_city active_time 'music' %}" class="see-all">
+            <span>Xem thêm</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    {# Music list section #}
       <div class="columns">
         {% for event in music|slice:":3" %}       
           <div class='column is-4'>
@@ -100,7 +189,26 @@
     {% endif %}
     
     {% if experience %}
-    {% include "tonight/heading.html" with list_title='Trải nghiệm' %}
+    {# Experience heading section #}
+    <div class="columns is-mobile">
+      <div class="column is-10-desktop">
+        <h1 class="title is-size-4-mobile">
+          Âm nhạc
+        </h1>
+      </div>
+      <div class="column">
+        <div class="group is-pulled-right">
+          <div class="icon">
+            <i class="fa fa-list-alt" aria-hidden="true"></i>
+          </div>
+          <a href="{% url 'event_by_category_view' active_city active_time 'experience' %}" class="see-all">
+            <span>Xem thêm</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    {# Experience list section #}
       <div class="columns">
         {% for event in experience|slice:":3" %}       
           <div class='column is-4'>
@@ -120,7 +228,26 @@
     {% endif %}
     
     {% if education %}
-    {% include "tonight/heading.html" with list_title='Giáo dục' %}
+    {# Education heading section #}
+    <div class="columns is-mobile">
+      <div class="column is-10-desktop">
+        <h1 class="title is-size-4-mobile">
+          Giáo dục
+        </h1>
+      </div>
+      <div class="column">
+        <div class="group is-pulled-right">
+          <div class="icon">
+            <i class="fa fa-list-alt" aria-hidden="true"></i>
+          </div>
+          <a href="{% url 'event_by_category_view' active_city active_time 'education' %}" class="see-all">
+            <span>Xem thêm</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    {# Education list section #}
       <div class="columns">
         {% for event in education|slice:":3" %}       
           <div class='column is-4'>
@@ -140,7 +267,26 @@
     {% endif %}
     
     {% if sport %}
-    {% include "tonight/heading.html" with list_title='Thể thao' %}
+    {# Sport heading section #}
+    <div class="columns is-mobile">
+      <div class="column is-10-desktop">
+        <h1 class="title is-size-4-mobile">
+          Thể thao
+        </h1>
+      </div>
+      <div class="column">
+        <div class="group is-pulled-right">
+          <div class="icon">
+            <i class="fa fa-list-alt" aria-hidden="true"></i>
+          </div>
+          <a href="{% url 'event_by_category_view' active_city active_time 'sport' %}" class="see-all">
+            <span>Xem thêm</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    {# Sport list section #}
       <div class="columns">
         {% for event in sport|slice:":3" %}       
           <div class='column is-4'>

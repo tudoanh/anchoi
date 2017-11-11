@@ -76,6 +76,8 @@ class HomeView(ListView):
         context['sport'] = self.qs.filter(queryset_for('sport'))[:6]
         context['education'] = self.qs.filter(queryset_for('education'))[:6]
         context['experience'] = self.qs.filter(queryset_for('experience'))[:6]
+        context['active_city'] = self.kwargs.get('city', 'hanoi')
+        context['active_time'] = 'week'
         return context
 
 
@@ -119,7 +121,8 @@ class EventByTimeView(ListView):
         context['sport'] = self.qs.filter(queryset_for('sport'))[:6]
         context['education'] = self.qs.filter(queryset_for('education'))[:6]
         context['experience'] = self.qs.filter(queryset_for('experience'))[:6]
-        context['active_item'] = self.kwargs.get('time', 'week')
+        context['active_time'] = self.kwargs.get('time', 'week')
+        context['active_city'] = self.kwargs.get('city', 'hanoi')
         return context
 
 
