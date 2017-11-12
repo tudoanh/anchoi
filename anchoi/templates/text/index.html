@@ -20,6 +20,7 @@
 {% endblock navbar %}
 
 {% block body %}
+
 <section class="container">
 <div class="row">
   <div class="column"><a href="{% url 'text_event_by_time_view' active_city 'week' %}" {% if active_time == 'week' or not active_time %}class='is-active'{% endif %}>Tuần này</a></div>
@@ -27,6 +28,16 @@
   <div class="column"><a href="{% url 'text_event_by_time_view' active_city 'today' %}" {% if active_time == 'today' %}class='is-active'{% endif %}>Hôm nay</a></div>
   <div class="column"><a href="{% url 'text_event_by_time_view' active_city 'weekend' %}" {% if active_time == 'weekend' %}class='is-active'{% endif %}>Cuối tuần</a></div>
 </div>
+</section>
+
+<section class="container">
+    <form action='{% url "text_search_view" %}' method='GET' accept-charset="utf-8">
+    <fieldset>
+        <label>Name</label>
+        <input type="text" name="q" placeholder="Tên hoặc từ khóa">
+        <button type="submit" class="button button-outline">Search</button>
+    </fieldset>
+    </form>
 </section>
 
 <section class="container">
