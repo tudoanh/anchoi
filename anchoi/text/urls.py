@@ -18,26 +18,26 @@ urlpatterns = [
     url(
         r'^search/$',
         TextSearchView.as_view(),
-        name='search_view'
+        name='text_search_view'
     ),
     url(
         r'^event/(?P<slug>[-\w]+)/$',
         TextEventDetailView.as_view(),
-        name='event_detail_view'
+        name='text_event_detail_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/$',
         TextHomeView.as_view(),
-        name='home_view'
+        name='text_home_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/$',
         TextEventByTimeView.as_view(),
-        name='event_by_time_view'
+        name='text_event_by_time_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/(?P<category>[\w-]+)/$',
         TextEventByCategoryView.as_view(),
-        name='event_by_category_view'
+        name='text_event_by_category_view'
     ),
 ]

@@ -1,9 +1,17 @@
 {% extends "text/base.html" %}
+{% block title %}
+    {{event.name}}
+{% endblock title %}
+
+{% block meta_description %}
+    Anchoi.today - {{event.data.description|truncatewords:100}}
+{% endblock meta_description %}
+
 {% block body %}
     <section class="container">
         <h3>{{event.name}}</h3>
         <blockquote>
-        {% if event.data.ticket_uri %}<a href={{event.data.ticket_uri}}>Mua vé</a>{% endif %}
+        {% if event.data.ticket_uri %}<strong><a href={{event.data.ticket_uri}}>Mua vé</a></strong>{% endif %}
         <p>From <strong>{{event.start_time|time:"H:i"}} — {{event.start_time|date:"d/mY"}}</strong> {% if end_time %}
         to <strong>{{end_time|time:"H:i"}} — {{end_time|date:"d/m/Y"}} </strong>{% endif %}</p>
          </blockquote>
@@ -17,7 +25,9 @@
         <blockquote>
            {{street}} - {{city}}
            <br>
-           <a href="{{map}}">Google map</a>
+           <strong><a href="{{map}}">Google map</a></strong>
+           <br>
+           <a href="https://facebook.com/{{event.fb_id}}">Facebook</a>
         </blockquote>
         {% endif %}
     </section>

@@ -1,4 +1,24 @@
 {% extends "text/base.html" %}
+
+{% block title %}
+    {% if active_category %}{{active_category|title}}{% else %}Nổi bật{% endif %} - Các sự kiện, event {% if active_category %}về {{active_category}}{% else %}nổi bật{% endif %} trong {{active_time}} tại {% if active_city == 'hanoi' %}Hà Nội{% else %}Sài Gòn{% endif %}
+{% endblock title %}
+
+{% block meta_description %}
+    {% if active_category %}{{active_category|title}}{% else %}Nổi bật{% endif %} - Các sự kiện, event {% if active_category %}về {{active_category}}{% else %}nổi bật{% endif %} trong {{active_time}} tại {% if active_city == 'hanoi' %}Hà Nội{% else %}Sài Gòn{% endif %} - Anchoi.today phiên bản minimalism
+{% endblock meta_description %}
+
+{% block navbar %}
+<div class="row">
+  <div class="column"><a href='/hanoi' {% if active_city == 'hanoi' %}class='is-active'{% endif %}>Hà Nội</a></div>
+  <div class="column"><a href='/saigon' {% if active_city == 'saigon' %}class='is-active'{% endif %}>Sài Gòn</a></div>
+  <div class="column"><a href='/help'>Hỗ trợ</a></div>
+  <div class="column"><a href='/signup'>Đăng ký</a></div>
+  <div class="column"><a href="/login">Đăng nhập</a></div>
+  <div class="column"><a href="http://anchoi.today/">Bản đầy đủ</a></div>
+</div>
+{% endblock navbar %}
+
 {% block body %}
     <section class="container">
     <h3>
@@ -10,7 +30,7 @@
     </h3>
     <ul>
         {% for event in events %}
-            <li><a href="{% url 'event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+            <li><a href="{% url 'text_event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
         {% endfor %}
     </ul>
     </section>
