@@ -1,4 +1,7 @@
+from django.conf import settings
 from django.conf.urls import url
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
 from django.views.generic.base import RedirectView
 
 from .views import (
@@ -8,6 +11,9 @@ from .views import (
     HomeView,
     SearchView,
 )
+
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 urlpatterns = [
@@ -27,7 +33,7 @@ urlpatterns = [
     ),
     url(
         r'^(?P<city>[\w-]+)/$',
-        HomeView.as_view(),
+        cache_page(CACHE_TTL)(HomeView.as_view()),
         name='home_view'
     ),
     url(
