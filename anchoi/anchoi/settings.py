@@ -42,16 +42,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 }
 
-
-# Django RQ
-RQ_QUEUES = {
-    'default': {
-        'HOST': 'localhost',
-        'PORT': 6379,
-        'DB': 0,
-    }
-}
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -173,3 +163,11 @@ CACHES = {
 }
 
 CACHE_TTL = 60 * 15
+
+
+# Django RQ
+RQ_QUEUES = {
+    'default': {
+        'USE_REDIS_CACHE': 'default',
+    }
+}

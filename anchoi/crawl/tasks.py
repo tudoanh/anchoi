@@ -14,8 +14,8 @@ SAIGON_CENTER = (10.782812, 106.695886)
 API_URL = 'http://localhost:8000/api/v1.0/'
 CREATE_EVENT_URL = API_URL + 'events/'
 UPDATE_EVENT_URL = API_URL + 'events/{}'
-USERNAME = 'anchoi'
-PASSWORD = '0okami$$'
+USERNAME = ''
+PASSWORD = ''
 
 
 EVENT_FIELDS = [
@@ -50,7 +50,6 @@ def weekly_page_scan(lat, lon, distance, scan_radius=200):
             FacebookPage.objects.get_or_create(
                 page_id=page_id
             )
-    print('Yay')
 
 
 def daily_scan():
