@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+    Trang chủ sự kiện tại {% if active_city == 'hanoi' %}Hà Nội{% else %}Sài Gòn{% endif %}
+{% endblock title %}
+
+{% block meta_description %}
+    Mạng xã hội sự kiện tại Hà Nội và Thành phố Hồ Chí Minh. Tìm kiếm các sự kiện gần bạn và trải nghiệm ngay hôm nay. - Anchoi.today
+{% endblock meta_description %}
+
 {% block navbar %}
   <nav class='navbar' aria-label="main navigation">
   <div class='navbar-brand'>

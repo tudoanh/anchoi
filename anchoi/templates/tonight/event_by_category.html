@@ -1,5 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block title %}
+    {% if active_category %}{{active_category|title}}{% else %}Nổi bật{% endif %} - Các sự kiện, event {% if active_category %}về {{active_category}}{% else %}nổi bật{% endif %} trong {{active_time}} tại {% if active_city == 'hanoi' %}Hà Nội{% else %}Sài Gòn{% endif %}
+{% endblock title %}
+
+{% block meta_description %}
+    {% if active_category %}{{active_category|title}}{% else %}Nổi bật{% endif %} - Các sự kiện, event {% if active_category %}về {{active_category}}{% else %}nổi bật{% endif %} trong {{active_time}} tại {% if active_city == 'hanoi' %}Hà Nội{% else %}Sài Gòn{% endif %} - Anchoi.today phiên bản minimalism
+{% endblock meta_description %}
+
 {% block navbar %}
   <nav class='navbar' aria-label="main navigation">
   <div class='navbar-brand'>

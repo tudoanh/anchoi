@@ -2,6 +2,15 @@
 {% load tz %}
 {% block extra_css %}
 {% endblock extra_css %}
+
+{% block title %}
+    {{event.name}}
+{% endblock title %}
+
+{% block meta_description %}
+    Anchoi.today - {{event.data.description|truncatewords:100}}
+{% endblock meta_description %}
+
 {% block body %}
 	<div>
 		<div style="padding-top: 50px;" class="columns">

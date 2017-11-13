@@ -213,8 +213,14 @@ class EventByCategoryView(ListView):
             'education': 'giáo dục',
             'sport': 'thể thao'
         }
+        time_title = {
+            'today': 'hôm nay',
+            'weekend': 'cuối tuần',
+            'week': 'tuần này',
+            'month': 'tháng này'
+        }
         context['active_city'] = self.kwargs.get('city')
-        context['active_time'] = self.kwargs.get('time')
+        context['active_time'] = time_title.get(self.kwargs.get('time'))
         context['active_category'] = category_title.get(
             self.kwargs.get('category'),
             ''
