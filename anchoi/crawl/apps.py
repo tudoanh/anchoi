@@ -23,7 +23,7 @@ class CrawlConfig(AppConfig):
 
         # Scan all page in city in Friday each week
         scheduler.cron(
-            "0 0 23 ? * MON *",
+            "0 0 * * 0",
             func=weekly_page_scan,
             kwargs={
                 'lat': HANOI_CENTER[0],
@@ -33,7 +33,7 @@ class CrawlConfig(AppConfig):
         )
 
         scheduler.cron(
-            "0 0 23 ? * TUE *",
+            "0 0 * * 1",
             func=weekly_page_scan,
             kwargs={
                 'lat': SAIGON_CENTER[0],
@@ -44,12 +44,12 @@ class CrawlConfig(AppConfig):
 
         # Scan events each day from pages
         scheduler.cron(
-            "0 0 23 ? * * *",
+            "0 0 * * *",
             func=daily_scan,
         )
 
         # Update events every hour
         scheduler.cron(
-            "0 0 * ? * * *",
+            "0 * * * * ",
             func=hourly_scan
         )
