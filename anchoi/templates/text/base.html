@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="{% static '/css/milligram.css' %}">
+    <link rel="stylesheet" href="{% static '/css/milligram.min.css' %}">
     <style>
         .container {
             padding-top: 1.2rem;
@@ -24,6 +24,15 @@
         {% endblock title %} | Anchoi.today phiên bản minimalism
     </title>
     <meta name='description' content="{% block meta_description %}Find amazing events and try unique experiences with awesome people in your area.{% endblock meta_description %}" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109485239-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-109485239-2');
+    </script>
   </head>
   <body>
   <main class="wrapper">

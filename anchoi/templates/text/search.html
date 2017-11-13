@@ -1,0 +1,12 @@
+{% extends "text/base.html" %}
+
+{% block body %}
+<section class="container">
+    <h1>Kết quả tìm kiếm cho "{{query}}"</h1>
+    <ul>
+    {% for event in results %}
+        <li><a href="{% url 'text_event_detail_view' event.slug %}">{{event.name}} — {{event.start_time|date:"d/m/Y"}} — {{event.data.attending_count}} interest</a></li>
+    {% endfor %}
+    </ul>
+</section>
+{% endblock body %}
