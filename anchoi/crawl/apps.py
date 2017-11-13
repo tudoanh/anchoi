@@ -50,6 +50,6 @@ class CrawlConfig(AppConfig):
 
         # Update events every hour
         scheduler.cron(
-            "0 * * * * ",
+            "0 */1 * * * ",
             func=hourly_scan
         )

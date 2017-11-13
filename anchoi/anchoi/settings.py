@@ -168,6 +168,8 @@ CACHE_TTL = 60 * 15
 # Django RQ
 RQ_QUEUES = {
     'default': {
-        'USE_REDIS_CACHE': 'default',
-    }
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+    },
 }
