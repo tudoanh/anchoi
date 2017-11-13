@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'django_filters',
     'crispy_forms',
     'tonight',
-    'crawl',
+    'crawl.apps.CrawlConfig',
     'django_rq',
     'django_hosts',
     'text',

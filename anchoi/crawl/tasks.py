@@ -1,17 +1,22 @@
+# from events.utils import extract_event_data
+from events.models import Event, FacebookPage
+
 import facebook_bot as fb
+
 import requests
 
-from events.models import FacebookPage, Event
-from events.utils import extract_event_data
+from .coorcal import generate_coordinate
 
 
 HANOI_CENTER = (21.028811, 105.848977)
 SAIGON_CENTER = (10.782812, 106.695886)
+
 API_URL = 'http://localhost:8000/api/v1.0/'
 CREATE_EVENT_URL = API_URL + 'events/'
 UPDATE_EVENT_URL = API_URL + 'events/{}'
-USERNAME = ''
-PASSWORD = ''
+USERNAME = 'anchoi'
+PASSWORD = '0okami$$'
+
 
 EVENT_FIELDS = [
     'id',
@@ -33,46 +38,31 @@ EVENT_FIELDS = [
 ]
 
 
-def save_page_info(event):
-    info = event['owner']
-    return FacebookPage.objects.get_or_create(
-        name=info['name'],
-        page_id=info['id']
-    )
-
-
-def update_event(event_id, data):
-    requests.put(
-        UPDATE_EVENT_URL.format(event_id),
-        json={
-            'name': data['name'],
-            'fb_id': data['id'],
-            'data': data
-        },
-        auth=(USERNAME, PASSWORD)
-    )
-
-
-def create_event(data):
-    for e in data:
-        requests.post(
-            CREATE_EVENT_URL,
-            auth=(USERNAME, PASSWORD),
-            json={'data': e}
-        )
-
-
-def weekly_scan(lat, lon, dis):
-    for data in fb.get_events_by_location(lat, lon, dis, fields=EVENT_FIELDS):
-        save_page_info(data[0])
-        create_event(data)
+def weekly_page_scan(lat, lon, distance, scan_radius=200):
+    circle = (lat, lon, distance, )
+    for point in generate_coordinate(*circle, scan_radius=scan_radius):
+        page_list = fb.get_page_ids(
+            latitude=point[0],
+            longitude=point[1],
+            query_agrument='*',
+            distance=scan_radius)
+        for page_id in page_list:
+            FacebookPage.objects.get_or_create(
+                page_id=page_id
+            )
+    print('Yay')
 
 
 def daily_scan():
     for page in FacebookPage.objects.all():
         res = list(fb.get_events(page.page_id).values())[0]
         if res.get('events'):
-            create_event(res['events']['data'])
+            for event in res['events']['data']:
+                requests.post(
+                    CREATE_EVENT_URL,
+                    auth=(USERNAME, PASSWORD),
+                    json={'data': event}
+                )
 
 
 def hourly_scan():
@@ -81,4 +71,12 @@ def hourly_scan():
             e = fb.get_event_info(event.fb_id)[event.fb_id]
         except Exception:
             pass
-        update_event(event.id, e)
+        requests.put(
+            UPDATE_EVENT_URL.format(event.id),
+            json={
+                'name': e['name'],
+                'fb_id': e['id'],
+                'data': e
+            },
+            auth=(USERNAME, PASSWORD)
+        )

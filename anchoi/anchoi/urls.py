@@ -17,7 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^', include('tonight.urls')),
     url(r'^api/', include('events.urls')),
     url(r'^admin/', admin.site.urls),
     url(
@@ -25,4 +24,5 @@ urlpatterns = [
         include('rest_framework.urls', namespace='rest_framework')
     ),
     url(r'^django-rq/', include('django_rq.urls')),
+    url(r'^', include('tonight.urls')),
 ]

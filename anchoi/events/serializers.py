@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Event
 
 
@@ -14,5 +15,5 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = (
             'id', 'name', 'data', 'fb_id',
-            'start_time', 'latitude', 'longitude'
+            'start_time', 'latitude', 'longitude',
         )

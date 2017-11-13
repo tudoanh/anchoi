@@ -7,14 +7,15 @@ from unidecode import unidecode
 
 
 class FacebookPage(models.Model):
-    name = models.CharField(max_length=255)
+    id = models.AutoField(primary_key=True, unique=True)
     page_id = models.CharField(max_length=20, unique=True)
 
     def __repr__(self):
-        return self.name
+        return self.page_id
 
 
 class Event(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=255)
     data = JSONField(blank=True)
     fb_id = models.CharField(max_length=20, unique=True)

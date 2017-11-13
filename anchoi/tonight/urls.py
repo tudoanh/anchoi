@@ -38,12 +38,12 @@ urlpatterns = [
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/$',
-        EventByTimeView.as_view(),
+        cache_page(CACHE_TTL)(EventByTimeView.as_view()),
         name='event_by_time_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/(?P<category>[\w-]+)/$',
-        EventByCategoryView.as_view(),
+        cache_page(CACHE_TTL)(EventByCategoryView.as_view()),
         name='event_by_category_view'
     ),
 ]
