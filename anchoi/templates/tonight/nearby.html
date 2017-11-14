@@ -16,6 +16,7 @@
     </section>
     <div style='padding-left: 20px; padding-right: 20px;'>
         <div style='padding-bottom: 30px;'>
+            {% if today %}
             <h1 class="title">
                 Sự kiện gần bạn nhất trong hôm nay
             </h1>
@@ -37,7 +38,11 @@
                 </div>
             {% endfor %}
             </div>
-
+            {% else %}
+            <h3>Xin lỗi, chúng tôi không tìm thấy sự kiện nào quanh bạn ngày hôm nay :(</h3>
+            {% endif %}
+            
+            {% if weekend %}
             <h1 class="title">
                 Sự kiện gần bạn nhất trong cuối tuần này
             </h1>
@@ -59,7 +64,9 @@
                 </div>
             {% endfor %}
             </div>
+            {% endif %}
 
+            {% if week %}
             <h1 class="title">
                 Sự kiện gần bạn nhất trong tuần này
             </h1>
@@ -81,6 +88,8 @@
                 </div>
             {% endfor %}
             </div>
+            {% endif %}
+            
         </div>
     </div>
 {% endblock body %}
