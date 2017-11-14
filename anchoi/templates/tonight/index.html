@@ -41,15 +41,16 @@
             <a href='/saigon' class='navbar-item {% if active_city == 'saigon' %}is-active{% endif %}'>Sài Gòn</a>
           </div>
         </div>
-        <a href='/help' class='navbar-item is-active'>
+        <a href='/help' class='navbar-item'>
           Hỗ trợ
         </a>
-        <a href='/signup' class='navbar-item is-active'>
+        <a href='/signup' class='navbar-item'>
           Đăng ký
         </a>
-        <a href='/login' class='navbar-item is-active'>
+        <a href='/login' class='navbar-item'>
           Đăng nhập
         </a>
+        <a class='navbar-item' onclick="getLocation()">Gần đây</a>
       </div>
     </div>
 
@@ -348,7 +349,7 @@
     $(document).ready(function(){
     $(".owl-carousel").owlCarousel(
       {
-        margin: 30,
+        margin: 20,
         autoplay:true,
         autoHeight:true,
         autoplayTimeout:2500,
@@ -368,4 +369,60 @@
     );
     });
   </script>
+  <script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+      var pos, infoWindow;
+      function getLocation() {
+        infoWindow = new google.maps.InfoWindow;
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            var form = document.createElement("form");
+            form.setAttribute("method", 'get');
+            form.setAttribute("action", {% url 'nearby_view' %});
+
+            var hiddenFieldLat = document.createElement("input");
+            hiddenFieldLat.setAttribute("type", "hidden");
+            hiddenFieldLat.setAttribute("name", "latitude");
+            hiddenFieldLat.setAttribute("value", pos.lat);
+            form.appendChild(hiddenFieldLat);
+
+            var hiddenFieldLng = document.createElement("input");
+            hiddenFieldLng.setAttribute("type", "hidden");
+            hiddenFieldLng.setAttribute("name", "longitude");
+            hiddenFieldLng.setAttribute("value", pos.lng);
+            form.appendChild(hiddenFieldLng);
+
+            document.body.appendChild(form);
+            form.submit();
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+      }
+      
+      // the below line has been inserted to assign a JS variable to HTML input field called 'geolocation'
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPtbGItw64sLl0XmfegIW3FE48nyfLBq4">
+    </script>
 {% endblock extra_js %}

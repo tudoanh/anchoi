@@ -1,4 +1,15 @@
+# coding=utf-8
+
+"""
+This is an example script.
+
+It seems that it has to have THIS docstring with a summary line, a blank line
+and sume more text like here. Wow.
+"""
+
 from django.conf import settings
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D
 from django.contrib.postgres.search import (
     SearchQuery,
     SearchRank,
@@ -6,7 +17,7 @@ from django.contrib.postgres.search import (
 )
 from django.db.models.expressions import OrderBy, RawSQL
 from django.utils.dateparse import parse_datetime
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from events.models import Event
 from events.utils import categories
@@ -29,6 +40,10 @@ class EventDetailView(DetailView):
     template_name = 'tonight/event_detail.html'
 
     def get_context_data(self, **kwargs):
+        '''
+        Context data
+        '''
+
         context = super(EventDetailView, self).get_context_data(**kwargs)
         obj = self.get_object()
         if obj.data.get('end_time'):
@@ -44,6 +59,43 @@ class EventDetailView(DetailView):
 
         context['map'] = URL.format(obj.latitude, obj.longitude, API_KEY)
 
+        return context
+
+
+class NearbyView(ListView):
+    model = Event
+    context_object_name = 'results'
+    template_name = 'tonight/nearby.html'
+
+    def get_queryset(self):
+        self.qs = super(NearbyView, self).get_queryset()
+
+        lat = self.request.GET.get('latitude')
+        lng = self.request.GET.get('longitude')
+        if lat and lng:
+            geo = Point(float(lat), float(lng))
+            distance = 500
+            self.qs = (
+                Event
+                .objects
+                .filter(point__distance_lte=(geo, D(m=distance)))
+                .distance(geo)
+                .order_by('distance')
+            )
+
+        return self.qs
+
+    def get_context_data(self, **kwargs):
+        context = super(NearbyView, self).get_context_data(**kwargs)
+        context['today'] = self.qs.filter(
+            start_time__range=date_rage.get('today')
+        )
+        context['weekend'] = self.qs.filter(
+            start_time__range=date_rage.get('weekend')
+        )
+        context['week'] = self.qs.filter(
+            start_time__range=date_rage.get('week')
+        )
         return context
 
 

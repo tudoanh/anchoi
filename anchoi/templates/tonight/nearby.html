@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+    <section class="hero">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title is-1" style='color: #FF5A5F;'>
+              Ăn & chơi
+            </h1>
+            <h2 class="subtitle is-3">
+              Find amazing events and try unique experiences <br/>
+              with awesome people in your area.
+            </h2>
+          </div>
+        </div>
+    </section>
+    <div style='padding-left: 20px; padding-right: 20px;'>
+        <div style='padding-bottom: 30px;'>
+            <h1 class="title">
+                Sự kiện gần bạn nhất trong hôm nay
+            </h1>
+            <div class="columns is-multiline">
+            {% for event in today %}
+                <div class="column is-3">
+                    <div>
+                        <figure class='image is-16by9'>
+                          <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+                        </figure>
+                        <div class="content">
+                          <a href="{% url 'event_detail_view' event.slug %}">
+                            <h1 style='padding-top: 10px;' class='is-size-5'>
+                              {{event.name}}
+                            </h1>
+                          </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+            <h1 class="title">
+                Sự kiện gần bạn nhất trong cuối tuần này
+            </h1>
+            <div class="columns is-multiline">
+            {% for event in weekend %}
+                <div class="column is-3">
+                    <div>
+                        <figure class='image is-16by9'>
+                          <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+                        </figure>
+                        <div class="content">
+                          <a href="{% url 'event_detail_view' event.slug %}">
+                            <h1 style='padding-top: 10px;' class='is-size-5'>
+                              {{event.name}}
+                            </h1>
+                          </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+
+            <h1 class="title">
+                Sự kiện gần bạn nhất trong tuần này
+            </h1>
+            <div class="columns is-multiline">
+            {% for event in week %}
+                <div class="column is-3">
+                    <div>
+                        <figure class='image is-16by9'>
+                          <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+                        </figure>
+                        <div class="content">
+                          <a href="{% url 'event_detail_view' event.slug %}">
+                            <h1 style='padding-top: 10px;' class='is-size-5'>
+                              {{event.name}}
+                            </h1>
+                          </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block extra_js %}
+  <script src='{% static "js/jquery-3.2.1.min.js" %}'></script>
+  <script src='{% static "js/jquery.waypoints.min.js" %}'></script>
+  <script src='{% static "js/infinite.min.js" %}'></script>
+  <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
+{% endblock extra_js %}

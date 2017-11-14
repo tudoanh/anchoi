@@ -10,6 +10,7 @@ from .views import (
     EventDetailView,
     HomeView,
     SearchView,
+    NearbyView
 )
 
 
@@ -25,6 +26,11 @@ urlpatterns = [
         r'^search/$',
         SearchView.as_view(),
         name='search_view'
+    ),
+    url(
+        r'^nearby/$',
+        NearbyView.as_view(),
+        name='nearby_view'
     ),
     url(
         r'^event/(?P<slug>[-\w]+)/$',

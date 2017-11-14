@@ -2,6 +2,8 @@ import operator
 from functools import reduce
 
 
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D
 from django.db.models import Q
 from django.db.utils import IntegrityError
 from django.db.models.expressions import RawSQL, OrderBy
@@ -19,7 +21,6 @@ import facebook_bot
 from .models import Event
 from .serializers import EventSerializer
 from . utils import extract_event_data, categories
-
 
 
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -118,6 +119,21 @@ class EventList(generics.ListCreateAPIView):
     serializer_class = EventSerializer
     filter_backends = (DjangoFilterBackend,)
     filter_class = EventFilter
+
+    def get_queryset(self):
+        queryset = Event.objects.all()
+        latitude = self.request.query_params.get('latitude', None)
+        longitude = self.request.query_params.get('longitude', None)
+        distance = self.request.query_params.get('distance', 300)
+        if latitude and longitude:
+            geo = Point(float(latitude), float(longitude))
+            return (
+                queryset
+                .filter(point__distance_lte=(geo, D(m=distance)))
+                .distance(geo)
+                .order_by('distance')
+            )
+        return queryset
 
     def create(self, request, *args, **kwargs):
         rq_data = request.data
