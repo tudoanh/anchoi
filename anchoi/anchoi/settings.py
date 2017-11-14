@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django.contrib.gis',
     'rest_framework',
     'events',
     'django_filters',
@@ -101,7 +102,7 @@ WSGI_APPLICATION = 'anchoi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'anchoi',
         'USER': 'anchoi',
         'PASSWORD': 'anchoipassword',
@@ -171,5 +172,6 @@ RQ_QUEUES = {
         'HOST': 'localhost',
         'PORT': 6379,
         'DB': 0,
+        'DEFAULT_TIMEOUT': 7200,
     },
 }

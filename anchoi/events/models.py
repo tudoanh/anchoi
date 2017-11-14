@@ -1,5 +1,6 @@
+from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
 from django.contrib.postgres.fields import JSONField
-from django.db import models
 from django.utils.dateparse import parse_datetime
 from django.utils.text import slugify
 
@@ -7,6 +8,10 @@ from unidecode import unidecode
 
 
 class FacebookPage(models.Model):
+    '''
+    Facebook Page Model, contain Page ID for later crawl jobs
+    '''
+
     id = models.AutoField(primary_key=True, unique=True)
     page_id = models.CharField(max_length=20, unique=True)
 
@@ -28,6 +33,10 @@ class Event(models.Model):
         on_delete=models.CASCADE,
         null=True,
     )
+
+    objects = models.GeoManager()
+    point = models.PointField(null=True, spatial_index=True, geography=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -47,5 +56,7 @@ class Event(models.Model):
                 self.longitude = None
 
         self.slug = str(self.pk) + '-' + slugify(unidecode(self.name))
+        if self.latitude and self.longitude:
+            self.point = Point((self.latitude, self.longitude))
 
         super(Event, self).save(*args, **kwargs)
