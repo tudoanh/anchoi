@@ -9,6 +9,16 @@
     Mạng xã hội sự kiện tại Hà Nội và Thành phố Hồ Chí Minh. Tìm kiếm các sự kiện gần bạn và trải nghiệm ngay hôm nay. - Anchoi.today
 {% endblock meta_description %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  <style>
+    .columns {
+      margin: 0;
+    }
+  </style>
+{% endblock extra_css %}
+
 {% block navbar %}
   <nav class='navbar' role="navigation" aria-label="main navigation">
     <div class='navbar-brand'>
@@ -117,19 +127,19 @@
       </div>
 
       {# Hot list section #}
-      <div class="columns">
-      {% for event in hot|slice:":4" %}
-        <div class='column is-3'>
-          <div class='event-thumbnail'>
-            <img alt='' src="{{event.data.cover.source}}" />
+      <div class="owl-carousel owl-theme owl-drag">
+        {% for event in hot %}
+          <div>
+            <div class='event-thumbnail'>
+              <img alt='' src="{{event.data.cover.source}}" />
+            </div>
+            <div class="content">
+                <h1 style='padding-top: 10px;' class='is-size-5'>
+                  <a href="{% url 'event_detail_view' event.slug %}">{{event.name}}</a>
+                </h1>
+            </div>
           </div>
-          <div class="content">
-              <h1 style='padding-top: 10px;' class='is-size-5'>
-                <a href="{% url 'event_detail_view' event.slug %}">{{event.name}}</a>
-              </h1>
-          </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
       </div>
       
       {% if movie %}
@@ -332,5 +342,30 @@
 {% endblock %}
 
 {% block extra_js %}
-  
+  <script src='{% static "js/jquery-3.2.1.min.js" %}'></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+    $(".owl-carousel").owlCarousel(
+      {
+        margin: 30,
+        autoplay:true,
+        autoHeight:true,
+        autoplayTimeout:2500,
+        autoplayHoverPause:true,
+        responsive:{
+          0:{
+              items:1
+          },
+          600:{
+              items:1
+          },
+          1000:{
+              items:4
+          }
+        }
+      }
+    );
+    });
+  </script>
 {% endblock extra_js %}

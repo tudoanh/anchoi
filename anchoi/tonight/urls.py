@@ -33,17 +33,17 @@ urlpatterns = [
     ),
     url(
         r'^(?P<city>[\w-]+)/$',
-        cache_page(CACHE_TTL)(HomeView.as_view()),
+        HomeView.as_view(),
         name='home_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/$',
-        cache_page(CACHE_TTL)(EventByTimeView.as_view()),
+        EventByTimeView.as_view(),
         name='event_by_time_view'
     ),
     url(
         r'^(?P<city>[\w-]+)/(?P<time>[\w-]+)/(?P<category>[\w-]+)/$',
-        cache_page(CACHE_TTL)(EventByCategoryView.as_view()),
+        EventByCategoryView.as_view(),
         name='event_by_category_view'
     ),
 ]

@@ -9,9 +9,9 @@ $footer-background-color: white
 h1, h2, h3, h4, h5, h6
   font-family: Lato
 
-@media screen and (min-width: 480)
+@media screen and (max-width: 480)
   $thumbnail-width: 20px
-  $thumbnail-height: 300px
+  $thumbnail-height: 350px
 
 .event-thumbnail
   border-radius: 8px
@@ -26,10 +26,15 @@ h1, h2, h3, h4, h5, h6
     left: 50%
     top: 50%
     height: 100%
-    width: auto
+    width: auto !important
     -webkit-transform: translate(-50%, -50%)
     -ms-transform: translate(-50%, -50%)
     transform: translate(-50%, -50%)
+
+
+.owl-item
+  img
+
 
 img, embed, object, audio, video
   max-width: none !important
