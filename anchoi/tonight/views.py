@@ -68,22 +68,23 @@ class NearbyView(ListView):
     template_name = 'tonight/nearby.html'
 
     def get_queryset(self):
-        self.qs = super(NearbyView, self).get_queryset()
+        result = super(NearbyView, self).get_queryset()
 
+        self.qs = Event.objects.all()
         lat = self.request.GET.get('latitude')
         lng = self.request.GET.get('longitude')
         if lat and lng:
             geo = Point(float(lat), float(lng))
             distance = 500
             self.qs = (
-                Event
-                .objects
+                self.qs
                 .filter(point__distance_lte=(geo, D(m=distance)))
                 .distance(geo)
                 .order_by('distance')
             )
+            result = self.qs
 
-        return self.qs
+        return result
 
     def get_context_data(self, **kwargs):
         context = super(NearbyView, self).get_context_data(**kwargs)
