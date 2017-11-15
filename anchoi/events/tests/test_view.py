@@ -1,6 +1,6 @@
 import json
 from rest_framework import status
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from django.urls import reverse
 from ..models import Event
 from ..serializers import EventSerializer
@@ -11,8 +11,6 @@ from django.contrib.auth.models import User
 
 guest = APIClient()
 client = APIClient()
-user = User.objects.get_or_create(username='demo', password='demo')[0]
-client.force_authenticate(user=user)
 
 
 class GetAllEventsTest(TestCase):
@@ -149,7 +147,7 @@ class GetSingleEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
-class CreateNewEventTest(TestCase):
+class CreateNewEventTest(TransactionTestCase):
     def setUp(self):
         self.valid_payload = {
             'name': '',
@@ -175,8 +173,19 @@ class CreateNewEventTest(TestCase):
             'fb_id': ''
         }
 
+        self.admin = APIClient()
+        self.admin_acc = User.objects.create_superuser(
+            username='demoadmin',
+            password='thisisaadminpassword123',
+            email='abc@example.com'
+        )
+        self.admin.force_authenticate(user=self.admin_acc)
+
+    def tearDown(self):
+        self.admin_acc.delete()
+
     def test_create_valid_event(self):
-        response = client.post(
+        response = self.admin.post(
             reverse('get_post_events'),
             data=json.dumps(self.valid_payload),
             content_type='application/json'
@@ -184,7 +193,7 @@ class CreateNewEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_no_location_event(self):
-        response = client.post(
+        response = self.admin.post(
             reverse('get_post_events'),
             data=json.dumps(self.no_location_payload),
             content_type='application/json'
@@ -192,7 +201,7 @@ class CreateNewEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_valid_event_with_fb_id(self):
-        response = client.post(
+        response = self.admin.post(
             reverse('get_post_events'),
             data=json.dumps(self.valid_payload_2),
             content_type='application/json'
@@ -200,7 +209,7 @@ class CreateNewEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_create_invalid_event(self):
-        response = client.post(
+        response = self.admin.post(
             reverse('get_post_events'),
             data=json.dumps(self.invalid_payload),
             content_type='application/json'
@@ -208,12 +217,12 @@ class CreateNewEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_event_is_exist(self):
-        client.post(
+        self.admin.post(
             reverse('get_post_events'),
             data=json.dumps(self.valid_payload),
             content_type='application/json'
         )
-        response = client.post(
+        response = self.admin.post(
             reverse('get_post_events'),
             data=json.dumps(self.valid_payload),
             content_type='application/json'
@@ -258,9 +267,19 @@ class UpdateSingleEventTest(TestCase):
             'data': events_data['event1'],
             'fb_id': '363481930775199',
         }
+        self.admin = APIClient()
+        self.admin_acc = User.objects.create_superuser(
+            username='demoadmin',
+            password='thisisaadminpassword123',
+            email='abc@example.com'
+        )
+        self.admin.force_authenticate(user=self.admin_acc)
+
+    def tearDown(self):
+        self.admin_acc.delete()
 
     def test_valid_update_event(self):
-        response = client.put(
+        response = self.admin.put(
             reverse('get_delete_put_event', kwargs={'pk': self.event1.pk}),
             data=json.dumps(self.valid_payload),
             content_type='application/json'
@@ -268,7 +287,7 @@ class UpdateSingleEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_invalid_name_update_event(self):
-        response = client.put(
+        response = self.admin.put(
             reverse('get_delete_put_event', kwargs={'pk': self.event1.pk}),
             data=json.dumps(self.invalid_name_payload),
             content_type='application/json'
@@ -277,7 +296,7 @@ class UpdateSingleEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_invalid_fb_id_payload(self):
-        response = client.put(
+        response = self.admin.put(
             reverse('get_delete_put_event', kwargs={'pk': self.event1.pk}),
             data=json.dumps(self.invalid_fb_id_payload),
             content_type='application/json'
@@ -289,7 +308,7 @@ class UpdateSingleEventTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_nothing_changed_payload(self):
-        response = client.put(
+        response = self.admin.put(
             reverse('get_delete_put_event', kwargs={'pk': self.event1.pk}),
             data=json.dumps(self.nothing_changed_payload),
             content_type='application/json'
@@ -313,15 +332,25 @@ class DeleteSingleEventTest(TestCase):
             data=events_data['event1'],
             fb_id='363481930775199',
         )
+        self.admin = APIClient()
+        self.admin_acc = User.objects.create_superuser(
+            username='demoadmin',
+            password='thisisaadminpassword123',
+            email='abc@example.com'
+        )
+        self.admin.force_authenticate(user=self.admin_acc)
+
+    def tearDown(self):
+        self.admin_acc.delete()
 
     def test_valid_delete_event(self):
-        response = client.delete(
+        response = self.admin.delete(
             reverse('get_delete_put_event', kwargs={'pk': self.event1.pk})
         )
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_invalid_delete_event(self):
-        response = client.delete(
+        response = self.admin.delete(
             reverse('get_delete_put_event', kwargs={'pk': 30})
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

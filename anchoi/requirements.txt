@@ -11,3 +11,4 @@ django-rq
 rq-scheduler
 django-hosts
 django-redis
+django-allauth

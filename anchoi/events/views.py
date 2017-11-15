@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAdminUser, SAFE_METHODS
 
 import django_filters
 import facebook_bot
@@ -23,8 +24,14 @@ from .serializers import EventSerializer
 from . utils import extract_event_data, categories
 
 
+class IsAdminUserOrReadOnly(IsAdminUser):
+    def has_permission(self, request, view):
+        is_admin = super().has_permission(request, view)
+        return request.method in SAFE_METHODS or is_admin
+
+
 class EventDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAdminUserOrReadOnly,)
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
@@ -114,7 +121,7 @@ class EventFilter(filters.FilterSet):
 
 
 class EventList(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAdminUserOrReadOnly,)
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     filter_backends = (DjangoFilterBackend,)
