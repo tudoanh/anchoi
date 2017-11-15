@@ -13,9 +13,9 @@
 
 {% block body %}
 	<div>
-		<div style="padding-top: 50px;" class="columns">
+		<div style="padding-top: 50px;" class="columns" itemscope itemtype="http://schema.org/Event">
 			<div class="column is-6 is-offset-1 is-10-mobile is-offset-1-mobile">
-				<h1 class="title is-2 is-size-4-mobile">{{event.name}}</h1>
+				<h1 class="title is-2 is-size-4-mobile" itemprop="name">{{event.name}}</h1>
 				<div style='padding-bottom: 10px;'>
 				    <hr class='divider'/>
 				</div>
@@ -25,19 +25,21 @@
 					</div>
 					<div class="column">
 						{% if event.data.ticket_uri %}
-							<a href={{event.data.ticket_uri}} class="button is-primary">
+						<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+							<a href={{event.data.ticket_uri}} class="button is-primary" itemprop="url">
 			                  <span class="icon">
 			                    <i class="fa fa-ticket" aria-hidden="true"></i>
 			                  </span>
 			                  <span>Mua vé</span>
 			                </a>
+						</div>
 						{% endif %}
 
 		                <div class="group" style="{% if event.data.ticket_uri %}padding-top: 10px;{% endif %}">
 		                	<span class="icon">
 	                        	<i class="fa fa-calendar-o" aria-hidden="true"></i>
 	                        </span>
-	                        <span class='is-size-5'>
+	                        <span class='is-size-5' itemprop="startDate" content={{event.start_time|date:"c"}}>
 	                        	{{event.start_time|date:"l d-m-Y"}}
 	                        </span>
 		                </div>
@@ -61,7 +63,7 @@
 						<h3 class="title is-4">Chi tiết</h3>
 					</div>
 					<div class="column">
-						<div class="content">
+						<div class="content" itemprop="description">
 							{{event.data.description|linebreaks}}
 						</div>
 					</div>
@@ -82,7 +84,7 @@
 		                	<span class="icon">
 	                        	<i class="fa fa-calendar-times-o" aria-hidden="true"></i>
 	                        </span>
-	                        <span class='is-size-5'>
+	                        <span class='is-size-5' itemprop='endDate' content={{end_time|date:"c"}}>
 	                        	{{end_time|date:"l d-m-Y"}}
 	                        </span>
 		                </div>
@@ -108,32 +110,35 @@
 							Địa điểm
 						</h3>
 					</div>
-					<div class="column">
+					<div class="column" itemprop="location" itemscope itemtype="http://schema.org/Place">
 						<div class="group">
 	                        <span class="icon">
 	                        	<i class="fa fa-map-marker" aria-hidden="true"></i>
 	                        </span>
-	                        <span class='is-size-5'>{{place_name}}</span>
+	                        <span class='is-size-5' itemprop="name">{{place_name}}</span>
                         </div>
-                        <div class="group">
-		                	<span class="icon">
-	                        	<i class="fa fa-location-arrow" aria-hidden="true"></i>
-	                        </span>
-	                        <span class='is-size-5'>
-	                        	{{street}}
-	                        </span>
-		                </div>
-						<div class="group">
-		                	<span class="icon">
-	                        	<i class="fa fa-plane" aria-hidden="true"></i>
-	                        </span>
-	                        <span class='is-size-5'>
-	                        	{{city}}
-	                        </span>
-		                </div>
-		                <div style="padding-top: 10px;">
+                        <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        	<div class="group">
+			                	<span class="icon">
+		                        	<i class="fa fa-location-arrow" aria-hidden="true"></i>
+		                        </span>
+		                        <span class='is-size-5' itemprop="streetAddress">
+		                        	{{street}}
+		                        </span>
+			                </div>
+							<div class="group">
+			                	<span class="icon">
+		                        	<i class="fa fa-plane" aria-hidden="true"></i>
+		                        </span>
+		                        <span class='is-size-5' itemprop="addressLocality">
+		                        	{{city}}
+		                        </span>
+			                </div>
+                        </div>
+                        
+		                <div style="padding-top: 10px;" itemprop="hasMap">
                             <figure class='image is-square'>
-                            	<img alt='' src="{{map}}"/>
+                            	<img itemprop="map" itemtype="https://schema.org/Map" alt='' src="{{map}}"/>
                             </figure>
                         </div>
 					</div>
@@ -144,7 +149,7 @@
 			</div>
 			<div style="padding-left: 20px; padding-right: 20px;" class="column">
 				<figure class="image">
-					<img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+					<img itemprop='image' style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
 				</figure>
 				<div style="padding-top: 20px;" class="columns">
 					<div class="column is-6">
