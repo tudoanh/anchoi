@@ -1,7 +1,4 @@
-from django.conf import settings
 from django.conf.urls import url
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
-from django.views.decorators.cache import cache_page
 from django.views.generic.base import RedirectView
 
 from .views import (
@@ -12,9 +9,6 @@ from .views import (
     SearchView,
     NearbyView
 )
-
-
-CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 urlpatterns = [
