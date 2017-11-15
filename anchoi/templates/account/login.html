@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% load i18n widget_tweaks %}
+{% load account socialaccount %}
+
+{% block title %}{% trans "Đăng nhập" %}{% endblock %}
+
+{% block body %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                <h1 class='title'>{% trans "Đăng nhập" %}</h1>
+                        <p>{% blocktrans %}Bạn chưa có tài khoản? Vui lòng <a href="{{ signup_url }}">đăng ký</a>  trước.{% endblocktrans %}</p>
+
+                    <form id="signup_form" method="post" action="{% url 'account_login' %}" style="padding-top: 30px;">
+                      {% csrf_token %}
+
+                      {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                      {% endfor %}
+
+                      {% if form.non_field_errors %}
+                        <div class="notification is-warning" role="alert">
+                          {% for error in form.non_field_errors %}
+                            {{ error }}
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+
+                      {% for field in form.visible_fields %}
+                        <div class="field">
+                            <label class="label">{{ field.label }}</label>
+                            {% if form.is_bound %}
+                                {% if field.errors %}
+                                    <div class="control">
+                                        {% render_field field class="input is-danger" %}
+                                    </div>
+                                    {% for error in field.errors %}
+                                    <p class="help is-danger">{{ error }}</p>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="control">
+                                        {% render_field field class="input is-success" %}
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                            <div class="control">
+                                {% render_field field class="input" %}
+                            </div>
+                            {% endif %}
+
+                            {% if field.help_text %}
+                                <p class="help">{{ field.help_text }}</p>
+                            {% endif %}
+                        </div>
+                      {% endfor %}
+
+                      {% if redirect_field_value %}
+                      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                      {% endif %}
+
+                      <div class="field is-grouped" style="padding-top:10px;">
+                        <div class="control">
+                          <button class="button is-primary" type="submit">{% trans "Đăng nhập" %}</button>
+                        </div>
+                        <div class="control">
+                          <a class="button" href="{% url 'account_reset_password' %}">{% trans "Quên mật khẩu?" %}</a>
+                        </div>
+                      </div>
+                    </form>
+                </section>
+            </div>
+            <div class="column has-text-centered">
+                <figure class="image" style="">
+                    <img src="https://i.imgur.com/ZcPPLxY.jpg" alt="Login Anchoi.today">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/Sumender' rel='nofollow'>Sumender Kundu</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+
+{% endblock %}

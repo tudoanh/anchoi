@@ -12,3 +12,4 @@ rq-scheduler
 django-hosts
 django-redis
 django-allauth
+django-widget-tweaks

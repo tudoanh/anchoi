@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load account i18n widget_tweaks %}
+
+{% block title %}{% trans "Tài khoản bị khóa" %}{% endblock %}
+
+{% block body %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                    <h1 class='title'>{% trans "Tài khoản bị khóa" %}</h1>
+       
+                    <p>{% blocktrans %}Tài khoản của bạn đã bị khóa. Nếu có thắc mắc, hãy liên hệ <strong>admin@anchoi.today</strong> để được hỗ trợ.{% endblocktrans %}</p>
+                </section>
+            </div>
+            <div class="column has-text-centered">
+                <figure class="image" style="">
+                    <img src="https://imgur.com/58IUvnb.jpg" alt="Account banned anchoi.today">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/geniuslogo' rel='nofollow'>Milos</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+    
+{% endblock %}

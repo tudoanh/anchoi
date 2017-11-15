@@ -44,12 +44,18 @@
         <a href='/help' class='navbar-item'>
           Hỗ trợ
         </a>
-        <a href='/signup' class='navbar-item'>
+        {% if user.is_authenticated %}
+        <a href='{% url 'account_logout' %}' class='navbar-item'>
+          Đăng xuất
+        </a>
+        {% else %}
+        <a href='{% url 'account_signup' %}' class='navbar-item'>
           Đăng ký
         </a>
-        <a href='/login' class='navbar-item'>
+        <a href='{% url 'account_login' %}' class='navbar-item'>
           Đăng nhập
         </a>
+        {% endif %} 
         <a class='navbar-item' onclick="getLocation()">Quanh đây</a>
       </div>
     </div>

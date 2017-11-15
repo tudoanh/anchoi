@@ -47,12 +47,17 @@ REST_FRAMEWORK = {
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.gis',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'widget_tweaks',
     'rest_framework',
     'events',
     'django_filters',
@@ -63,6 +68,8 @@ INSTALLED_APPS = [
     'django_hosts',
     'text',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django_hosts.middleware.HostsRequestMiddleware',
@@ -93,6 +100,27 @@ TEMPLATES = [
         },
     },
 ]
+
+
+# Django Allauth
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_SESSION_REMEMBER = True
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+LOGIN_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'anchoi.wsgi.application'
 

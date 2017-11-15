@@ -1,0 +1,43 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    Đăng xuất
+{% endblock title %}
+
+{% block body %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                    <h1 class='title'>{% trans "Đăng xuất" %}</h1>
+                    <form id="signup_form" method="post" action="{% url 'account_logout' %}">
+                      {% csrf_token %}
+
+                      {% if redirect_field_value %}
+                      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                      {% endif %}
+                       <p>{% trans 'Bạn muốn thoát thật chứ?' %}</p>
+                      <div class="field is-grouped" style="padding-top:20px;">
+                        <div class="control">
+                          <button class="button is-primary" type="submit">{% trans "Uhm ..." %}</button>
+                        </div>
+                      </div>
+                    </form>
+                </section>
+            </div>
+            <div class="column has-text-centered">
+                <figure class="image" style="">
+                    <img src="https://imgur.com/eJUjl8X.gif" alt="Logout Anchoi.today">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/joelehuquet' rel='nofollow'>Joe Le Huquet</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
