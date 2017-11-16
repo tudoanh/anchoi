@@ -18,7 +18,7 @@ cities = {
 def generate_date_range(start, end):
     # See more at https://goo.gl/bSovS9
     # m is time.min/time.max
-    timezone = 'UTC'
+    timezone = 'Asia/Saigon'
     return (
         pytz.timezone(timezone).localize(
             datetime.combine(start, time.min)

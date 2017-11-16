@@ -124,6 +124,9 @@ LOGIN_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'anchoi.wsgi.application'
 
+TIME_ZONE = 'Asia/Saigon'
+
+USE_TZ = True
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases

@@ -39,8 +39,8 @@
 		                	<span class="icon">
 	                        	<i class="fa fa-calendar-o" aria-hidden="true"></i>
 	                        </span>
-	                        <span class='is-size-5' itemprop="startDate" content={{event.start_time|date:"c"}}>
-	                        	{{event.start_time|date:"l d-m-Y"}}
+	                        <span class='is-size-5' itemprop="startDate" content={{event.start_time|timezone:"Asia/Saigon"|date:"c"}}>
+	                        	{{event.start_time|timezone:"Asia/Saigon"|date:"l d-m-Y"}}
 	                        </span>
 		                </div>
 						<div class="group" style="padding-top: 10px;">
@@ -48,7 +48,7 @@
 	                        	<i class="fa fa-clock-o" aria-hidden="true"></i>
 	                        </span>
 	                        <span class='is-size-5'>
-	                        	{{event.start_time|time:"H:i"}}
+	                        	{{event.start_time|timezone:"Asia/Saigon"|time:"H:i"}}
 	                        </span>
 		                </div>
 					</div>
@@ -84,8 +84,8 @@
 		                	<span class="icon">
 	                        	<i class="fa fa-calendar-times-o" aria-hidden="true"></i>
 	                        </span>
-	                        <span class='is-size-5' itemprop='endDate' content={{end_time|date:"c"}}>
-	                        	{{end_time|date:"l d-m-Y"}}
+	                        <span class='is-size-5' itemprop='endDate' content={{end_time|timezone:"Asia/Saigon"|date:"c"}}>
+	                        	{{end_time|timezone:"Asia/Saigon"|date:"l d-m-Y"}}
 	                        </span>
 		                </div>
 						<div class="group" style="padding-top: 10px;">
@@ -93,7 +93,7 @@
 	                        	<i class="fa fa-lock" aria-hidden="true"></i>
 	                        </span>
 	                        <span class='is-size-5'>
-	                        	{{end_time|time:"H:i"}}
+	                        	{{end_time|timezone:"Asia/Saigon"|time:"H:i"}}
 	                        </span>
 		                </div>
 					</div>

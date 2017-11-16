@@ -1,5 +1,3 @@
-from datetime import datetime
-import pytz
 from django.utils.dateparse import parse_datetime
 
 
@@ -28,13 +26,6 @@ categories = {
                   'univerity', 'tutorial', 'hướng dẫn', 'education',
                   'class', 'campus', 'school']
 }
-
-
-def extract_datetime(date_str):
-    timezone = 'Asia/Saigon'
-    return pytz.timezone(timezone).localize(
-        datetime.strptime(date_str, "%Y-%m-%d")
-    )
 
 
 def extract_event_data(fb_event):
