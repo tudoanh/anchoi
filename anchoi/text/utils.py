@@ -4,7 +4,9 @@ from functools import reduce
 import operator
 import pytz
 
+from django.conf import settings
 from django.db.models import Q
+from django.utils import timezone
 
 from events.utils import categories
 
@@ -14,25 +16,21 @@ cities = {
     'saigon': 'Ho Chi Minh City'
 }
 
+TIME_ZONE = settings.TIME_ZONE
+
 
 def generate_date(date_time):
-    timezone = 'Asia/Ho_Chi_Minh'
-    return pytz.timezone(timezone).localize(
-        datetime.combine(date_time, time.min)
-    )
+    tz = pytz.timezone(TIME_ZONE)
+    return datetime.combine(timezone.now().astimezone(tz).date(), time.min)
 
 
 def generate_date_range(start, end):
     # See more at https://goo.gl/bSovS9
     # m is time.min/time.max
-    timezone = 'Asia/Ho_Chi_Minh'
+    tz = pytz.timezone(TIME_ZONE)
     return (
-        pytz.timezone(timezone).localize(
-            datetime.combine(start, time.min)
-        ),
-        pytz.timezone(timezone).localize(
-            datetime.combine(end, time.max)
-        )
+        datetime.combine(start.astimezone(tz).date(), time.min),
+        datetime.combine(end.astimezone(tz).date(), time.max)
     )
 
 
@@ -41,13 +39,13 @@ def weekday_datetime(n):
     Generate datetime object for given weekday of current week.
     1 is Monday & 7 is Sunday.
     """
-    return datetime.now() + timedelta(
-        days=(n - datetime.now().isoweekday())
+    return timezone.now() + timedelta(
+        days=(n - timezone.now().isoweekday())
     )
 
 
 def this_month_datetime():
-    today = datetime.today()
+    today = timezone.now()
     first_day = today + timedelta(
         days=(1 - today.day)
     )
@@ -65,7 +63,7 @@ def this_month_datetime():
 month = this_month_datetime()
 
 date_rage = {
-    'today': generate_date_range(datetime.now(), datetime.now()),
+    'today': generate_date_range(timezone.now(), timezone.now()),
     'weekend': generate_date_range(
         weekday_datetime(6),
         weekday_datetime(7)
