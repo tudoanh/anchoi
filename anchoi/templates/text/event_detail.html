@@ -1,4 +1,6 @@
 {% extends "text/base.html" %}
+{% load tz %}
+
 {% block title %}
     {{event.name}}
 {% endblock title %}
@@ -12,8 +14,8 @@
         <h3>{{event.name}}</h3>
         <blockquote>
         {% if event.data.ticket_uri %}<strong><a href={{event.data.ticket_uri}}>Mua vé</a></strong>{% endif %}
-        <p>From <strong>{{event.start_time|time:"H:i"}} — {{event.start_time|date:"d/mY"}}</strong> {% if end_time %}
-        to <strong>{{end_time|time:"H:i"}} — {{end_time|date:"d/m/Y"}} </strong>{% endif %}</p>
+        <p>From <strong>{{event.start_time|timezone:"Asia/Saigon"|time:"H:i"}} — {{event.start_time|timezone:"Asia/Saigon"|date:"d/mY"}}</strong> {% if end_time %}
+        to <strong>{{end_time|timezone:"Asia/Saigon"|time:"H:i"}} — {{end_time|timezone:"Asia/Saigon"|date:"d/m/Y"}} </strong>{% endif %}</p>
          </blockquote>
         {% if event.data.description %}
         <p>
