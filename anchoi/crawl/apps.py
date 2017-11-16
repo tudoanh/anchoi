@@ -29,7 +29,8 @@ class CrawlConfig(AppConfig):
                 'lat': HANOI_CENTER[0],
                 'lon': HANOI_CENTER[1],
                 'distance': 8000,
-            }
+            },
+            timeout=7200
         )
 
         scheduler.cron(
@@ -39,17 +40,20 @@ class CrawlConfig(AppConfig):
                 'lat': SAIGON_CENTER[0],
                 'lon': SAIGON_CENTER[1],
                 'distance': 10000,
-            }
+            },
+            timeout=7200
         )
 
         # Scan events each day from pages
         scheduler.cron(
             "0 0 * * *",
             func=daily_scan,
+            timeout=7200
         )
 
         # Update events every hour
         scheduler.cron(
             "0 */1 * * * ",
-            func=hourly_scan
+            func=hourly_scan,
+            timeout=7200
         )
