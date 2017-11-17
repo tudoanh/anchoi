@@ -54,14 +54,17 @@ def weekly_page_scan(lat, lon, distance, scan_radius=200):
 
 def daily_scan():
     for page in FacebookPage.objects.all():
-        res = list(fb.get_events(page.page_id).values())[0]
-        if res.get('events'):
-            for event in res['events']['data']:
-                requests.post(
-                    CREATE_EVENT_URL,
-                    auth=(USERNAME, PASSWORD),
-                    json={'data': event}
-                )
+        try:
+            res = list(fb.get_events(page.page_id).values())[0]
+            if res.get('events'):
+                for event in res['events']['data']:
+                    requests.post(
+                        CREATE_EVENT_URL,
+                        auth=(USERNAME, PASSWORD),
+                        json={'data': event}
+                    )
+        except IndexError:
+            pass
 
 
 def hourly_scan():
