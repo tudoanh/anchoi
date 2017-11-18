@@ -203,3 +203,40 @@ RQ_QUEUES = {
         'DEFAULT_TIMEOUT': 7200,
     },
 }
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "rq_console": {
+            "format": "%(asctime)s %(message)s",
+            "datefmt": "%d-%m-%Y %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "rq_console": {
+            "level": "DEBUG",
+            "class": "rq.utils.ColorizingStreamHandler",
+            "formatter": "rq_console",
+            "exclude": ["%(asctime)s"],
+        },
+        'crawl': {
+            "level": "DEBUG",
+            "formatter": "rq_console",
+            'class': 'logging.StreamHandler',
+        }
+    },
+    'loggers': {
+        "rq.worker": {
+            "handlers": ["rq_console"],
+            "level": "DEBUG"
+        },
+        "crawl": {
+            "handlers": ["crawl"],
+            "level": "DEBUG"
+        }
+    }
+}
+
+TELEGRAM_BOT_API_KEY = ''
+TELEGRAM_CHAT_ID = ''

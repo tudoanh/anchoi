@@ -1,12 +1,17 @@
 # from events.utils import extract_event_data
 from events.models import Event, FacebookPage
 
+import logging
+
 import facebook_bot as fb
 
 import requests
 
 from .coorcal import generate_coordinate
+from .utils import send_msg
 
+
+logger = logging.getLogger(__name__)
 
 HANOI_CENTER = (21.028811, 105.848977)
 SAIGON_CENTER = (10.782812, 106.695886)
@@ -14,8 +19,8 @@ SAIGON_CENTER = (10.782812, 106.695886)
 API_URL = 'http://localhost:8000/api/v1.0/'
 CREATE_EVENT_URL = API_URL + 'events/'
 UPDATE_EVENT_URL = API_URL + 'events/{}'
-USERNAME = ''
-PASSWORD = ''
+USERNAME = 'anchoi'
+PASSWORD = '0okami$$'
 
 
 EVENT_FIELDS = [
@@ -50,30 +55,42 @@ def weekly_page_scan(lat, lon, distance, scan_radius=200):
             FacebookPage.objects.get_or_create(
                 page_id=page_id
             )
+    send_msg('Weekly crawl done.')
 
 
 def daily_scan():
+    count = 0
     for page in FacebookPage.objects.all():
         try:
             res = list(fb.get_events(page.page_id).values())[0]
             if res.get('events'):
                 for event in res['events']['data']:
-                    requests.post(
+                    s = requests.post(
                         CREATE_EVENT_URL,
                         auth=(USERNAME, PASSWORD),
                         json={'data': event}
                     )
+                    if s.status_code == 201:
+                        count += 1
         except IndexError:
             pass
+        except Exception as e:
+            logger.error(e)
+            send_msg(e)
+            pass
+    send_msg(
+        'Daily crawl done. You have {} events more.'.format(count)
+    )
 
 
 def hourly_scan():
+    count = 0
     for event in Event.objects.all():
         try:
             e = fb.get_event_info(event.fb_id)[event.fb_id]
         except Exception:
             pass
-        requests.put(
+        s = requests.put(
             UPDATE_EVENT_URL.format(event.id),
             json={
                 'name': e['name'],
@@ -82,3 +99,7 @@ def hourly_scan():
             },
             auth=(USERNAME, PASSWORD)
         )
+        if s.status_code == 204:
+            count += 1
+
+    send_msg('Hourly crawl done. {} events have been updated.'.format(count))
