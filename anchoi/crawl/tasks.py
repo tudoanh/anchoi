@@ -88,19 +88,22 @@ def hourly_scan():
     for event in Event.objects.all():
         try:
             e = fb.get_event_info(event.fb_id)[event.fb_id]
-        except Exception:
+            s = requests.put(
+                UPDATE_EVENT_URL.format(event.id),
+                json={
+                    'name': e['name'],
+                    'fb_id': e['id'],
+                    'data': e
+                },
+                auth=(USERNAME, PASSWORD)
+            )
+            if s.status_code == 204:
+                count += 1
+        except KeyError:
             event.delete()
             pass
-        s = requests.put(
-            UPDATE_EVENT_URL.format(event.id),
-            json={
-                'name': e['name'],
-                'fb_id': e['id'],
-                'data': e
-            },
-            auth=(USERNAME, PASSWORD)
-        )
-        if s.status_code == 204:
-            count += 1
+        except Exception as e:
+            logger.error(e)
+            pass
 
     send_msg('Hourly crawl done. {} events have been updated.'.format(count))
