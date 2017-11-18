@@ -14,3 +14,4 @@ django-redis
 django-allauth
 django-widget-tweaks
 raven
+django-rq-email-backend
