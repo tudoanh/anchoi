@@ -61,23 +61,23 @@ def weekly_page_scan(lat, lon, distance, scan_radius=200):
 def daily_scan():
     count = 0
     for page in FacebookPage.objects.all():
-        try:
-            res = list(fb.get_events(page.page_id).values())[0]
-            if res.get('events'):
-                for event in res['events']['data']:
-                    s = requests.post(
-                        CREATE_EVENT_URL,
-                        auth=(USERNAME, PASSWORD),
-                        json={'data': event}
-                    )
-                    if s.status_code == 201:
-                        count += 1
-        except IndexError:
-            pass
-        except Exception as e:
-            logger.error(e)
-            send_msg(e)
-            pass
+        if fb.get_events(page.page_id):
+            try:
+                res = list(fb.get_events(page.page_id).values())[0]
+                if res.get('events'):
+                    for event in res['events']['data']:
+                        s = requests.post(
+                            CREATE_EVENT_URL,
+                            auth=(USERNAME, PASSWORD),
+                            json={'data': event}
+                        )
+                        if s.status_code == 201:
+                            count += 1
+            except Exception as e:
+                send_msg('Page {} have error: {}'.format(page.fb_id, e))
+                pass
+        else:
+            page.delete()
     send_msg(
         'Daily crawl done. You have {} events more.'.format(count)
     )
@@ -89,6 +89,7 @@ def hourly_scan():
         try:
             e = fb.get_event_info(event.fb_id)[event.fb_id]
         except Exception:
+            event.delete()
             pass
         s = requests.put(
             UPDATE_EVENT_URL.format(event.id),
