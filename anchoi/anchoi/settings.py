@@ -108,7 +108,7 @@ TEMPLATES = [
 
 # Sentry
 RAVEN_CONFIG = {
-    'dsn': 'YOUR_DNS_SENTRY',
+    'dsn': 'YOUR_DSN_SENTRY',
 }
 
 
@@ -122,7 +122,7 @@ AUTHENTICATION_BACKENDS = (
 
 ACCOUNT_EMAIL_REQUIRED = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 ACCOUNT_SESSION_REMEMBER = True
 
@@ -131,6 +131,22 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
 LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USERNAME_BLACKLIST = [
+    'admin', 'anchoi', 'root', 'mod', 'administrator', 'moderator'
+    'manager', 'staff',
+]
+
+
+# Email Config
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'MAILGUN_USER'
+EMAIL_HOST_PASSWORD = 'MAILGUN_PASSWORD'
+EMAIL_USE_TLS = True
+
 
 WSGI_APPLICATION = 'anchoi.wsgi.application'
 
