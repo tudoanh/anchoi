@@ -1,0 +1,11 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Xin chào từ {{ site_name }}!
+
+Bạn nhận được email này vì tài khoản {{ user_display }} đã dùng email của bạn để kết nối đến tài khoản của họ tại website {{ site_name }}.
+
+Để xác nhận, hãy truy cập vào đường dẫn sau: {{ activate_url }}
+
+Nếu không phải bạn, hãy yên tâm và bỏ qua email này.
+{% endblocktrans %}{% endautoescape %}
+Cảm ơn và chúc một ngày vui vẻ.
+
+Admin anchoi.today

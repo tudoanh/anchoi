@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load account i18n widget_tweaks %}
+
+
+{% block title %}{% trans "Xác nhận email" %}{% endblock %}
+
+
+{% block body %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                    <h1 class='title'>{% trans "Xác nhận email" %}</h1>
+                    <br>
+                    {% if confirmation %}
+                    {% user_display confirmation.email_address.user as user_display %}
+                        <p>{% blocktrans with confirmation.email_address.email as email %}Bạn xác nhận <a href="mailto:{{ email }}"><strong>{{ email }}</strong></a> là email của tài khoản <strong>{{ user_display }}</strong> chứ?{% endblocktrans %}</p>
+                        <br>
+                        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                            {% csrf_token %}
+                            <button class="button is-primary" type="submit">{% trans 'Xác nhận' %}</button>
+                        </form>
+                    {% else %}
+                        {% url 'account_email' as email_url %}
+                        <p>{% blocktrans %}Đường dẫn này đã hết hạn hoặc không hợp lệ. Vui lòng gửi lại yêu cầu xác nhận tại <a href="{{ email_url }}">đây</a>.{% endblocktrans %}</p>
+                    {% endif %}
+                </section>
+            </div>
+            <div class="column has-text-centered">
+                <figure class="image" style="">
+                    <img src="https://i.imgur.com/JvccibT.png" alt="Re-send activation email">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/riandarma' rel='nofollow'>Rian Darma</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

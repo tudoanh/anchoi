@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}Xin vui lòng xác nhận địa chỉ email của bạn{% endblocktrans %}
+{% endautoescape %}

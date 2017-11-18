@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load account i18n widget_tweaks %}
+
+{% block title %}{% trans "Tài khoản" %}{% endblock %}
+
+{% block body %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                    <h1 class='title'>{% trans "E-mail" %}</h1>
+                    <br>
+                    {% for emailaddress in user.emailaddress_set.all %}
+                    <p>Email <strong>{{ emailaddress.email }}</strong> {% if emailaddress.verified %}đã được{% else %}chưa được{% endif %} xác nhận</p>
+                    <br>
+                    {% if not emailaddress.verified %}
+                    <form method="post" action="{% url 'account_email' %}">
+                        {% csrf_token %} 
+                        <input id="email_radio_{{forloop.counter}}" type="hidden" name="email" value="{{emailaddress.email}}"/>
+                        <button class="button is-primary" type="submit" name="action_send" >{% trans 'Gửi lại mail xác nhận' %}</button>
+                    </form>
+                    {% endif %}
+                    {% endfor %}
+                </section>
+            </div>
+            <div class="column has-text-centered">
+                <figure class="image" style="">
+                    <img src="https://i.imgur.com/JvccibT.png" alt="Re-send activation email">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/riandarma' rel='nofollow'>Rian Darma</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
