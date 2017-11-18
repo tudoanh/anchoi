@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+import raven
+
+
 GOOGLE_API_KEY = 'AIzaSyDPtbGItw64sLl0XmfegIW3FE48nyfLBq4'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -54,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.gis',
+    'raven.contrib.django.raven_compat',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -100,6 +104,12 @@ TEMPLATES = [
         },
     },
 ]
+
+
+# Sentry
+RAVEN_CONFIG = {
+    'dsn': 'YOUR_DNS_SENTRY',
+}
 
 
 # Django Allauth
@@ -224,11 +234,15 @@ LOGGING = {
             "level": "DEBUG",
             "formatter": "rq_console",
             'class': 'logging.StreamHandler',
-        }
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.handlers.SentryHandler',
+        },
     },
     'loggers': {
         "rq.worker": {
-            "handlers": ["rq_console"],
+            "handlers": ["rq_console", "sentry"],
             "level": "DEBUG"
         },
         "crawl": {
