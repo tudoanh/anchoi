@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'django_rq',
     'django_hosts',
     'text',
+    'django_rq_email_backend',
 ]
 
 SITE_ID = 1
@@ -122,7 +123,7 @@ AUTHENTICATION_BACKENDS = (
 
 ACCOUNT_EMAIL_REQUIRED = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django_rq_email_backend.backends.RQEmailBackend'
 
 ACCOUNT_SESSION_REMEMBER = True
 
