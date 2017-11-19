@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
-import raven
-
 
 GOOGLE_API_KEY = 'AIzaSyDPtbGItw64sLl0XmfegIW3FE48nyfLBq4'
 
@@ -67,11 +65,8 @@ INSTALLED_APPS = [
     'django_filters',
     'crispy_forms',
     'tonight',
-    'crawl.apps.CrawlConfig',
-    'django_rq',
     'django_hosts',
     'text',
-    'django_rq_email_backend',
 ]
 
 SITE_ID = 1
@@ -220,55 +215,6 @@ CACHES = {
 }
 
 CACHE_TTL = 60 * 15
-
-
-# Django RQ
-RQ_QUEUES = {
-    'default': {
-        'HOST': 'localhost',
-        'PORT': 6379,
-        'DB': 0,
-        'DEFAULT_TIMEOUT': 7200,
-    },
-}
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "rq_console": {
-            "format": "%(asctime)s %(message)s",
-            "datefmt": "%d-%m-%Y %H:%M:%S",
-        },
-    },
-    "handlers": {
-        "rq_console": {
-            "level": "DEBUG",
-            "class": "rq.utils.ColorizingStreamHandler",
-            "formatter": "rq_console",
-            "exclude": ["%(asctime)s"],
-        },
-        'crawl': {
-            "level": "DEBUG",
-            "formatter": "rq_console",
-            'class': 'logging.StreamHandler',
-        },
-        'sentry': {
-            'level': 'ERROR',
-            'class': 'raven.contrib.django.handlers.SentryHandler',
-        },
-    },
-    'loggers': {
-        "rq.worker": {
-            "handlers": ["rq_console", "sentry"],
-            "level": "DEBUG"
-        },
-        "crawl": {
-            "handlers": ["crawl"],
-            "level": "DEBUG"
-        }
-    }
-}
 
 TELEGRAM_BOT_API_KEY = ''
 TELEGRAM_CHAT_ID = ''

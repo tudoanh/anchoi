@@ -6,12 +6,10 @@ psycopg2>=2.7.3.1
 python-facebook-bot
 unidecode
 redis
-rq
-django-rq
-rq-scheduler
 django-hosts
 django-redis
 django-allauth
 django-widget-tweaks
 raven
-django-rq-email-backend
+celery
+flower
