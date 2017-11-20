@@ -11,6 +11,16 @@
     Anchoi.today - {{event.data.description|truncatewords:100}}
 {% endblock meta_description %}
 
+{% block extra_meta %}
+  <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+  <meta property="og:title" content="{{ event.name }}" />
+  <meta property="og:description" content="{{ event.data.description|truncatewords:100 }}" />
+  <meta property="og:image" content="{{ event.data.cover.source }}" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@anchoitoday" />
+  <meta name="twitter:creator" content="@anchoitoday" />
+{% endblock extra_meta %}
+
 {% block body %}
 	<div>
 		<div style="padding-top: 50px;" class="columns" itemscope itemtype="http://schema.org/Event">
@@ -157,7 +167,7 @@
 			</div>
 			<div style="padding-left: 20px; padding-right: 20px;" class="column">
 				<figure class="image">
-					<img itemprop='image' style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
+					<img itemprop='image' style='border-radius: 8px;' alt='' src="{{event.data.cover.source}}" />
 				</figure>
 				<div style="padding-top: 20px;" class="columns">
 					<div class="column is-6">
