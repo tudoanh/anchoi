@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 
-GOOGLE_API_KEY = 'AIzaSyDPtbGItw64sLl0XmfegIW3FE48nyfLBq4'
+GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dnk6(wo1&&t_d$g=+-j8^dsp(2cug39pu1fje(ze^xj&c=!c-p'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'dnk6(wo1&&t_d$g=+-j8^dsp(2cug39pu1fje(ze^xj&c=!c-p'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -104,7 +107,7 @@ TEMPLATES = [
 
 # Sentry
 RAVEN_CONFIG = {
-    'dsn': 'YOUR_DSN_SENTRY',
+    'dsn': os.environ.get('SENTRY_DSN'),
 }
 
 
@@ -139,8 +142,8 @@ ACCOUNT_USERNAME_BLACKLIST = [
 # Email Config
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'MAILGUN_USER'
-EMAIL_HOST_PASSWORD = 'MAILGUN_PASSWORD'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'noreply@anchoi.today'
 
@@ -216,5 +219,5 @@ CACHES = {
 
 CACHE_TTL = 60 * 15
 
-TELEGRAM_BOT_API_KEY = ''
-TELEGRAM_CHAT_ID = ''
+TELEGRAM_BOT_API_KEY = os.environ.get('TELEGRAM_BOT_API_KEY')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
