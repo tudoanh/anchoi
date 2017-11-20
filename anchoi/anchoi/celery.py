@@ -5,7 +5,7 @@ from celery import Celery
 from celery.schedules import crontab
 from celery.signals import after_task_publish, task_success, task_failure
 
-from events.utils import send_msg
+from .utils import send_msg
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'anchoi.settings')
