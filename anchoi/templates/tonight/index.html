@@ -339,36 +339,38 @@
       {% endif %}
 
   </div>
-  <hr style='margin-left:20px; margin-right: 20px;' class="dropdown-divider">
-  <section class="hero">
-    <div class="hero-body">
-      <div class="columns is-vcentered" id='newsletter'>
-        <div class="column is-4">
-          <p class="title">
-            Anchoi.today Newsletter
-          </p>
-          <p class="subtitle">
-            Đăng ký để nhận mail hàng tuần về các sự kiện thú vị ở quanh bạn.
-          </p>
-        </div>
-        <div class="column">
-          <form action="" method='POST'>
-            <div class="field is-grouped">
-              <div class="control has-icons-left is-expanded">
-                <input class='input is-primary is-flat required email' type="email" name="Email" value="" placeholder="Địa chỉ email của bạn" required aria-required='true'>
-                <span class='icon is-small is-left'>
-                  <i class="fa fa-envelope"></i>
-                </span>
+  <div style="padding-top: 20px;">
+    <hr class="dropdown-divider">
+    <section class="hero">
+      <div class="hero-body">
+        <div class="columns is-vcentered" id='newsletter'>
+          <div class="column is-4">
+            <p class="title">
+              Anchoi.today Newsletter
+            </p>
+            <p class="subtitle">
+              Đăng ký để nhận mail hàng tuần về các sự kiện thú vị ở quanh bạn.
+            </p>
+          </div>
+          <div class="column">
+            <form action="" method='POST'>
+              <div class="field is-grouped">
+                <div class="control has-icons-left is-expanded">
+                  <input class='input is-primary is-flat required email' type="email" name="Email" value="" placeholder="Địa chỉ email của bạn" required aria-required='true'>
+                  <span class='icon is-small is-left'>
+                    <i class="fa fa-envelope"></i>
+                  </span>
+                </div>
+                <div class="control">
+                  <input type="submit" value='Đăng ký' class="button is-primary is-outlined" name="" value="">
+                </div>
               </div>
-              <div class="control">
-                <input type="submit" value='Đăng ký' class="button is-primary is-outlined" name="" value="">
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
 {% endblock %}
 

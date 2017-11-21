@@ -2,10 +2,10 @@ from django.utils.dateparse import parse_datetime
 
 
 categories = {
-    'movie': ['phim', 'movie', 'điện ảnh', 'chiếu', 'film', 'actor', 'actress'
+    'movie': ['phim', 'movie', 'điện ảnh', 'chiếu', 'film', 'actor ', 'actress'
               'premiere', 'director', 'đạo diễn', ' cast', 'scriptwriter',
-              'cartoon', 'hoạt hình', 'comedy', 'documentary', 'scene'
-              'horror', 'sci-fi', 'popcorn'],
+              'cartoon', 'hoạt hình', 'comedy', 'documentary', 'scene '
+              'horror ', 'sci-fi', 'popcorn'],
     'music': ['music', 'nhạc', 'âm thanh', 'dj', 'ca sĩ', 'nghệ sĩ', 'âm nhạc',
               'nhịp điệu', 'beat', 'harmony', 'rhythm', 'melody', 'hip hop'
               'composer', 'musician', 'edm', 'pop', 'rap', 'rock',
@@ -20,7 +20,7 @@ categories = {
     'experience': ['du lịch', 'phượt', 'trải nghiệm', 'travel', ' nomad',
                    'leo núi', 'bụi', 'học làm', 'make', 'craft', 'lớp học',
                    'workshop', 'party', 'tourist', 'kỹ năng', 'skill',
-                   'chia sẻ', ],
+                   'chia sẻ', 'tour', ],
     'education': ['learn', 'study', 'du học', 'học bổng', 'lớp học',
                   'learning', 'dạy', 'lesson', 'research', 'college',
                   'univerity', 'tutorial', 'hướng dẫn', 'education',
