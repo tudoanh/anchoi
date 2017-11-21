@@ -405,6 +405,14 @@
           scrollTop: $("#newsletter").offset().top
       }, 2000);
     });
+    if ($('.owl-item.active > div > div').length) {
+      console.log('G')
+    }
+    if ($(window).width() < 514) {
+        $('.event-thumbnail > img').css('border-radius', '8px').wrap("<figure class='image is-16by9'></figure>");
+        $('.event-thumbnail').addClass('holder-img');
+        $('.event-thumbnail').removeClass('event-thumbnail');
+    }
   </script>
   <script>
       // Note: This example requires that you consent to location sharing when
