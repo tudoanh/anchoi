@@ -31,7 +31,7 @@
         <span></span>
       </span>
     </div>
-    
+
     <div class='navbar-menu' id='navMenu'>
       <div class='navbar-end'>
         <div class='navbar-item has-dropdown is-hoverable'>
@@ -44,18 +44,7 @@
         <a href='/help' class='navbar-item'>
           Hỗ trợ
         </a>
-        {% if user.is_authenticated %}
-        <a href='{% url 'account_logout' %}' class='navbar-item'>
-          Đăng xuất
-        </a>
-        {% else %}
-        <a href='{% url 'account_signup' %}' class='navbar-item'>
-          Đăng ký
-        </a>
-        <a href='{% url 'account_login' %}' class='navbar-item'>
-          Đăng nhập
-        </a>
-        {% endif %} 
+        <a href="#newsletter" id='subscribe' class='navbar-item'>Theo dõi</a>
         <a class='navbar-item' onclick="getLocation()">Quanh đây</a>
       </div>
     </div>
@@ -148,8 +137,9 @@
           </div>
         {% endfor %}
       </div>
-      
+
       {% if movie %}
+      <hr class="dropdown-divider">
       {# Movie heading section #}
       <div class="columns is-mobile">
         <div class="column is-10-desktop">
@@ -168,10 +158,10 @@
           </div>
         </div>
       </div>
-      
+
       {# Movie list section #}
       <div class="columns">
-        {% for event in movie|slice:":3" %}       
+        {% for event in movie|slice:":3" %}
           <div class='column is-4'>
             <figure class='image is-16by9'>
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
@@ -187,8 +177,9 @@
         {% endfor %}
       </div>
       {% endif %}
-    
+
     {% if music %}
+    <hr class="dropdown-divider">
     {# Music heading section #}
     <div class="columns is-mobile">
       <div class="column is-10-desktop">
@@ -207,10 +198,10 @@
         </div>
       </div>
     </div>
-    
+
     {# Music list section #}
       <div class="columns">
-        {% for event in music|slice:":3" %}       
+        {% for event in music|slice:":3" %}
           <div class='column is-4'>
             <figure class='image is-16by9'>
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
@@ -226,8 +217,9 @@
         {% endfor %}
       </div>
     {% endif %}
-    
+
     {% if experience %}
+    <hr class="dropdown-divider">
     {# Experience heading section #}
     <div class="columns is-mobile">
       <div class="column is-10-desktop">
@@ -246,10 +238,10 @@
         </div>
       </div>
     </div>
-    
+
     {# Experience list section #}
       <div class="columns">
-        {% for event in experience|slice:":3" %}       
+        {% for event in experience|slice:":3" %}
           <div class='column is-4'>
             <figure class='image is-16by9'>
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
@@ -265,8 +257,9 @@
         {% endfor %}
       </div>
     {% endif %}
-    
+
     {% if education %}
+    <hr class="dropdown-divider">
     {# Education heading section #}
     <div class="columns is-mobile">
       <div class="column is-10-desktop">
@@ -285,10 +278,10 @@
         </div>
       </div>
     </div>
-    
+
     {# Education list section #}
       <div class="columns">
-        {% for event in education|slice:":3" %}       
+        {% for event in education|slice:":3" %}
           <div class='column is-4'>
             <figure class='image is-16by9'>
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
@@ -304,8 +297,9 @@
         {% endfor %}
       </div>
     {% endif %}
-    
+
     {% if sport %}
+    <hr class="dropdown-divider">
     {# Sport heading section #}
     <div class="columns is-mobile">
       <div class="column is-10-desktop">
@@ -324,10 +318,10 @@
         </div>
       </div>
     </div>
-    
+
     {# Sport list section #}
       <div class="columns">
-        {% for event in sport|slice:":3" %}       
+        {% for event in sport|slice:":3" %}
           <div class='column is-4'>
             <figure class='image is-16by9'>
               <img style='border-radius: 8px;' alt='' src={{event.data.cover.source}} />
@@ -345,6 +339,36 @@
       {% endif %}
 
   </div>
+  <hr style='margin-left:20px; margin-right: 20px;' class="dropdown-divider">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="columns is-vcentered" id='newsletter'>
+        <div class="column is-4">
+          <p class="title">
+            Anchoi.today Newsletter
+          </p>
+          <p class="subtitle">
+            Đăng ký để nhận mail hàng tuần về các sự kiện thú vị ở quanh bạn.
+          </p>
+        </div>
+        <div class="column">
+          <form action="" method='POST'>
+            <div class="field is-grouped">
+              <div class="control has-icons-left is-expanded">
+                <input class='input is-primary is-flat required email' type="email" name="Email" value="" placeholder="Địa chỉ email của bạn" required aria-required='true'>
+                <span class='icon is-small is-left'>
+                  <i class="fa fa-envelope"></i>
+                </span>
+              </div>
+              <div class="control">
+                <input type="submit" value='Đăng ký' class="button is-primary is-outlined" name="" value="">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
 {% endblock %}
 
@@ -373,6 +397,13 @@
         }
       }
     );
+    });
+  </script>
+  <script>
+    $("#subscribe").click(function() {
+      $('html, body').animate({
+          scrollTop: $("#newsletter").offset().top
+      }, 2000);
     });
   </script>
   <script>
@@ -425,7 +456,7 @@
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
       }
-      
+
       // the below line has been inserted to assign a JS variable to HTML input field called 'geolocation'
     </script>
     <script async defer

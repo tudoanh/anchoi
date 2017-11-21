@@ -15,7 +15,7 @@
     </title>
     <meta name='description' content="{% block meta_description %}Find amazing events and try unique experiences with awesome people in your area.{% endblock meta_description %}" />
     {% block extra_meta %}
-      
+
     {% endblock extra_meta %}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109485239-1"></script>
@@ -29,23 +29,66 @@
   </head>
   <body>
   	<div>
-  	{% block navbar %}
-  		{% include 'navbar.html' %}
-  	{% endblock navbar %}
+    	{% block navbar %}
+    		{% include 'navbar.html' %}
+    	{% endblock navbar %}
   	  <div class="container">
   	  	{% block body %}
   	  	{% endblock %}
   	  </div>
   	</div>
   	<footer class="footer">
-		<div class="container">
-		  <div class="content has-text-centered">
-		    <h1 class='title'>
-		      Mabe by <a href="https://github.com/tudoanh">me</a> with <i style='color: #FF5A5F;' class="fa fa-heart" aria-hidden="true"></i>
-		    </h1>
-		  </div>
-		</div>
+  		<div class="container">
+  		  <div class="columns is-mobile is-multiline">
+          <!-- Follow me -->
+  		    <div class="column is-4-desktop is-6-mobile">
+  		      <div class="content">
+              <a href="https://twitter.com/meatyminus?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-lang="vi" data-show-count="false">Follow @meatyminus</a>
+              <br>
+              <a class="github-button" href="https://github.com/tudoanh" data-size="large" data-show-count="true" aria-label="Follow @tudoanh on GitHub">Follow @tudoanh</a>
+              <br>
+              <img src="https://bulma.io/images/made-with-bulma.png" alt="" width="180" height="24">
+              <br>
+              <img src="http://forthebadge.com/images/badges/made-with-python.svg" alt="">
+  		      </div>
+  		    </div>
+          <!-- Social share -->
+          <div class="column is-4-desktop is-3-mobile">
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Ai đi cùng hem ..." data-url="{{ request.build_absolute_uri }}" data-via="anchoitoday" data-hashtags="anchoi" data-size='large' data-lang="vi" data-show-count="false">Tweet</a>
+            <br>
+            <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="{{ request.build_absolute_uri }}">Chia sẻ</a></div>
+          </div>
+          <div class="column is-4-desktop is-3-mobile">
+            <div class="content">
+              <a href="/" class="dropdown-item">
+                Trang chủ
+              </a>
+              <a href='/hanoi' class="dropdown-item">
+                Hà Nội
+              </a>
+              <a href="/saigon" class="dropdown-item">
+                Sài Gòn
+              </a>
+              <a href="/help" class="dropdown-item">
+                Trợ giúp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 	</footer>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <div id="fb-root"></div>
+  <script>
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.11&appId=1513993565587957';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 

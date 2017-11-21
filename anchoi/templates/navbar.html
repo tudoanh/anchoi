@@ -22,21 +22,6 @@
       <a href='/help' class='navbar-item is-active'>
         Hỗ trợ
       </a>
-      {% if user.is_authenticated %}
-      <a href='{% url 'account_logout' %}' class='navbar-item'>
-        Đăng xuất
-      </a>
-      <a href='{% url 'account_change_password' %}' class='navbar-item'>
-        Đổi mật khẩu
-      </a>
-      {% else %}
-      <a href='{% url 'account_signup' %}' class='navbar-item'>
-        Đăng ký
-      </a>
-      <a href='{% url 'account_login' %}' class='navbar-item'>
-        Đăng nhập
-      </a>
-      {% endif %}  
     </div>
   </div>
 </nav>
