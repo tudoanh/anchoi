@@ -2,13 +2,13 @@ from django.utils.dateparse import parse_datetime
 
 
 categories = {
-    'movie': ['phim', 'movie', 'điện ảnh', 'chiếu', 'film', 'cinema',
+    'movie': ['phim', 'movie', 'điện ảnh', 'chiếu', 'film', 'actor', 'actress'
               'premiere', 'director', 'đạo diễn', ' cast', 'scriptwriter',
-              'kịch ', 'cartoon', 'hoạt hình', 'comedy', 'documentary',
+              'cartoon', 'hoạt hình', 'comedy', 'documentary', 'scene'
               'horror', 'sci-fi', 'popcorn'],
     'music': ['music', 'nhạc', 'âm thanh', 'dj', 'ca sĩ', 'nghệ sĩ', 'âm nhạc',
               'nhịp điệu', 'beat', 'harmony', 'rhythm', 'melody', 'hip hop'
-              'composer', 'musician', 'amp', 'edm', 'pop', 'rap', 'rock',
+              'composer', 'musician', 'edm', 'pop', 'rap', 'rock',
               'sound', 'concert', 'hymn', 'symphony', 'giao hưởng', 'voice',
               ' hát', 'violin', 'guitar', 'singer', 'bolero', 'band'],
     'sport': ['bóng đá', 'ngoại hạng anh', 'chạy bộ', 'bóng rổ', 'leo núi',
@@ -20,11 +20,11 @@ categories = {
     'experience': ['du lịch', 'phượt', 'trải nghiệm', 'travel', ' nomad',
                    'leo núi', 'bụi', 'học làm', 'make', 'craft', 'lớp học',
                    'workshop', 'party', 'tourist', 'kỹ năng', 'skill',
-                   'chia sẻ', 'hội thảo', 'seminar'],
+                   'chia sẻ', ],
     'education': ['learn', 'study', 'du học', 'học bổng', 'lớp học',
                   'learning', 'dạy', 'lesson', 'research', 'college',
                   'univerity', 'tutorial', 'hướng dẫn', 'education',
-                  'class', 'campus', 'school']
+                  'class', 'campus', 'school', 'hội thảo', 'seminar']
 }
 
 
