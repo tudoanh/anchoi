@@ -58,7 +58,7 @@ class SubscribeView(FormView):
             elif data['city'] == 'HN':
                 self.subscribe('ebb54415a6', data['email'])
             elif data['city'] == 'SG':
-                self.subscribe('ebb54415a6', data['email'])
+                self.subscribe('ca0033027c', data['email'])
         except Exception:
             return HttpResponseRedirect('/subscribe/existed/')
 
