@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load i18n widget_tweaks %}
+
+{% block title %}
+  Đăng ký thành công
+{% endblock %}
+
+{% block body %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                    <h1 class='title'>{% trans "Đăng ký thành công" %}</h1>
+                    <br>
+                    <p>Xin vui lòng kiểm tra inbox của bạn và xác nhận bạn đã đăng ký dịch vụ của chúng tôi. Xin cảm ơn.</p>
+                    <br>
+                    <p>{% blocktrans %}Nếu gặp khó khăn, vui lòng liên hệ vào email <strong>admin@anchoi.today</strong> để được hỗ trợ.{% endblocktrans %}</p>
+                </section>
+            </div>
+            <div class="column has-text-centered" style='margin-top: -50px;'>
+                <figure class="image" style="">
+                    <img src="https://i.imgur.com/JvccibT.png" alt="Re-send activation email">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/riandarma' rel='nofollow'>Rian Darma</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

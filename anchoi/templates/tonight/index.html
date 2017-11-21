@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static widget_tweaks %}
 
 {% block title %}
     Trang chủ sự kiện tại {% if active_city == 'hanoi' %}Hà Nội{% else %}Sài Gòn{% endif %}
@@ -44,7 +44,7 @@
         <a href='/help' class='navbar-item'>
           Hỗ trợ
         </a>
-        <a href="#newsletter" id='subscribe' class='navbar-item'>Theo dõi</a>
+        <a href="#newsletter" id='subscribe' class='navbar-item'>Newsletter</a>
         <a class='navbar-item' onclick="getLocation()">Quanh đây</a>
       </div>
     </div>
@@ -76,12 +76,12 @@
           <div class="field-body">
             <div class="field">
               <div class="control">
-                <input class="input is-large" type="text" name="q" placeholder="Tên hoặc từ khóa" />
+                <input class="input is-medium" type="text" name="q" placeholder="Tên hoặc từ khóa" />
               </div>
             </div>
             <div class="field">
               <div class="control">
-                <button class="button is-large is-primary" action='' type="submit">
+                <button class="button is-medium is-primary" action='' type="submit">
                   Tìm kiếm
                 </button>
               </div>
@@ -353,18 +353,57 @@
             </p>
           </div>
           <div class="column">
-            <form action="" method='POST'>
-              <div class="field is-grouped">
-                <div class="control has-icons-left is-expanded">
-                  <input class='input is-primary is-flat required email' type="email" name="Email" value="" placeholder="Địa chỉ email của bạn" required aria-required='true'>
-                  <span class='icon is-small is-left'>
-                    <i class="fa fa-envelope"></i>
-                  </span>
+            <form action="{% url 'subscribe_view' %}" method='POST'>
+              {% csrf_token %}
+              {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+              {% endfor %}
+
+              {% if form.non_field_errors %}
+                <div class="notification is-warning" role="alert">
+                  {% for error in form.non_field_errors %}
+                    {{ error }}
+                  {% endfor %}
                 </div>
+              {% endif %}
+              <div class="field is-grouped is-grouped-multiline">
+                <div class="control has-icons-left is-expanded">
+                {% if form.is_bound %}
+                    {% if form.email.errors %}
+                      {% render_field form.email class="input is-danger" %}
+                      {% for error in form.email.errors %}
+                      <p class="help is-danger">{{ error }}</p>
+                      {% endfor %}
+                    {% else %}
+                      {% render_field form.email class="input is-success" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field form.email class="input is-flat required email is-primary" placeholder="Địa chỉ email của bạn" %}
+                {% endif %}
+                <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+                </div>
+
+                {% if form.email.help_text %}
+                    <p class="help">{{ field.help_text }}</p>
+                {% endif %}
+
+                <div class="control has-icons-left">
+                  <div class="select is-primary">
+                    {% render_field form.city %}
+                  </div>
+                  <div class="icon is-small is-left">
+                    <i class="fa fa-location-arrow"></i>
+                  </div>
+                </div>
+
                 <div class="control">
-                  <input type="submit" value='Đăng ký' class="button is-primary is-outlined" name="" value="">
+                  <button class="button is-primary is-outlined" type="submit">Đăng ký</button>
                 </div>
               </div>
+
+              {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}
             </form>
           </div>
         </div>

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% load i18n widget_tweaks %}
+
+{% block title %}
+  Đăng ký nhận tin
+{% endblock %}
+
+{% block body %}
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                    <h1 class='title'>{% trans "Đăng ký nhận tin" %}</h1>
+                    <h2 class="subtitle">Đăng ký để nhận thông báo về các sự kiện hay hàng tuần. Chúng tôi không bao giờ spam.</h2>
+                    <br>
+                    <form action="{% url 'subscribe_view' %}" method='POST'>
+                      {% csrf_token %}
+                      {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                      {% endfor %}
+
+                      {% if form.non_field_errors %}
+                        <div class="notification is-warning" role="alert">
+                          {% for error in form.non_field_errors %}
+                            {{ error }}
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                      <div class="field">
+                        <div class="control has-icons-left is-expanded">
+                        {% if form.is_bound %}
+                            {% if form.email.errors %}
+                              {% render_field form.email class="input is-danger" %}
+                              {% for error in form.email.errors %}
+                              <p class="help is-danger">{{ error }}</p>
+                              {% endfor %}
+                            {% else %}
+                              {% render_field form.email class="input is-success" %}
+                            {% endif %}
+                        {% else %}
+                            {% render_field form.email class="input is-flat required email is-primary" placeholder="Địa chỉ email của bạn" %}
+                        {% endif %}
+                        <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+                        </div>
+
+                        {% if form.email.help_text %}
+                            <p class="help">{{ field.help_text }}</p>
+                        {% endif %}
+                      </div>
+
+                      <div class="field">
+                        <div class="control has-icons-left">
+                          <div class="select is-primary">
+                            {% render_field form.city %}
+                          </div>
+                          <div class="icon is-small is-left">
+                            <i class="fa fa-location-arrow"></i>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="field">
+                        <div class="control">
+                          <button class="button is-primary is-outlined" type="submit">Đăng ký</button>
+                        </div>
+                      </div>
+
+                      {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                      {% endif %}
+                    </form>
+                    <br>
+                    <p>{% blocktrans %}Nếu gặp khó khăn, vui lòng liên hệ vào email <strong>admin@anchoi.today</strong> để được hỗ trợ.{% endblocktrans %}</p>
+                </section>
+            </div>
+            <div class="column has-text-centered" style='margin-top: -50px;'>
+                <figure class="image" style="">
+                    <img src="https://i.imgur.com/JvccibT.png" alt="Re-send activation email">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/riandarma' rel='nofollow'>Rian Darma</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

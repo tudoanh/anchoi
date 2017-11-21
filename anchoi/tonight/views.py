@@ -7,12 +7,17 @@ from django.contrib.postgres.search import (
     SearchVector
 )
 from django.db.models.expressions import OrderBy, RawSQL
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.utils.dateparse import parse_datetime
 from django.views.generic import DetailView, ListView
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView, FormMixin
+
+from mailchimp3 import MailChimp
+
 from events.models import Event
 from events.utils import categories
-
+from .forms import EmailForm
 from .utils import cities, date_rage, queryset_for
 
 
@@ -23,6 +28,41 @@ URL = (
 )
 
 API_KEY = settings.GOOGLE_API_KEY
+
+MAILCHIMP_USER = settings.MAILCHIMP_USER
+MAILCHIMP_API_KEY = settings.MAILCHIMP_API_KEY
+
+
+class SubscribeView(FormView):
+    template_name = 'tonight/subscribe.html'
+    form_class = EmailForm
+    success_url = '/thanks/'
+    client = MailChimp(MAILCHIMP_USER, MAILCHIMP_API_KEY)
+
+    def subscribe(self, list_id, email):
+        self.client.lists.members.create(
+            list_id,
+            {
+                'email_address': email,
+                'status': 'subscribed',
+            }
+        )
+
+    def form_valid(self, form):
+        # https://github.com/charlesthk/python-mailchimp
+        data = form.cleaned_data
+
+        try:
+            if data['city'] == 'ALL':
+                self.subscribe('9219e7e784', data['email'])
+            elif data['city'] == 'HN':
+                self.subscribe('ebb54415a6', data['email'])
+            elif data['city'] == 'SG':
+                self.subscribe('ebb54415a6', data['email'])
+        except Exception:
+            return HttpResponseRedirect('/subscribe/existed/')
+
+        return super(SubscribeView, self).form_valid(form)
 
 
 class EventDetailView(DetailView):
@@ -122,10 +162,11 @@ class SearchView(ListView):
         return context
 
 
-class HomeView(ListView):
+class HomeView(FormMixin, ListView):
     model = Event
     context_object_name = 'events'
     template_name = 'tonight/index.html'
+    form_class = EmailForm
 
     def get_queryset(self):
         city = self.kwargs.get('city')

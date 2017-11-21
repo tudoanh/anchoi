@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, TemplateView
 
 from .views import (
     EventByCategoryView,
@@ -7,7 +7,8 @@ from .views import (
     EventDetailView,
     HomeView,
     SearchView,
-    NearbyView
+    SubscribeView,
+    NearbyView,
 )
 
 
@@ -15,6 +16,21 @@ urlpatterns = [
     url(
         r'^$',
         RedirectView.as_view(url='/hanoi/')
+    ),
+    url(
+        r'^subscribe/$',
+        SubscribeView.as_view(),
+        name='subscribe_view'
+    ),
+    url(
+        r'^subscribe/existed/$',
+        TemplateView.as_view(template_name='tonight/existed.html'),
+        name='subscriber_existed_view'
+    ),
+    url(
+        r'^thanks/$',
+        TemplateView.as_view(template_name='tonight/thanks.html'),
+        name='thanks_view'
     ),
     url(
         r'^search/$',
