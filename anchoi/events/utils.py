@@ -2,7 +2,7 @@ from django.utils.dateparse import parse_datetime
 
 
 categories = {
-    'movie': ['phim', 'movie', 'điện ảnh', 'chiếu', 'film', 'actor ', 'actress'
+    'movie': ['phim', 'movie', 'điện ảnh', 'chiếu', ' film', 'actor ', 'actress'
               'premiere', 'director', 'đạo diễn', ' cast', 'scriptwriter',
               'cartoon', 'hoạt hình', 'comedy', 'documentary', 'scene '
               'horror ', 'sci-fi', 'popcorn'],
