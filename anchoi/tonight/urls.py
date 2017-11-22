@@ -9,6 +9,7 @@ from .views import (
     SearchView,
     SubscribeView,
     NearbyView,
+    ContactView
 )
 
 
@@ -16,6 +17,11 @@ urlpatterns = [
     url(
         r'^$',
         RedirectView.as_view(url='/hanoi/')
+    ),
+    url(
+        r'^help/$',
+        ContactView.as_view(),
+        name='help_view'
     ),
     url(
         r'^subscribe/$',
@@ -31,6 +37,11 @@ urlpatterns = [
         r'^thanks/$',
         TemplateView.as_view(template_name='tonight/thanks.html'),
         name='thanks_view'
+    ),
+    url(
+        r'^success/$',
+        TemplateView.as_view(template_name='tonight/success.html'),
+        name='success_view'
     ),
     url(
         r'^search/$',

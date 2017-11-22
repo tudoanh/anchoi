@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.mail import send_mail
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from django.contrib.postgres.search import (
@@ -17,7 +18,7 @@ from mailchimp3 import MailChimp
 
 from events.models import Event
 from events.utils import categories
-from .forms import EmailForm
+from .forms import EmailForm, ContactForm
 from .utils import cities, date_rage, queryset_for
 
 
@@ -31,6 +32,22 @@ API_KEY = settings.GOOGLE_API_KEY
 
 MAILCHIMP_USER = settings.MAILCHIMP_USER
 MAILCHIMP_API_KEY = settings.MAILCHIMP_API_KEY
+
+
+class ContactView(FormView):
+    template_name = 'tonight/help.html'
+    form_class = ContactForm
+    success_url = '/success/'
+
+    def form_valid(self, form):
+        data = form.cleaned_data
+        send_mail(
+            data['subject'],
+            data['body'],
+            data['email'],
+            ['admin@anchoi.today', ]
+        )
+        return super(ContactView, self).form_valid(form)
 
 
 class SubscribeView(FormView):

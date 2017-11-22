@@ -13,18 +13,181 @@
         <div class="columns">
             <div class="column is-6">
                 <section class='section'>
-                    <h1 class='title'>{% trans "Trợ giúp & Các câu hỏi thường gặp" %}</h1>
+                    <h1 class='title'>Các câu hỏi thường gặp</h1>
                     <br>
-                    <p>Xem ra bạn đã đăng ký nhận tin của chúng tôi rồi. Nếu bạn muốn đăng ký nhận thêm tin của thành phố khác, hãy truy cập vào <a href="{% url 'subscribe_view' %}">đây</a></p>
-                    <br>
-                    <p>{% blocktrans %}Nếu gặp khó khăn, vui lòng liên hệ vào email <strong>admin@anchoi.today</strong> để được hỗ trợ.{% endblocktrans %}</p>
+                    <div class="content">
+                      <dl>
+                        <dt>
+                          <h4><em>Tại sao anchoi.today mới chỉ có 2 thành phố?</em></h4>
+                        </dt>
+                        <dd>
+                          <p>Vì website còn mới nên mới chỉ khai thác dữ liệu của 2 thành phố lớn nhất của Việt Nam. Nếu bạn muốn có thêm dữ liệu của thành phố khác, hãy để lại lời nhắn vào form bên dưới và chúng tôi sẽ cập nhập thêm.</p>
+                        </dd>
+                        <br>
+                        <dt>
+                          <h4><em>Hmm, dữ liệu của các bạn lấy ở đâu vậy?</em></h4>
+                        </dt>
+                        <dd>
+                          <p>Hiện tại chúng tôi mới chỉ lấy các sự kiện trên Facebook thôi.</p>
+                        </dd>
+                        <br>
+                        <dt>
+                          <h4><em>Tôi muốn tạo một event trên web của bạn</em></h4>
+                        </dt>
+                        <dd>
+                          <p>Tính năng đó sẽ được cập nhập sau. Nếu không, bạn hãy tạo sự kiện của mình trên Facebook, và nó sẽ có mặt trên anchoi.today sớm thôi.</p>
+                        </dd>
+                        <br>
+                        <dt>
+                          <h4><em>Lỗi, tôi tìm thấy lỗi!</em></h4>
+                        </dt>
+                        <dd>
+                          <p>Xin vui lòng thông báo lỗi mà bạn tìm thấy vào form bên dưới hoặc vào email <strong>admin@anchoi.today</strong> nhé. Xin cảm ơn rất nhiều.</p>
+                        </dd>
+                        <br>
+                        <dt>
+                          <h4><em>Còn quảng cáo thì sao?</em></h4>
+                        </dt>
+                        <dd>
+                          <p>Hiện giờ website không có quảng cáo, và chúng tôi sẽ cố gắng giữ nó như vậy mãi mãi.</p>
+                          <p>Nhưng dù sao thì ai cũng có hóa đơn cần phải trả. Nếu bạn thấy <strong>anchoi.today</strong> có ích với bạn, hãy donate cho chúng tôi nhé.</p>
+                          <a href="https://paypal.me/doanhtu/10"><img src="https://imgur.com/TeDcTXU.png" alt=""></a>
+                        </dd>
+                        <br>
+                        <dt>
+                          <h4><em>Website được viết bằng ngôn ngữ nào thế?</em></h4>
+                        </dt>
+                        <dd>
+                          <p>Back-end được viết với Python, cụ thể là Django. Front-end dùng Bulma và Jquery.</p>
+                          <p>Hosting ở Digital Ocean. Link referral: <a href="https://m.do.co/c/405dc57e87c4">https://m.do.co/c/405dc57e87c4</a></p>
+                        </dd>
+                        <br>
+                        <dt>
+                          <h4><em>Tôi có thắc mắc khác/muốn hợp tác/etc</em></h4>
+                        </dt>
+                        <dd>
+                          <p>Xin vui lòng liên hệ vào email <strong>admin@anchoi.today</strong></p>
+                        </dd>
+                      </dl>
+                    </div>
                 </section>
             </div>
             <div class="column has-text-centered" style='margin-top: -50px;'>
                 <figure class="image" style="">
-                    <img src="https://cdn.dribbble.com/users/1312159/screenshots/3766761/faq-montway-dribbble.png" alt="FAQ">
+                    <img src="https://imgur.com/obCtjty.png" alt="FAQ">
                 </figure>
                 <small>Art source: <a href='https://dribbble.com/dianaxstoyanova' rel='nofollow'>Diana Stoyanova</a></small>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <section class='section'>
+                    <h1 class='title'>Liên hệ</h1>
+                    <br>
+                    <form action="{% url 'help_view' %}" method='POST'>
+                      {% csrf_token %}
+                      {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                      {% endfor %}
+
+                      {% if form.non_field_errors %}
+                        <div class="notification is-warning" role="alert">
+                          {% for error in form.non_field_errors %}
+                            {{ error }}
+                          {% endfor %}
+                        </div>
+                      {% endif %}
+                      <div class="field">
+                        <div class="control has-icons-left is-expanded">
+                        {% if form.is_bound %}
+                            {% if form.email.errors %}
+                              {% render_field form.email class="input is-danger" %}
+                              {% for error in form.email.errors %}
+                              <p class="help is-danger">{{ error }}</p>
+                              {% endfor %}
+                            {% else %}
+                              {% render_field form.email class="input is-success" %}
+                            {% endif %}
+                        {% else %}
+                            {% render_field form.email class="input is-flat required email is-primary" placeholder="Địa chỉ email của bạn" %}
+                        {% endif %}
+                        <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+                        </div>
+
+                        {% if form.email.help_text %}
+                            <p class="help">{{ field.help_text }}</p>
+                        {% endif %}
+                      </div>
+
+                      <div class="field">
+                        <div class="control has-icons-left is-expanded">
+                        {% if form.is_bound %}
+                            {% if form.subject.errors %}
+                              {% render_field form.subject class="input is-danger" %}
+                              {% for error in form.subject.errors %}
+                              <p class="help is-danger">{{ error }}</p>
+                              {% endfor %}
+                            {% else %}
+                              {% render_field form.subject class="input is-success" %}
+                            {% endif %}
+                        {% else %}
+                            {% render_field form.subject class="input is-flat required subject is-primary" placeholder="Tiêu đề" %}
+                        {% endif %}
+                        <span class="icon is-small is-left"><i class="fa fa-pencil"></i></span>
+                        </div>
+
+                        {% if form.subject.help_text %}
+                            <p class="help">{{ field.help_text }}</p>
+                        {% endif %}
+                      </div>
+
+                      <div class="field">
+                        <div class="control is-expanded">
+                        {% if form.is_bound %}
+                            {% if form.body.errors %}
+                              {% render_field form.body class="textarea is-danger" %}
+                              {% for error in form.body.errors %}
+                              <p class="help is-danger">{{ error }}</p>
+                              {% endfor %}
+                            {% else %}
+                              {% render_field form.body class="textarea is-success" %}
+                            {% endif %}
+                        {% else %}
+                            {% render_field form.body class="textarea is-flat required body is-primary" placeholder="Nội dung bạn muốn chia sẻ" %}
+                        {% endif %}
+                        </div>
+
+                        {% if form.body.help_text %}
+                            <p class="help">{{ field.help_text }}</p>
+                        {% endif %}
+                      </div>
+
+                      <div class="field">
+                        <div class="control">
+                          <button class="button is-primary" type="submit">
+                            <span class="icon"><i class="fa fa-paper-plane"></i></span>
+                            <span>Gửi tin</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                      {% endif %}
+                    </form>
+                </section>
+            </div>
+            <div class="column has-text-centered" style='margin-top: -50px;'>
+                <figure class="image" style="">
+                    <img src="https://imgur.com/pihPVQZ.png" alt="FAQ">
+                </figure>
+                <small>Art source: <a href='https://dribbble.com/indexstudio' rel='nofollow'>Index Studio</a></small>
             </div>
         </div>
     </div>

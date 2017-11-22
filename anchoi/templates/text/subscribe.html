@@ -1,0 +1,13 @@
+{% extends "text/base.html" %}
+
+{% block body %}
+<section class="container">
+  <h3>Đăng ký nhận tin</h3>
+  <p>Đăng ký để nhận thông báo về các sự kiện hay hàng tuần. Chúng tôi không bao giờ spam.</p>
+  <form class="" action="{% url 'text_subscribe_view' %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button class="button button-outline">Subscribe</button>
+  </form>
+</section>
+{% endblock %}

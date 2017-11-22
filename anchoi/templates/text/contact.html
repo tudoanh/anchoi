@@ -1,0 +1,12 @@
+{% extends "text/base.html" %}
+
+{% block body %}
+<section class="container">
+  <h3>Liên hệ</h3>
+  <form class="" action="{% url 'text_contact_view' %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button class="button button-outline">Submit</button>
+  </form>
+</section>
+{% endblock %}

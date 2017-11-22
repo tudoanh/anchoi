@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'tonight',
     'django_hosts',
     'text',
+    'djcelery_email',
 ]
 
 SITE_ID = 1
@@ -121,7 +122,9 @@ AUTHENTICATION_BACKENDS = (
 
 ACCOUNT_EMAIL_REQUIRED = True
 
-EMAIL_BACKEND = 'django_rq_email_backend.backends.RQEmailBackend'
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+# CELERY_EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ACCOUNT_SESSION_REMEMBER = True
 
