@@ -78,7 +78,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				{% endif %}
 
 				{% if end_time %}
@@ -109,7 +109,7 @@
 					</div>
 				</div>
 				{% endif %}
-				
+
 				{% if place_name %}
 				<div style='padding-bottom: 10px;'>
 				    <hr class='divider'/>
@@ -153,7 +153,7 @@
 		                        </span>
 			                </div>
                         </div>
-                        
+
 		                <div style="padding-top: 10px;" itemprop="hasMap">
                             <figure class='image is-square'>
                             	<img itemprop="map" itemtype="https://schema.org/Map" alt='' src="{{map}}"/>
@@ -186,17 +186,33 @@
 						{% if event.data.ticket_uri %}
 							<a href="{{event.data.ticket_uri}}" class="button is-primary is-pulled-right is-large is-hidden-mobile">
 								<span class="icon">
-                                	<i class="fa fa-ticket" aria-hidden="true"></i>
-                             	</span>
-                             	<span>Mua vé</span>
+                  <i class="fa fa-ticket" aria-hidden="true"></i>
+                </span>
+                <span>Mua vé</span>
 							</a>
 						{% endif %}
 					</div>
 				</div>
+
+        <!-- https://developers.facebook.com/docs/plugins/comments/ -->
+        <div class="columns">
+          <div class="column">
+            <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+          </div>
+        </div>
 			</div>
 		</div>
 	</div>
 {% endblock body %}
 {% block extra_js %}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.11&appId=1513993565587957';
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
 {% endblock extra_js %}
