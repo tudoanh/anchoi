@@ -34,24 +34,24 @@ app.conf.beat_schedule = {
     },
     'daily-scan': {
         'task': 'events.tasks.daily_scan',
-        'schedule': crontab(minute=0, hour=2)
+        'schedule': crontab(minute=0, hour=10)
     },
     'hanoi-weekly-scan': {
-        'task': 'events.tasks.weekly_scan',
-        'schedule': crontab(minute=0, hour=2, day_of_week=1),
+        'task': 'events.tasks.weekly_page_scan',
+        'schedule': crontab(minute=0, hour=8, day_of_week=1),
         'kwargs': {
             'lat': HANOI_CENTER[0],
             'lon': HANOI_CENTER[1],
-            'distance': 8000
+            'distance': 5000
         }
     },
     'saigon-weekly-scan': {
-        'task': 'events.tasks.weekly_scan',
-        'schedule': crontab(minute=0, hour=2, day_of_week=2),
+        'task': 'events.tasks.weekly_page_scan',
+        'schedule': crontab(minute=0, hour=8, day_of_week=2),
         'kwargs': {
             'lat': SAIGON_CENTER[0],
             'lon': SAIGON_CENTER[1],
-            'distance': 10000
+            'distance': 7000
         }
     }
 }
@@ -63,7 +63,7 @@ def start_task(sender=None, headers=None, body=None, **kwargs):
         send_msg('Start hourly scan.')
     elif sender == 'events.tasks.daily_scan':
         send_msg('Start daily scan.')
-    elif sender == 'events.tasks.weekly_scan':
+    elif sender == 'events.tasks.weekly_page_scan':
         send_msg('Start weekly scan.')
 
 
@@ -73,7 +73,7 @@ def send_result(sender, result, **kwargs):
         send_msg('Hourly scan done.')
     elif sender == 'events.tasks.daily_scan':
         send_msg('Daily scan done.')
-    elif sender == 'events.tasks.weekly_scan':
+    elif sender == 'events.tasks.weekly_page_scan':
         send_msg('Weekly scan done.')
 
 
