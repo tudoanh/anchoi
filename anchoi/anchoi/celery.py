@@ -69,16 +69,9 @@ def start_task(sender=None, headers=None, body=None, **kwargs):
 
 @task_success.connect
 def send_result(sender, result, **kwargs):
-    if sender == 'events.tasks.hourly_scan':
-        send_msg('Hourly scan done.')
-    elif sender == 'events.tasks.daily_scan':
-        send_msg('Daily scan done.')
-    elif sender == 'events.tasks.weekly_page_scan':
-        send_msg('Weekly scan done.')
+    send_msg('Task {} finished'.format(sender.request.id))
 
 
 @task_failure.connect
-def task_failed(sender=None, headers=None, body=None, **kwargs):
-    send_msg(sender)
-    send_msg(headers)
-    send_msg(body)
+def task_failed(sender=None, **kwargs):
+    send_msg('Task {} failed'.format(sender.request.id))

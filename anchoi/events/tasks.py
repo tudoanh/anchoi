@@ -12,6 +12,8 @@ from .models import Event, FacebookPage
 from .serializers import EventSerializer
 from .utils import extract_event_data
 
+from anchoi.utils import send_msg
+
 
 @shared_task
 def hourly_scan():
@@ -22,14 +24,22 @@ def hourly_scan():
     for event in Event.objects.all():
         e = bot.get_event_info(event.fb_id)
         if e:
-            node = e[event.fb_id]
-            if event.data == node:
+            try:
+                node = e[event.fb_id]
+                if event.data == node:
+                    pass
+                else:
+                    data = extract_event_data(node)
+                    serializer = EventSerializer(
+                        event,
+                        data=data,
+                        partial=True
+                    )
+                    if serializer.is_valid():
+                        serializer.save()
+            except Exception as e:
+                send_msg(e)
                 pass
-            else:
-                data = extract_event_data(node)
-                serializer = EventSerializer(event, data=data, partial=True)
-                if serializer.is_valid():
-                    serializer.save()
         else:
             event.delete()
 
