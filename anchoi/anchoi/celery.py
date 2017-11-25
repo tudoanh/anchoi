@@ -32,28 +32,28 @@ app.conf.beat_schedule = {
         'task': 'events.tasks.hourly_scan',
         'schedule': crontab(minute=0, hour='*/1'),
     },
-    'daily-scan': {
-        'task': 'events.tasks.daily_scan',
-        'schedule': crontab(minute=0, hour=10)
-    },
-    'hanoi-weekly-scan': {
-        'task': 'events.tasks.weekly_page_scan',
-        'schedule': crontab(minute=0, hour=8, day_of_week=1),
-        'kwargs': {
-            'lat': HANOI_CENTER[0],
-            'lon': HANOI_CENTER[1],
-            'distance': 5000
-        }
-    },
-    'saigon-weekly-scan': {
-        'task': 'events.tasks.weekly_page_scan',
-        'schedule': crontab(minute=0, hour=8, day_of_week=2),
-        'kwargs': {
-            'lat': SAIGON_CENTER[0],
-            'lon': SAIGON_CENTER[1],
-            'distance': 7000
-        }
-    }
+    # 'daily-scan': {
+    #     'task': 'events.tasks.daily_scan',
+    #     'schedule': crontab(minute=0, hour=10)
+    # },
+    # 'hanoi-weekly-scan': {
+    #     'task': 'events.tasks.weekly_page_scan',
+    #     'schedule': crontab(minute=0, hour=8, day_of_week=1),
+    #     'kwargs': {
+    #         'lat': HANOI_CENTER[0],
+    #         'lon': HANOI_CENTER[1],
+    #         'distance': 5000
+    #     }
+    # },
+    # 'saigon-weekly-scan': {
+    #     'task': 'events.tasks.weekly_page_scan',
+    #     'schedule': crontab(minute=0, hour=8, day_of_week=2),
+    #     'kwargs': {
+    #         'lat': SAIGON_CENTER[0],
+    #         'lon': SAIGON_CENTER[1],
+    #         'distance': 7000
+    #     }
+    # }
 }
 
 
