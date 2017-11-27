@@ -1,4 +1,70 @@
 @charset "UTF-8";
+.slide-item {
+  position: relative; }
+
+.slide-item:before {
+  border-radius: 8px;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  -webkit-background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, #000 100%);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.4) 100%); }
+
+.slide-item-details {
+  position: absolute;
+  display: flex;
+  bottom: 5px;
+  flex-direction: column;
+  left: 0px;
+  padding: 5px;
+  z-index: 2;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-timing-function: ease-in-out;
+  timing-function: ease-in-out;
+  width: 100%; }
+
+.slide-item-details .cast {
+  margin-top: 10px;
+  -webkit-transform: translate3d(0, 50px, 0);
+  transform: translate3d(0, 50px, 0);
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-transition-delay: 0.15s;
+  transition-delay: 0.15s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; }
+
+.slide-item-details .cast {
+  margin-top: 10px;
+  -webkit-transform: translate3d(0, 50px, 0);
+  transform: translate3d(0, 50px, 0);
+  opacity: 0;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-transition-delay: 0.15s;
+  transition-delay: 0.15s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; }
+
+.slide-item:hover .slide-item-details .cast {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  opacity: 1; }
+
 h1, h2, h3, h4, h5, h6 {
   font-family: Lato; }
 
@@ -23,6 +89,16 @@ h1, h2, h3, h4, h5, h6 {
 img, embed, object, audio, video {
   max-width: none !important; }
 
+.img-container {
+  position: relative;
+  text-align: center;
+  color: white; }
+
+.bottom-left {
+  position: absolute;
+  bottom: 8px;
+  left: 16px; }
+
 hr.divider {
   border-top: 1px solid #8c8b8b; }
 
@@ -37,15 +113,16 @@ hr.divider {
   color: black !important; }
 
 h1 a {
-  color: black !important; }
+  color: black; }
   h1 a:hover {
     color: #FF5A5F; }
 
-.image {
-  pointer-events: none; }
+a:hover {
+  color: #FF5A5F; }
 
 .image img {
-  object-fit: cover; }
+  object-fit: cover;
+  border-radius: 8px; }
 
 /*! bulma.io v0.6.0 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {

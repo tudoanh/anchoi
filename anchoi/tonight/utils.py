@@ -57,7 +57,7 @@ def this_month_datetime():
             )[1] - today.day
         )
     )
-    return (first_day, last_day)
+    return (today, last_day)
 
 
 month = this_month_datetime()
@@ -69,7 +69,7 @@ date_rage = {
         weekday_datetime(7)
     ),
     'week': generate_date_range(
-        weekday_datetime(1),
+        timezone.now(),
         weekday_datetime(7)
     ),
     'month': generate_date_range(*month)
