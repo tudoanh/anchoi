@@ -29,8 +29,8 @@ def generate_date_range(start, end):
     # m is time.min/time.max
     tz = pytz.timezone(TIME_ZONE)
     return (
-        datetime.combine(start.astimezone(tz).date(), time.min),
-        datetime.combine(end.astimezone(tz).date(), time.max)
+        tz.localize(datetime.combine(start.astimezone(tz).date(), time.min)),
+        tz.localize(datetime.combine(end.astimezone(tz).date(), time.max))
     )
 
 
